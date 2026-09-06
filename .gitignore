@@ -1,10 +1,16 @@
 .env
 .env.*
 !.env.example
+
+# Local credentials, kept in the repo for convenience and never committed.
+# The directory itself is tracked so its README explains what belongs here.
+secrets/*
+!secrets/README.md
 .venv/
 __pycache__/
 *.py[cod]
 dist/
+desktop/build/
 .DS_Store
 node_modules/
 .astro/

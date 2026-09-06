@@ -1,5 +1,5 @@
 import { createApp } from "./app.js";
-import { BRAND } from "./brand.js";
+import { BRAND } from "@uzenofuzet/core/brand";
 import { ConfigError, loadConfig } from "./config.js";
 import { installKretaRelayFromEnv, KretaRelayError } from "./kreta/relay.js";
 import { SealError } from "./seal.js";

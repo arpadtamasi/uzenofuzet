@@ -1,7 +1,7 @@
 import { Router, type Request } from "express";
 import { z } from "zod";
 import type { VerifyIdToken } from "../auth/types.js";
-import type { InstituteSearch, InstituteSuggestion } from "./search.js";
+import type { InstituteSearch, InstituteSuggestion } from "@uzenofuzet/core/institutes";
 
 export interface InstituteRouterDeps {
   search: InstituteSearch;

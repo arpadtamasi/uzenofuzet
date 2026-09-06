@@ -20,9 +20,12 @@ export interface SessionResponse {
 
 export class HttpSession {
   private readonly cookies = new Map<string, string>();
-  private readonly fetchImpl: typeof fetch;
+  /**
+   * Injectable so tests can drive the flow without a network — and readable
+   * so the rest of the login can make its own calls through the same one.
+   */
+  readonly fetchImpl: typeof fetch;
 
-  /** `fetchImpl` is injectable so tests can drive the flow without a network. */
   constructor(fetchImpl: typeof fetch = fetch) {
     this.fetchImpl = fetchImpl;
   }

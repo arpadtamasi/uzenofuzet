@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",
+    "@uzenofuzet/core": "*",
     "express": "^5.2.1",
     "firebase-admin": "^14.3.0",
     "google-auth-library": "^10.9.1",

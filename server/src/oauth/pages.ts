@@ -1,5 +1,5 @@
 /** Terminal OAuth error page shown only when no safe client redirect exists. */
-import { BRAND } from "../brand.js";
+import { BRAND } from "@uzenofuzet/core/brand";
 import { escapeHtml } from "../htmlEscape.js";
 
 export const LOGIN_PAGE_STYLE = `

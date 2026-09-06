@@ -1,0 +1,54 @@
+{
+  "manifest_version": "0.3",
+  "name": "uzenofuzet",
+  "display_name": "Üzenőfüzet",
+  "version": "0.1.0",
+  "description": "Csak olvasható hozzáférés a gyerekeid KRÉTA e-naplójához: jegyek, órarend, hiányzások, házi feladatok, dolgozatok.",
+  "long_description": "Kérdezd a Claude-ot a gyerekeid iskolai dolgairól: „Milyen jegyeket kapott Marci a héten?”, „Mikor lesz a következő dolgozat?”, „Mi a házi feladat holnapra?”\n\nA telepítés után nincs mit kitölteni. Írd a Claude-nak, hogy add hozzá a gyereket — megnyílik egy beállító oldal a saját gépeden, ahol az iskola név szerint kereshető, és ahol a KRÉTA-jelszót megadod. A jelszó nem kerül bele a beszélgetésbe, és nem hagyja el a gépedet: titkosítva tárolódik, a kulcsa a rendszer kulcstartójában.\n\nA bővítmény a saját gépeden fut, és közvetlenül a KRÉTA szerverével beszél — külső szerver nincs a láncban. Csak olvasni tud: módosítani vagy törölni semmit nem képes.",
+  "author": {
+    "name": "Árpád Tamási",
+    "url": "https://github.com/arpadtamasi"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arpadtamasi/kreta-mcp"
+  },
+  "license": "Apache-2.0",
+  "keywords": ["kreta", "e-kreta", "iskola", "napló", "read-only"],
+  "server": {
+    "type": "node",
+    "entry_point": "server/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/server/index.js"]
+    }
+  },
+  "tools": [
+    { "name": "kreta_add_child", "description": "Gyerek hozzáadása vagy jelszavának frissítése a helyi beállító oldalon." },
+    { "name": "kreta_list_children", "description": "A beállított gyerekek listája." },
+    { "name": "kreta_remove_child", "description": "Egy gyerek törlése a beállításokból." },
+    { "name": "kreta_login", "description": "A KRÉTA-kapcsolat ellenőrzése és a kapcsolat metaadatai." },
+    { "name": "kreta_student_profile", "description": "A tanuló adatlapja." },
+    { "name": "kreta_guardian_profile", "description": "A gondviselő adatlapja." },
+    { "name": "kreta_class_groups", "description": "A tanuló osztályai és csoportjai." },
+    { "name": "kreta_evaluations", "description": "A tanuló értékelései (jegyei)." },
+    { "name": "kreta_absences", "description": "A tanuló mulasztásai." },
+    { "name": "kreta_notes", "description": "A tanulóhoz tartozó feljegyzések." },
+    { "name": "kreta_announcements", "description": "A faliújság bejegyzései." },
+    { "name": "kreta_school_calendar", "description": "A tanév rendje és az intézményi napok." },
+    { "name": "kreta_lazar_ervin_events", "description": "A Lázár Ervin Programhoz tartozó előadások." },
+    { "name": "kreta_timetable", "description": "Az órarend egy időszakra." },
+    { "name": "kreta_timetable_item", "description": "Egy órarendi elem részletei." },
+    { "name": "kreta_homework", "description": "A házi feladatok egy időszakra." },
+    { "name": "kreta_homework_detail", "description": "Egy házi feladat részletei." },
+    { "name": "kreta_announced_tests", "description": "A bejelentett számonkérések egy időszakra." },
+    { "name": "kreta_consulting_hours", "description": "A fogadóórák egy időszakra." },
+    { "name": "kreta_consulting_hour_detail", "description": "Egy fogadóóra részletei." },
+    { "name": "kreta_week_schedule", "description": "Az intézményi heti órarendi beosztás." },
+    { "name": "kreta_class_averages", "description": "A tanuló csoportjaihoz elérhető osztályátlagok." },
+    { "name": "kreta_device_status", "description": "A tárgyi eszköz kiosztási és regisztrációs állapota." }
+  ],
+  "compatibility": {
+    "runtimes": { "node": ">=22.12" }
+  }
+}

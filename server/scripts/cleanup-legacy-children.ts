@@ -19,7 +19,7 @@ import { Firestore } from "@google-cloud/firestore";
 import { Sealer } from "../src/seal.js";
 import { FirestoreChildProfileStore } from "../src/profiles/store.js";
 import { openConnectionCredential } from "../src/profiles/connection.js";
-import { revokeRefreshToken } from "../src/kreta/auth.js";
+import { revokeRefreshToken } from "@uzenofuzet/core/kreta";
 import { installKretaRelayFromEnv } from "../src/kreta/relay.js";
 
 const [uid, ...ids] = process.argv.slice(2);
