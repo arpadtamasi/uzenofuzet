@@ -1,0 +1,28 @@
+{
+  "name": "@uzenofuzet/desktop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Üzenőfüzet desktop extension: the KRÉTA tools running on the parent's own machine, with no server in the chain.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "pack": "node build.mjs && npx --yes @anthropic-ai/mcpb pack build ../dist/uzenofuzet-$npm_package_version.mcpb",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "tsx --test test/*.test.ts",
+    "demo:setup": "tsx demo-setup.mts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "@uzenofuzet/core": "*",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "esbuild": "^0.25.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
