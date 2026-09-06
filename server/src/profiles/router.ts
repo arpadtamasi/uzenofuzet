@@ -8,6 +8,7 @@ import type { VerifyIdToken, VerifiedUser } from "../auth/types.js";
 import { connectionIsOnline, createConnection, openConnectionCredential } from "./connection.js";
 import {
   ChildProfileStoreError,
+  MAX_CHILDREN,
   normalizeChildName,
   type ChildProfile,
   type ChildProfileStore,
@@ -122,8 +123,13 @@ export function createChildProfileRouter(deps: ChildProfileRouterDeps): Router {
     try {
       const profiles = await deps.store.list(user.uid);
       const normalizedName = normalizeChildName(parsed.data.childName);
+      // A tárolt profil a név ujjlenyomatát hordozza, nem a nyílt nevet: a
+      // gyors előellenőrzésnek is ujjlenyomatot kell ujjlenyomattal vetnie
+      // össze, különben soha nem talál egyezést, és a KRÉTA-belépés
+      // fölöslegesen lefut egy amúgy is elutasítandó mentés előtt.
+      const nameFingerprint = deps.config.sealer.fingerprint(normalizedName);
       const duplicate = profiles.find(
-        (profile) => profile.normalizedName === normalizedName && profile.id !== parsed.data.id,
+        (profile) => profile.nameFingerprint === nameFingerprint && profile.id !== parsed.data.id,
       );
       if (duplicate) {
         res.status(409).json({ error: "Ezzel a névvel már van gyerekprofilod." });
@@ -133,7 +139,7 @@ export function createChildProfileRouter(deps: ChildProfileRouterDeps): Router {
         res.status(404).json({ error: "A gyerekprofil nem található." });
         return;
       }
-      if (!parsed.data.id && profiles.length >= 3) {
+      if (!parsed.data.id && profiles.length >= MAX_CHILDREN) {
         res.status(409).json({ error: "Egy Google-fiókhoz legfeljebb három gyerekprofil menthető." });
         return;
       }

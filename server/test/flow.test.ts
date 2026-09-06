@@ -23,7 +23,7 @@ class MemoryChildProfileStore implements ChildProfileStore {
   readonly profiles: ChildProfile[];
   readonly classroomOnlyProfile: ChildProfile;
 
-  constructor(sealer: Sealer) {
+  constructor(private readonly sealer: Sealer) {
     const tokens = (suffix: string) => ({
       accessToken: "kreta-access",
       refreshToken: `kreta-refresh-${suffix}`,
@@ -34,7 +34,7 @@ class MemoryChildProfileStore implements ChildProfileStore {
       {
         id: "profile-lilla",
         childName: "Lilla",
-        normalizedName: "lilla",
+        nameFingerprint: sealer.fingerprint("lilla"),
         kretaUsername: "lilla-diak",
         instituteCode: "klik123456",
         connection: createConnection(sealer, tokens("lilla-diak"), "keep_alive"),
@@ -51,7 +51,7 @@ class MemoryChildProfileStore implements ChildProfileStore {
       {
         id: "profile-kata",
         childName: "Kata",
-        normalizedName: "kata",
+        nameFingerprint: sealer.fingerprint("kata"),
         kretaUsername: "kata-diak",
         instituteCode: "klik999999",
         connection: createConnection(sealer, tokens("kata-diak"), "keep_alive"),
@@ -69,7 +69,7 @@ class MemoryChildProfileStore implements ChildProfileStore {
     this.classroomOnlyProfile = {
       id: "profile-aron",
       childName: "Áron",
-      normalizedName: "áron",
+      nameFingerprint: sealer.fingerprint("áron"),
       kretaUsername: "aron-diak",
       instituteCode: "klik777777",
       classroomConnection: createClassroomConnection(
@@ -97,8 +97,10 @@ class MemoryChildProfileStore implements ChildProfileStore {
   }
 
   async save(_uid: string, input: ChildProfileInput & { id?: string }, connection?: ChildConnection) {
+    const { normalizedName, ...stored } = input;
     const profile: ChildProfile = {
-      ...input,
+      ...stored,
+      nameFingerprint: this.sealer.fingerprint(normalizedName),
       id: input.id ?? "profile-new",
       ...(connection ? { connection } : {}),
       createdAt: new Date(0).toISOString(),

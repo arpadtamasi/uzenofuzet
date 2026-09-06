@@ -32,7 +32,12 @@ export interface ClassroomConnection {
 export interface ChildProfile {
   id: string;
   childName: string;
-  normalizedName: string;
+  /**
+   * A tárolt névujjlenyomat, nem a nyílt normalizált név: a mentéskor átadott
+   * `ChildProfileInput.normalizedName`-ből a Sealer képezi. Aki két profilt
+   * hasonlít össze, ezt a mezőt ujjlenyomattal vesse egybe.
+   */
+  nameFingerprint: string;
   kretaUsername: string;
   instituteCode: string;
   connection?: ChildConnection;
@@ -43,6 +48,7 @@ export interface ChildProfile {
 
 export interface ChildProfileInput {
   childName: string;
+  /** Nyílt, normalizált név; a tárolásig jut el, ott lesz belőle ujjlenyomat. */
   normalizedName: string;
   kretaUsername: string;
   instituteCode: string;
@@ -215,7 +221,7 @@ function storedProfile(id: string, data: StoredProfile, sealer: Sealer): ChildPr
   return {
     id,
     childName: openField(sealer, data.childName),
-    normalizedName: typeof data.nameFingerprint === "string" ? data.nameFingerprint : "",
+    nameFingerprint: typeof data.nameFingerprint === "string" ? data.nameFingerprint : "",
     kretaUsername: openField(sealer, data.kretaUsername),
     instituteCode: openField(sealer, data.instituteCode),
     ...(storedConnection(data.connection) ? { connection: storedConnection(data.connection) } : {}),
@@ -225,6 +231,33 @@ function storedProfile(id: string, data: StoredProfile, sealer: Sealer): ChildPr
     createdAt: timestampToIso(data.createdAt),
     updatedAt: timestampToIso(data.updatedAt),
   };
+}
+
+/** Ennyi gyerekprofil tartozhat egy szülői fiókhoz. */
+export const MAX_CHILDREN = 3;
+
+/** Ennyi dokumentumot olvasunk be egy szülő alól, mielőtt szűrnénk. */
+const SCANNED_CHILDREN = 12;
+
+/**
+ * A szülő által ténylegesen kezelhető profilok: van névujjlenyomatuk, és nem
+ * előzte meg őket ugyanaz az ujjlenyomat.
+ *
+ * A lista és a hármas korlát is ezen a halmazon dolgozik. Ha a kettő
+ * szétcsúszik — mint a mezőtitkosítás előtti, ujjlenyomat nélküli
+ * rekordoknál —, akkor a mentés olyan dokumentumok miatt utasítja el az új
+ * gyereket, amelyeket a szülő nem lát és nem is tud törölni.
+ */
+export function manageableProfiles(profiles: ChildProfile[]): ChildProfile[] {
+  const seen = new Set<string>();
+  const manageable: ChildProfile[] = [];
+  for (const profile of profiles) {
+    if (!profile.nameFingerprint || seen.has(profile.nameFingerprint)) continue;
+    seen.add(profile.nameFingerprint);
+    manageable.push(profile);
+    if (manageable.length === MAX_CHILDREN) break;
+  }
+  return manageable;
 }
 
 export class FirestoreChildProfileStore implements ChildProfileStore {
@@ -262,17 +295,10 @@ export class FirestoreChildProfileStore implements ChildProfileStore {
   }
 
   async list(uid: string): Promise<ChildProfile[]> {
-    const snapshot = await this.#collection(uid).orderBy("createdAt", "asc").limit(12).get();
-    const seen = new Set<string>();
-    const profiles: ChildProfile[] = [];
-    for (const doc of snapshot.docs) {
-      const profile = storedProfile(doc.id, doc.data() as StoredProfile, this.#sealer);
-      if (!profile.normalizedName || seen.has(profile.normalizedName)) continue;
-      seen.add(profile.normalizedName);
-      profiles.push(profile);
-      if (profiles.length === 3) break;
-    }
-    return profiles;
+    const snapshot = await this.#collection(uid).orderBy("createdAt", "asc").limit(SCANNED_CHILDREN).get();
+    return manageableProfiles(
+      snapshot.docs.map((doc) => storedProfile(doc.id, doc.data() as StoredProfile, this.#sealer)),
+    );
   }
 
   async get(uid: string, id: string): Promise<ChildProfile | undefined> {
@@ -288,16 +314,20 @@ export class FirestoreChildProfileStore implements ChildProfileStore {
     const collection = this.#collection(uid);
     const ref = input.id ? collection.doc(input.id) : collection.doc(randomBytes(12).toString("base64url"));
     return this.#firestore.runTransaction(async (transaction) => {
-      const snapshot = await transaction.get(collection.orderBy("createdAt", "asc").limit(12));
+      const snapshot = await transaction.get(collection.orderBy("createdAt", "asc").limit(SCANNED_CHILDREN));
       const existing = snapshot.docs.map((doc) => storedProfile(doc.id, doc.data() as StoredProfile, this.#sealer));
       const previous = existing.find((profile) => profile.id === input.id);
 
       if (input.id && !previous) throw new ChildProfileStoreError("not_found");
       const fingerprint = this.#sealer.fingerprint(input.normalizedName);
-      if (existing.some((profile) => profile.normalizedName === fingerprint && profile.id !== input.id)) {
+      if (existing.some((profile) => profile.nameFingerprint === fingerprint && profile.id !== input.id)) {
         throw new ChildProfileStoreError("duplicate");
       }
-      if (!input.id && existing.length >= 3) throw new ChildProfileStoreError("limit");
+      // A korlát azt számolja, amit a szülő a listában lát — soha nem tölti ki
+      // a helyet olyan rekord, amit a felületről nem tud eltávolítani.
+      if (!input.id && manageableProfiles(existing).length >= MAX_CHILDREN) {
+        throw new ChildProfileStoreError("limit");
+      }
 
       const now = new Date();
       const createdAt = previous?.createdAt ?? now.toISOString();
@@ -318,7 +348,7 @@ export class FirestoreChildProfileStore implements ChildProfileStore {
       return {
         id: ref.id,
         childName: input.childName,
-        normalizedName: input.normalizedName,
+        nameFingerprint: fingerprint,
         kretaUsername: input.kretaUsername,
         instituteCode: input.instituteCode,
         ...(savedConnection ? { connection: savedConnection } : {}),
