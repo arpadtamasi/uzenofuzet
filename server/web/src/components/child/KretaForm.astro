@@ -1,0 +1,137 @@
+---
+/** A KRÉTA-fül egyetlen dolga: belépés a naplóba. Felhasználónév, jelszó,
+ *  meddig maradjon online — és a kapcsolódás gombja. */
+import ArrowMark from "../ArrowMark.astro";
+---
+
+<form id="kreta-form" novalidate>
+  <aside class="trust-notice">
+    <p><strong>A KRÉTA-jelszó átmegy az Üzenőfüzet szerverén.</strong> Nem mentjük el — de ha ezt nem tudod elfogadni, ne lépj tovább.</p>
+    <a href="/hogy-mukodik#jelszo">Mi történik pontosan?<ArrowMark /></a>
+  </aside>
+
+  <label class="field" for="kreta-username">
+    <span class="field-label">KRÉTA-felhasználónév</span>
+    <span class="field-help">Az eKRÉTA belépési azonosítója. Csak a te profilodban tároljuk.</span>
+    <input id="kreta-username" name="kretaUsername" type="text" maxlength="120" autocomplete="username" autocapitalize="none" spellcheck="false" required />
+  </label>
+
+  <label class="field" for="kreta-password">
+    <span class="field-label">KRÉTA-jelszó</span>
+    <span class="field-help">A kapcsolat ettől jön létre. A jelszó átmegy a szerveren, de nem mentjük el, ezért minden kapcsolódáskor újra kell írni.</span>
+    <input id="kreta-password" name="password" type="password" maxlength="512" autocomplete="current-password" required />
+  </label>
+
+  <fieldset class="keep-alive" id="keep-alive">
+    <legend>Meddig maradjon online?</legend>
+    <p class="keep-alive-lead">Az online tartáshoz a forgó KRÉTA-tokent titkosítva tároljuk, és legfeljebb 25 percenként megújítjuk (kicsit szórva, hogy ne egyszerre fusson minden kapcsolat). A jelszót nem tároljuk.</p>
+    <label><input type="radio" name="keepAliveWindow" value="trial" checked /><span><strong>30 perces próba</strong>Nem tartjuk online; 30 perc múlva Offline lesz.</span></label>
+    <label><input type="radio" name="keepAliveWindow" value="7" /><span><strong>1 hét</strong></span></label>
+    <label><input type="radio" name="keepAliveWindow" value="14" /><span><strong>2 hét</strong></span></label>
+    <label><input type="radio" name="keepAliveWindow" value="30" /><span><strong>1 hónap</strong></span></label>
+    <label><input type="radio" name="keepAliveWindow" value="none" /><span><strong>Határidő nélkül</strong>Amíg le nem állítod a kapcsolatot.</span></label>
+    <p class="keep-alive-note" id="keep-alive-note" role="status"></p>
+  </fieldset>
+
+  <button class="source-action" id="child-kreta-connect" type="submit">Kapcsolódás</button>
+</form>
+
+<style>
+  .trust-notice {
+    max-width: 46rem;
+    margin: .2rem 0 .25rem;
+    padding: 1rem 1.15rem;
+    border: 2px solid var(--blue);
+    background: var(--paper-bright);
+  }
+
+  .trust-notice p { margin: 0; color: var(--ink); font-size: .85rem; line-height: 1.6; }
+  .trust-notice strong { color: var(--blue); }
+
+  .trust-notice a {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    gap: .5rem;
+    margin-top: .35rem;
+    color: var(--blue-strong);
+    font-size: .85rem;
+    font-weight: 800;
+    text-underline-offset: .35rem;
+  }
+
+  .field {
+    display: grid;
+    grid-template-columns: minmax(10rem, .7fr) minmax(0, 1fr);
+    column-gap: 1.5rem;
+    max-width: 46rem;
+    padding: .8rem 0;
+    border-bottom: 1px solid var(--blue-soft);
+    color: var(--ink);
+    font-size: .85rem;
+    font-weight: 800;
+  }
+
+  .field-label { grid-column: 1; align-self: start; }
+  .field-help { grid-column: 1; margin-top: .3rem; color: var(--ink-muted); font-size: .74rem; font-weight: 450; line-height: 1.5; }
+  .field input { grid-column: 2; grid-row: 1 / span 2; align-self: start; }
+
+  input:not([type="checkbox"]):not([type="radio"]) {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0 .8rem;
+    border: 1px solid #8799af;
+    border-radius: 0;
+    color: var(--ink);
+    background: var(--paper-bright);
+    caret-color: var(--blue);
+  }
+
+  .keep-alive { max-width: 46rem; margin: 1.25rem 0 0; padding: .25rem 1.1rem 1rem; border: 1px solid var(--blue-soft); }
+  legend { padding: 0 .45rem; color: var(--blue); font-size: .8rem; font-weight: 800; }
+  .keep-alive-lead { margin: .6rem 0 .9rem; color: var(--ink-muted); font-size: .78rem; line-height: 1.55; }
+
+  .keep-alive label {
+    display: grid;
+    grid-template-columns: 1.1rem minmax(0, 1fr);
+    gap: .75rem;
+    align-items: start;
+    max-width: none;
+    padding: .55rem 0;
+    border: 0;
+    font-size: .82rem;
+  }
+
+  .keep-alive label + label { border-top: 1px solid var(--blue-soft); }
+  .keep-alive input { width: 1.1rem; height: 1.1rem; margin: .1rem 0 0; accent-color: var(--blue-strong); }
+  .keep-alive label > span { margin: 0; color: var(--ink); font-weight: 800; }
+  .keep-alive label span strong { display: block; font-size: .82rem; }
+  .keep-alive label span { color: var(--ink-muted); font-size: .76rem; font-weight: 450; line-height: 1.45; }
+  .keep-alive label span strong { color: var(--ink); }
+  .keep-alive-note { min-height: 1.2rem; margin: .8rem 0 0; color: var(--blue); font-size: .76rem; font-weight: 700; line-height: 1.45; }
+
+  .source-action {
+    min-height: 3.1rem;
+    margin-top: 1.2rem;
+    padding: .7rem 1.4rem;
+    border: 2px solid var(--blue-strong);
+    border-radius: 0;
+    color: white;
+    background: var(--blue-strong);
+    font-size: .85rem;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .source-action:hover { background: var(--blue); }
+  .source-action:disabled { cursor: wait; opacity: .65; }
+
+  @media (max-width: 620px) {
+    .field { grid-template-columns: 1fr; }
+    .field input { grid-column: 1; grid-row: auto; margin-top: .5rem; }
+  }
+
+  @media (max-width: 560px) {
+    .source-action { width: 100%; }
+  }
+</style>

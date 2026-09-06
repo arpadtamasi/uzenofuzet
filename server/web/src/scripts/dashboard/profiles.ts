@@ -50,8 +50,14 @@ export function claudeSummary(profiles: Profile[]): string {
   return `${profiles.length} gyerekből ${ready} elérhető Claude-nak`;
 }
 
+/** A KRÉTA-fülhöz iskola és felhasználónév kell; enélkül nincs mit kapcsolni. */
+export function isKretaConfigured(profile: Profile): boolean {
+  return Boolean(profile.instituteCode && profile.kretaUsername);
+}
+
 export function kretaLabel(profile: Profile): string {
-  return isOnline(profile) ? "KRÉTA · Online" : "KRÉTA · Offline";
+  if (isOnline(profile)) return "KRÉTA · Online";
+  return isKretaConfigured(profile) ? "KRÉTA · Offline" : "KRÉTA · nincs beállítva";
 }
 
 export function classroomLabel(profile: Profile): string {
@@ -69,9 +75,10 @@ function moment(value: string): string {
 /** A ritkán kellő KRÉTA-részletek: csak a Kezelés panelen jelennek meg. */
 export function kretaDetail(profile: Profile): string {
   if (!isOnline(profile)) {
+    if (!profile.instituteCode) return "A KRÉTA-naplóhoz előbb válaszd ki az iskolát a gyerek adatainál.";
     return profile.connection.status === "expired"
-      ? "A kapcsolat lejárt. Add meg újra a KRÉTA-jelszót az online kapcsoláshoz."
-      : "Nincs élő kapcsolat. Add meg a KRÉTA-jelszót az online kapcsoláshoz.";
+      ? "A kapcsolat lejárt. Add meg újra a KRÉTA-felhasználónevet és a jelszót az online kapcsoláshoz."
+      : "Nincs élő kapcsolat. Add meg a KRÉTA-felhasználónevet és a jelszót az online kapcsoláshoz.";
   }
   const parts = [profile.connection.keepAlive ? "kb. 25 percenként frissül" : "30 perces próba"];
   if (profile.connection.keepAlive && profile.connection.keepAliveUntil) {

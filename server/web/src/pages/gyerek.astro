@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ChildDetails from "../components/child/ChildDetails.astro";
+import ProfileForm from "../components/child/ProfileForm.astro";
 import ClassroomAdminHelp from "../components/dashboard/ClassroomAdminHelp.astro";
 ---
 
@@ -19,6 +20,7 @@ import ClassroomAdminHelp from "../components/dashboard/ClassroomAdminHelp.astro
         <h1 id="child-title"></h1>
       </header>
 
+      <ProfileForm />
       <ChildDetails />
       <ClassroomAdminHelp />
     </div>

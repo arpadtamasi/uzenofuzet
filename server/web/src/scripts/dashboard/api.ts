@@ -32,23 +32,39 @@ export async function fetchProfiles(user: User): Promise<Profile[]> {
   return data.profiles;
 }
 
+/** A gyerek azonossága: ennyitől már létezik a profil. */
 export interface ProfileInput {
   id?: string;
   childName: string;
-  kretaUsername: string;
   instituteCode: string;
+}
+
+/** A KRÉTA-belépés: a jelszó jelenléte mondja meg a szervernek, hogy kapcsolódunk. */
+export interface KretaConnectInput extends ProfileInput {
+  id: string;
+  kretaUsername: string;
   password: string;
   keepAlive: boolean;
   keepAliveUntil: string | null;
 }
 
-export async function saveProfile(user: User, input: ProfileInput): Promise<void> {
+async function putProfile(user: User, input: ProfileInput | KretaConnectInput, fallback: string): Promise<Profile> {
   const response = await fetch("/api/profiles", {
     method: "PUT",
     headers: { "content-type": "application/json", ...await authHeaders(user) },
     body: JSON.stringify(input),
   });
-  await jsonOrThrow(response, "A profilt nem sikerült elmenteni.");
+  const data = await jsonOrThrow<{ profile?: Profile }>(response, fallback);
+  if (!data.profile) throw new Error(fallback);
+  return data.profile;
+}
+
+export async function saveProfile(user: User, input: ProfileInput): Promise<Profile> {
+  return putProfile(user, input, "A profilt nem sikerült elmenteni.");
+}
+
+export async function connectKreta(user: User, input: KretaConnectInput): Promise<Profile> {
+  return putProfile(user, input, "A KRÉTA-kapcsolatot nem sikerült létrehozni.");
 }
 
 export async function deleteProfile(user: User, id: string): Promise<void> {

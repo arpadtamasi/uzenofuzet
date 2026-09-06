@@ -265,6 +265,62 @@ test("switching Online off removes only the connection", async () => {
   assert.equal(keptProfile.connection, undefined);
 });
 
+test("a child exists from its name alone, and the KRÉTA login is a later step", async () => {
+  const attemptsBefore = loginAttempts;
+  const created = await profileRequest({ childName: "Bori" });
+  assert.equal(created.status, 200);
+  const bare = ((await created.json()) as { profile: PublicProfile }).profile;
+  assert.equal(bare.instituteCode, "");
+  assert.equal(bare.kretaUsername, "");
+  assert.equal(bare.connection.status, "disconnected");
+  assert.equal(loginAttempts, attemptsBefore, "no password, no KRÉTA login");
+
+  // Az iskola pótolható a profilon, önmagában még mindig belépés nélkül.
+  const school = await profileRequest({
+    id: bare.id,
+    childName: "Bori",
+    instituteCode: "https://klik555555.e-kreta.hu",
+  });
+  assert.equal(school.status, 200);
+  assert.equal(((await school.json()) as { profile: PublicProfile }).profile.instituteCode, "klik555555");
+  assert.equal(loginAttempts, attemptsBefore);
+
+  const connected = await profileRequest({
+    id: bare.id,
+    childName: "Bori",
+    instituteCode: "klik555555",
+    kretaUsername: "bori-diak",
+    password: "helyes",
+    keepAlive: false,
+  });
+  assert.equal(connected.status, 200);
+  const online = ((await connected.json()) as { profile: PublicProfile }).profile;
+  assert.equal(online.connection.status, "active");
+  assert.equal(loginAttempts, attemptsBefore + 1);
+});
+
+test("a password without a school is refused before any KRÉTA login", async () => {
+  const attemptsBefore = loginAttempts;
+  const response = await profileRequest({ childName: "Bori", kretaUsername: "bori-diak", password: "helyes" });
+  assert.equal(response.status, 400);
+  assert.match(((await response.json()) as { error: string }).error, /iskolát/);
+  assert.equal(loginAttempts, attemptsBefore);
+});
+
+test("moving the child to another school drops the login that belonged to the old one", async () => {
+  const bori = (await store.list("anna-uid")).find((profile) => profile.childName === "Bori")!;
+  assert.ok(bori.connection, "the child starts online");
+  const moved = await profileRequest({
+    id: bori.id,
+    childName: "Bori",
+    instituteCode: "klik666666",
+    kretaUsername: "bori-diak",
+  });
+  assert.equal(moved.status, 200);
+  assert.equal(((await moved.json()) as { profile: PublicProfile }).profile.connection.status, "disconnected");
+  assert.equal((await store.get("anna-uid", bori.id))?.connection, undefined);
+});
+
 test("az ujjlenyomat nélküli örökölt rekord se nem látszik, se nem foglal helyet", () => {
   const profile = (id: string, nameFingerprint: string): ChildProfile => ({
     id,
