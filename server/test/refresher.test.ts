@@ -25,7 +25,7 @@ class MemoryStore implements ChildProfileStore {
     return {
       id: "profile-lilla",
       childName: "Lilla",
-      normalizedName: "lilla",
+      nameFingerprint: sealer.fingerprint("lilla"),
       kretaUsername: "lilla-user",
       instituteCode: "klik123456",
       ...(this.connection ? { connection: this.connection } : {}),

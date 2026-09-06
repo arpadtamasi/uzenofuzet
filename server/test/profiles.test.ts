@@ -4,6 +4,8 @@ import type { AddressInfo } from "node:net";
 import { after, test } from "node:test";
 import { createApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
+import type { Sealer } from "../src/seal.js";
+import { MAX_CHILDREN, manageableProfiles } from "../src/profiles/store.js";
 import type { ChildConnection, ChildProfile, ChildProfileInput, ChildProfileStore, ClassroomConnection } from "../src/profiles/store.js";
 
 interface PublicProfile {
@@ -27,6 +29,9 @@ class MemoryChildProfileStore implements ChildProfileStore {
   readonly byUser = new Map<string, ChildProfile[]>();
   nextId = 1;
 
+  /** A Firestore-hoz hasonlóan a nyílt név helyett az ujjlenyomatát tárolja. */
+  constructor(private readonly sealer: Sealer) {}
+
   async list(uid: string) {
     return [...(this.byUser.get(uid) ?? [])];
   }
@@ -39,8 +44,10 @@ class MemoryChildProfileStore implements ChildProfileStore {
     const profiles = this.byUser.get(uid) ?? [];
     const previous = input.id ? profiles.find((profile) => profile.id === input.id) : undefined;
     const now = new Date(1_800_000_000_000 + this.nextId).toISOString();
+    const { normalizedName, ...stored } = input;
     const profile: ChildProfile = {
-      ...input,
+      ...stored,
+      nameFingerprint: this.sealer.fingerprint(normalizedName),
       id: input.id ?? `profile-${String(this.nextId++).padStart(4, "0")}`,
       ...(connection ? { connection } : previous?.connection ? { connection: previous.connection } : {}),
       ...(previous?.classroomConnection ? { classroomConnection: previous.classroomConnection } : {}),
@@ -102,8 +109,8 @@ class MemoryChildProfileStore implements ChildProfileStore {
   }
 }
 
-const store = new MemoryChildProfileStore();
 const config = loadConfig({ TOKEN_SEALING_KEY: randomBytes(32).toString("base64") } as NodeJS.ProcessEnv);
+const store = new MemoryChildProfileStore(config.sealer);
 let loginAttempts = 0;
 const server = createApp({
   config,
@@ -256,4 +263,32 @@ test("switching Online off removes only the connection", async () => {
   const keptProfile = await store.get("anna-uid", profile.id);
   assert.ok(keptProfile, "the child profile must remain");
   assert.equal(keptProfile.connection, undefined);
+});
+
+test("az ujjlenyomat nélküli örökölt rekord se nem látszik, se nem foglal helyet", () => {
+  const profile = (id: string, nameFingerprint: string): ChildProfile => ({
+    id,
+    childName: "",
+    nameFingerprint,
+    kretaUsername: "",
+    instituteCode: "",
+    createdAt: "",
+    updatedAt: "",
+  });
+
+  // A mezőtitkosítás előtti dokumentumoknak nincs ujjlenyomatuk: ezek
+  // kimaradnak a listából, ezért a korlátba sem számíthatnak bele.
+  assert.deepEqual(
+    manageableProfiles([profile("regi-1", ""), profile("uj", "fp-a"), profile("regi-2", "")]).map(
+      (item) => item.id,
+    ),
+    ["uj"],
+  );
+
+  // Ugyanaz az ujjlenyomat egyszer számít, és háromnál több sosem.
+  assert.equal(manageableProfiles([profile("a", "fp"), profile("b", "fp")]).length, 1);
+  assert.equal(
+    manageableProfiles(["1", "2", "3", "4"].map((id) => profile(id, `fp-${id}`))).length,
+    MAX_CHILDREN,
+  );
 });

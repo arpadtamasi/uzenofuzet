@@ -20,7 +20,7 @@ class MemoryStore implements ChildProfileStore {
     {
       id: "profile-lilla",
       childName: "Lilla",
-      normalizedName: "lilla",
+      nameFingerprint: sealer.fingerprint("lilla"),
       kretaUsername: "lilla-user",
       instituteCode: "klik1",
       createdAt: new Date(0).toISOString(),
@@ -29,7 +29,7 @@ class MemoryStore implements ChildProfileStore {
     {
       id: "profile-kata",
       childName: "Kata",
-      normalizedName: "kata",
+      nameFingerprint: sealer.fingerprint("kata"),
       kretaUsername: "kata-user",
       instituteCode: "klik2",
       createdAt: new Date(1).toISOString(),
@@ -42,7 +42,15 @@ class MemoryStore implements ChildProfileStore {
     return uid === "parent-uid" ? this.profiles.find((profile) => profile.id === id) : undefined;
   }
   async save(_uid: string, input: ChildProfileInput & { id?: string }, connection?: ChildConnection) {
-    return { ...input, id: input.id ?? "profile-new", connection, createdAt: "", updatedAt: "" };
+    const { normalizedName, ...stored } = input;
+    return {
+      ...stored,
+      nameFingerprint: sealer.fingerprint(normalizedName),
+      id: input.id ?? "profile-new",
+      connection,
+      createdAt: "",
+      updatedAt: "",
+    };
   }
   async updateConnection() { return false; }
   async clearConnection() { return false; }
@@ -66,13 +74,14 @@ class MemoryStore implements ChildProfileStore {
   async delete() { return false; }
 }
 
-const store = new MemoryStore();
-const revoked: string[] = [];
 const config = loadConfig({
   TOKEN_SEALING_KEY: randomBytes(32).toString("base64"),
   GOOGLE_CLASSROOM_CLIENT_ID: "web-client.apps.googleusercontent.com",
   GOOGLE_CLASSROOM_CLIENT_SECRET: "server-only-secret",
 } as NodeJS.ProcessEnv);
+const sealer = config.sealer;
+const store = new MemoryStore();
+const revoked: string[] = [];
 
 const googleFetch: typeof fetch = async (input, init) => {
   const url = String(input);
