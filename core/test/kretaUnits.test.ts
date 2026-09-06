@@ -5,9 +5,8 @@ import { login } from "../src/kreta/auth.js";
 import { KretaClient } from "../src/kreta/client.js";
 import { parseLoginForm } from "../src/kreta/loginForm.js";
 import { HttpSession } from "../src/kreta/session.js";
-import { ReplayCache } from "../src/oauth/replayCache.js";
 import { dateRange, pack, studyTaskUids, validateLimit } from "../src/mcp/shape.js";
-import { ToolError } from "../src/mcp/context.js";
+import { ToolError } from "../src/mcp/errors.js";
 
 test("institute codes are accepted in every shape a parent might copy", () => {
   for (const input of ["klik123456", "KLIK123456", " klik123456 ", "klik123456.e-kreta.hu", "https://klik123456.e-kreta.hu", "https://klik123456.e-kreta.hu/"]) {
@@ -66,7 +65,7 @@ test("KRÉTA credentials are never posted to a form action outside the trusted I
   assert.equal(evilRequests, 0);
 });
 
-test("a trial connection never refreshes after its initial access token expires", async () => {
+test("a connection barred from refreshing never calls KRÉTA once its token expired", async () => {
   let requests = 0;
   const client = new KretaClient({
     instituteCode: "klik123456",
@@ -74,6 +73,7 @@ test("a trial connection never refreshes after its initial access token expires"
     accessToken: "trial-access",
     accessExpiresAt: Date.now() - 1,
     allowRefresh: false,
+    refreshDeniedMessage: "A 30 perces próbakapcsolat lejárt.",
     fetchImpl: async () => {
       requests += 1;
       return new Response("{}");
@@ -83,7 +83,7 @@ test("a trial connection never refreshes after its initial access token expires"
   assert.equal(requests, 0);
 });
 
-test("a keep-alive refresh is reserved before rotation and persisted before the API call", async () => {
+test("a refresh is reserved before rotation and persisted before the API call", async () => {
   const events: string[] = [];
   const client = new KretaClient({
     instituteCode: "klik123456",
@@ -110,20 +110,6 @@ test("a keep-alive refresh is reserved before rotation and persisted before the 
 
   assert.deepEqual(await client.getJson("sajat/TanuloAdatlap"), { ok: true });
   assert.deepEqual(events, ["claim", "refresh", "persist:new-refresh", "api"]);
-});
-
-test("the replay cache allows one claim per id", () => {
-  const cache = new ReplayCache(1000);
-  assert.ok(cache.claim("code-1"));
-  assert.equal(cache.claim("code-1"), false);
-  assert.ok(cache.claim("code-2"));
-});
-
-test("the replay cache forgets ids once they could no longer be replayed", () => {
-  const cache = new ReplayCache(1000);
-  assert.ok(cache.claim("code-1", 0));
-  assert.equal(cache.claim("code-1", 500), false);
-  assert.ok(cache.claim("code-1", 2000));
 });
 
 test("list answers are capped and report truncation", () => {

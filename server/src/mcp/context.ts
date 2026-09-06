@@ -3,7 +3,8 @@
  * connection. The OAuth token contains only profile references; the KRÉTA
  * token remains in the parent's server-side profile.
  */
-import { KretaClient } from "../kreta/client.js";
+import { KretaClient } from "@uzenofuzet/core/kreta";
+import { resolveChild as resolveSharedChild, ToolError } from "@uzenofuzet/core/mcp";
 import type { SealedChild, SealedSession } from "../oauth/types.js";
 import { claimConnection, connectionIsOnline, openConnectionCredential, renewConnection } from "../profiles/connection.js";
 import type { ChildProfileStore } from "../profiles/store.js";
@@ -12,30 +13,10 @@ import { ClassroomClient } from "../classroom/client.js";
 import { refreshClassroomAccessToken } from "../classroom/auth.js";
 import { classroomConnectionIsActive, openClassroomCredential } from "../classroom/connection.js";
 
-export class ToolError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = "ToolError";
-  }
-}
+export { ToolError } from "@uzenofuzet/core/mcp";
 
 export function resolveChild(session: SealedSession, requested?: string): SealedChild {
-  const children = session.children;
-  const names = children.map((child) => child.label).join(", ");
-  const wanted = requested?.trim();
-
-  if (!wanted) {
-    if (children.length === 1) return children[0]!;
-    throw new ToolError(
-      `Több gyerek van csatlakoztatva, add meg, melyikről kérdezel (child): ${names}.`,
-    );
-  }
-
-  const match = children.find((child) => child.label.toLowerCase() === wanted.toLowerCase());
-  if (!match) {
-    throw new ToolError(`Nincs "${wanted}" nevű csatlakoztatott gyerek. Elérhető: ${names}.`);
-  }
-  return match;
+  return resolveSharedChild(session.children, requested);
 }
 
 export interface ClientFactoryDeps {
@@ -106,6 +87,8 @@ export async function createClient(
     accessToken: credential.accessToken,
     accessExpiresAt: credential.accessExpiresAt,
     allowRefresh: current.mode === "keep_alive",
+    refreshDeniedMessage:
+      "A 30 perces próbakapcsolat lejárt. Csatlakoztasd újra a gyereket a kapcsolati pulton.",
     ...(deps.fetchImpl ? { fetchImpl: deps.fetchImpl } : {}),
     onBeforeRefresh: async () => {
       const claimed = claimConnection(current);

@@ -1,0 +1,21 @@
+{
+  "name": "uzenofuzet",
+  "version": "0.1.0",
+  "private": true,
+  "description": "KRÉTA integrations for Claude: a hosted service and a desktop extension over one shared core.",
+  "type": "module",
+  "workspaces": [
+    "core",
+    "server",
+    "desktop"
+  ],
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "build": "npm run build -w @uzenofuzet/core && npm run build -w uzenofuzet-server && npm run build -w @uzenofuzet/desktop",
+    "typecheck": "npm run build -w @uzenofuzet/core && npm run typecheck -w @uzenofuzet/core && npm run typecheck -w uzenofuzet-server && npm run typecheck -w @uzenofuzet/desktop",
+    "test": "npm run build -w @uzenofuzet/core && npm test -w @uzenofuzet/core && npm test -w uzenofuzet-server && npm test -w @uzenofuzet/desktop",
+    "pack:desktop": "npm run build -w @uzenofuzet/core && npm run pack -w @uzenofuzet/desktop"
+  }
+}

@@ -201,6 +201,9 @@ export async function login(
         grant_type: "authorization_code",
       }),
       "A KRÉTA nem adott használható hozzáférési tokent.",
+      // The token exchange belongs to the same flow as the form POST, so it
+      // goes through the session's fetch rather than the global one.
+      session.fetchImpl,
     ),
   );
 }
