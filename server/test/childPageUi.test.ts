@@ -7,37 +7,93 @@ const read = (path: string) => readFileSync(new URL(path, import.meta.url), "utf
 const page = read("../web/src/pages/gyerek.astro");
 const details = read("../web/src/components/child/ChildDetails.astro");
 const form = read("../web/src/components/child/ProfileForm.astro");
+const kretaForm = read("../web/src/components/child/KretaForm.astro");
 const pageModule = read("../web/src/scripts/child/page.ts");
 const keepAlive = read("../web/src/scripts/child/keepAlive.ts");
 const classroomRouter = read("../src/classroom/router.ts");
+const profileRouter = read("../src/profiles/router.ts");
 
 test("the child has a page of its own instead of a scrolling modal", () => {
+  assert.match(page, /<ProfileForm \/>/);
   assert.match(page, /<ChildDetails \/>/);
-  assert.match(details, /<ProfileForm \/>/, "the editor is an in-place mode of the KRÉTA tab");
-  assert.doesNotMatch(page, /<ProfileForm \/>/);
+  assert.ok(
+    page.indexOf("<ProfileForm />") < page.indexOf("<ChildDetails />"),
+    "the child's identity stands above its connectors",
+  );
+  assert.match(details, /<KretaForm \/>/, "the KRÉTA login lives inside the KRÉTA tab");
   assert.match(page, /<ClassroomAdminHelp \/>/);
   assert.match(page, /id="child-back"/);
-  assert.doesNotMatch(page, /<dialog/);
-  assert.doesNotMatch(details, /<dialog/);
-  assert.doesNotMatch(form, /<dialog/);
-  assert.doesNotMatch(form, /showModal/);
+  for (const source of [page, details, form, kretaForm]) {
+    assert.doesNotMatch(source, /<dialog/);
+    assert.doesNotMatch(source, /showModal/);
+  }
 });
 
-test("the page carries the identifiers, both connections and the editor", () => {
-  assert.match(details, /id="child-username"/);
-  assert.match(details, /id="child-institute"/);
-  assert.match(details, /id="child-kreta-connect"/);
-  assert.match(details, /id="child-classroom-connect"/);
-  assert.match(details, /id="child-edit"[^>]*>Adatok módosítása</);
-  assert.ok(
-    details.indexOf('id="child-edit"') > details.indexOf('id="panel-kreta"') &&
-      details.indexOf('id="child-edit"') < details.indexOf('id="panel-classroom"'),
-    "the editor asks for the KRÉTA password on every save, so it belongs to the KRÉTA tab",
+test("a child exists from its name; the school is optional and the password is not asked here", () => {
+  assert.match(form, /id="child-name"[^>]*required/);
+  assert.match(form, /id="institute-code"/);
+  assert.doesNotMatch(
+    form.slice(form.indexOf('id="institute-code"'), form.indexOf("</label>", form.indexOf('id="institute-code"'))),
+    /required/,
+    "the school is optional: a Classroom-only child needs none",
   );
+  assert.doesNotMatch(form, /type="password"/);
+  assert.match(form, /nem kötelező/);
+  assert.match(pageModule, /await saveProfile\(user, \{/);
+  assert.match(pageModule, /childName: nameInput\.value,\n        instituteCode: school\(\),/);
+  assert.doesNotMatch(
+    pageModule.slice(pageModule.indexOf("await saveProfile"), pageModule.indexOf("adoptProfile(saved)")),
+    /password/,
+    "saving the child's data never carries a password",
+  );
+});
+
+test("the server accepts a child without KRÉTA credentials and connects only on a password", () => {
+  assert.match(profileRouter, /kretaUsername: z\.string\(\)\.trim\(\)\.max\(120[^)]*\)\.default\(""\)/);
+  assert.match(profileRouter, /instituteCode: z\.string\(\)\.trim\(\)\.max\(200[^)]*\)\.default\(""\)/);
+  assert.match(profileRouter, /password: z\.string\(\)\.max\(512[^)]*\)\.default\(""\)/);
+  assert.match(profileRouter, /const wantsConnection = parsed\.data\.password\.length > 0;/);
+  assert.match(profileRouter, /if \(wantsConnection && !parsed\.data\.instituteCode\)/);
+  assert.match(profileRouter, /const identityChanged =/, "a login from another journal must not survive an edit");
+});
+
+test("the KRÉTA tab asks for the login, and only for the login", () => {
+  assert.match(kretaForm, /id="kreta-username"/);
+  assert.match(kretaForm, /id="kreta-password"/);
+  assert.match(kretaForm, /id="child-kreta-connect"[^>]*type="submit"/);
+  assert.ok(
+    details.indexOf("<KretaForm />") > details.indexOf('id="panel-kreta"') &&
+      details.indexOf("<KretaForm />") < details.indexOf('id="panel-classroom"'),
+    "the KRÉTA login belongs to the KRÉTA connector",
+  );
+  assert.match(pageModule, /await connectKreta\(user, \{/);
+  assert.match(pageModule, /passwordInput\.value = "";/, "the password never stays on the page");
   assert.match(pageModule, /kretaDetail\(profile\)/);
   assert.match(pageModule, /classroomDetail\(profile\)/);
-  assert.match(pageModule, /openEditor\("connect"\)/);
-  assert.match(pageModule, /openEditor\("edit"\)/);
+});
+
+test("the connectors appear only once there is a child, and the KRÉTA tab needs a school", () => {
+  assert.match(
+    pageModule,
+    /details\.hidden = !profile;/,
+    "no written-out lock: before the first save the tabs are simply not there",
+  );
+  assert.doesNotMatch(details, /tabs-lock/);
+  assert.match(details, /\.tab:disabled/);
+  assert.match(pageModule, /const kretaLocked = !school\(\);/);
+  assert.match(pageModule, /tab\.disabled = connector === "kreta" && kretaLocked;/);
+  assert.match(
+    pageModule,
+    /instituteInput\.addEventListener\("input", renderTabs\)/,
+    "typing the school opens the KRÉTA tab straight away",
+  );
+  assert.match(pageModule, /kretaState\.textContent = kretaLocked \? "iskola kell"/);
+});
+
+test("the saved child takes over the address bar so the Classroom round trip finds it", () => {
+  assert.match(pageModule, /function adoptProfile\(saved: Profile\)/);
+  assert.match(pageModule, /url\.searchParams\.set\("id", saved\.id\)/);
+  assert.match(pageModule, /history\.replaceState\(null, "", `\$\{url\.pathname\}\$\{url\.search\}`\)/);
 });
 
 test("stopping a connection stays a separate danger-zone action with its own confirmation", () => {
@@ -63,28 +119,29 @@ test("profile deletion spells out that both connections go with it", () => {
   assert.match(item, /A KRÉTA- és a Classroom-kapcsolata is megszűnik/);
   assert.match(pageModule, /deleteProfile\(user, current\.id\)/);
   assert.match(pageModule, /Classroom-kapcsolatával együtt töröltük/);
+  assert.match(pageModule, /details\.hidden = !profile/, "there is nothing to delete before the first save");
 });
 
 test("keep-alive is a short list of periods instead of a date field", () => {
-  assert.doesNotMatch(form, /type="date"/);
+  assert.doesNotMatch(kretaForm, /type="date"/);
   for (const value of ["trial", "7", "14", "30", "none"]) {
-    assert.match(form, new RegExp(`name="keepAliveWindow" value="${value}"`));
+    assert.match(kretaForm, new RegExp(`name="keepAliveWindow" value="${value}"`));
   }
-  assert.match(form, /30 perces próba/);
-  assert.match(form, /1 hét/);
-  assert.match(form, /2 hét/);
-  assert.match(form, /1 hónap/);
-  assert.match(form, /Határidő nélkül/);
+  assert.match(kretaForm, /30 perces próba/);
+  assert.match(kretaForm, /1 hét/);
+  assert.match(kretaForm, /2 hét/);
+  assert.match(kretaForm, /1 hónap/);
+  assert.match(kretaForm, /Határidő nélkül/);
   assert.match(keepAlive, /end\.setDate\(end\.getDate\(\) \+ Number\(choice\)\)/);
   assert.match(keepAlive, /keepAlive: choice !== "trial"/);
   assert.match(pageModule, /keepAlivePayload\(keepAliveChoice\(\)\)/);
 });
 
 test("the connection form still says what happens to the password and the token", () => {
-  assert.match(form, /name="password" type="password"[^>]+autocomplete="current-password"/);
-  assert.match(form, /A jelszó átmegy a szerveren, de nem mentjük el/);
-  assert.match(form, /25 percenként megújítjuk/);
-  assert.match(form, /A jelszót nem tároljuk/);
+  assert.match(kretaForm, /name="password" type="password"[^>]+autocomplete="current-password"/);
+  assert.match(kretaForm, /A jelszó átmegy a szerveren, de nem mentjük el/);
+  assert.match(kretaForm, /25 percenként megújítjuk/);
+  assert.match(kretaForm, /A jelszót nem tároljuk/);
 });
 
 test("the page keeps the Claude return flow and hands its result back to the list", () => {
@@ -105,11 +162,7 @@ test("the two connectors are equal tabs, not a profile with an external extra", 
   for (const id of ["tab-kreta", "tab-classroom", "panel-kreta", "panel-classroom"]) {
     assert.ok(details.includes(`id="${id}"`), `missing tab element: ${id}`);
   }
-  assert.ok(
-    details.indexOf('id="child-username"') > details.indexOf('id="panel-kreta"'),
-    "the KRÉTA credentials belong to the KRÉTA connector, not to the profile header",
-  );
-  assert.match(pageModule, /function selectTab\(id: "kreta" \| "classroom"\)/);
+  assert.match(pageModule, /function selectTab\(connector: Connector\)/);
   assert.match(pageModule, /selectTab\("classroom"\)/, "returning from Google opens the Classroom tab");
 });
 
@@ -127,7 +180,7 @@ test("a school block stays visible at the button instead of a status line that s
 test("the page reveals itself only once the right title is in place", () => {
   assert.match(page, /<h1 id="child-title"><\/h1>/, "no 'add a child' heading flashes while loading");
   assert.match(pageModule, /function reveal\(\)/);
-  assert.match(pageModule, /title\.textContent = "Gyerek hozzáadása";/);
+  assert.match(pageModule, /: "Gyerek hozzáadása";/);
   assert.doesNotMatch(pageModule, /loading\.hidden = true;\n    body\.hidden = false;\n    try/);
 });
 

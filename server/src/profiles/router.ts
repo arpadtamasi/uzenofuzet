@@ -10,6 +10,7 @@ import {
   ChildProfileStoreError,
   MAX_CHILDREN,
   normalizeChildName,
+  type ChildConnection,
   type ChildProfile,
   type ChildProfileStore,
 } from "./store.js";
@@ -27,9 +28,11 @@ export interface ChildProfileRouterDeps {
 const profileSchema = z.object({
   id: z.string().regex(/^[A-Za-z0-9_-]{8,64}$/u).optional(),
   childName: z.string().trim().min(2, "A név legyen legalább 2 karakter.").max(80, "A név legfeljebb 80 karakter lehet."),
-  kretaUsername: z.string().trim().min(1, "A KRÉTA-felhasználónév kötelező.").max(120, "A KRÉTA-felhasználónév túl hosszú."),
-  instituteCode: z.string().trim().min(1, "Az intézménykód kötelező.").max(200, "Az intézménykód túl hosszú."),
-  password: z.string().min(1, "A KRÉTA-jelszó kötelező a kapcsolat létrehozásához.").max(512, "A KRÉTA-jelszó túl hosszú."),
+  // A gyerek a nevével létezik; a KRÉTA-belépés külön lépés, a Classroom pedig
+  // meg is elégszik a puszta profillal. Ezért mindhárom mező elhagyható.
+  kretaUsername: z.string().trim().max(120, "A KRÉTA-felhasználónév túl hosszú.").default(""),
+  instituteCode: z.string().trim().max(200, "Az intézménykód túl hosszú.").default(""),
+  password: z.string().max(512, "A KRÉTA-jelszó túl hosszú.").default(""),
   keepAlive: z.boolean().default(false),
   keepAliveUntil: z.string().datetime({ offset: true }).nullable().optional(),
 });
@@ -112,12 +115,26 @@ export function createChildProfileRouter(deps: ChildProfileRouterDeps): Router {
       return;
     }
 
-    let instituteCode: string;
-    try {
-      instituteCode = normalizeInstituteCode(parsed.data.instituteCode);
-    } catch (error) {
-      res.status(400).json({ error: error instanceof KretaError ? error.message : "Érvénytelen intézménykód." });
+    // Jelszó nélkül a mentés csak a profiladatokat írja; jelszóval egyben
+    // meg is nyitja a KRÉTA-kapcsolatot.
+    const wantsConnection = parsed.data.password.length > 0;
+    if (wantsConnection && !parsed.data.kretaUsername) {
+      res.status(400).json({ error: "A KRÉTA-felhasználónév kötelező a kapcsolódáshoz." });
       return;
+    }
+    if (wantsConnection && !parsed.data.instituteCode) {
+      res.status(400).json({ error: "A KRÉTA-kapcsolathoz előbb válaszd ki az iskolát." });
+      return;
+    }
+
+    let instituteCode = "";
+    if (parsed.data.instituteCode) {
+      try {
+        instituteCode = normalizeInstituteCode(parsed.data.instituteCode);
+      } catch (error) {
+        res.status(400).json({ error: error instanceof KretaError ? error.message : "Érvénytelen intézménykód." });
+        return;
+      }
     }
 
     try {
@@ -135,7 +152,8 @@ export function createChildProfileRouter(deps: ChildProfileRouterDeps): Router {
         res.status(409).json({ error: "Ezzel a névvel már van gyerekprofilod." });
         return;
       }
-      if (parsed.data.id && !profiles.some((profile) => profile.id === parsed.data.id)) {
+      const previous = parsed.data.id ? profiles.find((profile) => profile.id === parsed.data.id) : undefined;
+      if (parsed.data.id && !previous) {
         res.status(404).json({ error: "A gyerekprofil nem található." });
         return;
       }
@@ -145,56 +163,64 @@ export function createChildProfileRouter(deps: ChildProfileRouterDeps): Router {
       }
 
       const now = Date.now();
-      let keepAliveUntil: string | undefined;
-      if (parsed.data.keepAlive && parsed.data.keepAliveUntil) {
-        const deadline = Date.parse(parsed.data.keepAliveUntil);
-        if (deadline <= now || deadline > now + 366 * 24 * 60 * 60 * 1000) {
-          res.status(400).json({ error: "A fenntartás határideje legyen a következő egy éven belül." });
+      let connection: ChildConnection | undefined;
+      let tokens: Awaited<ReturnType<typeof login>> | undefined;
+
+      if (wantsConnection) {
+        let keepAliveUntil: string | undefined;
+        if (parsed.data.keepAlive && parsed.data.keepAliveUntil) {
+          const deadline = Date.parse(parsed.data.keepAliveUntil);
+          if (deadline <= now || deadline > now + 366 * 24 * 60 * 60 * 1000) {
+            res.status(400).json({ error: "A fenntartás határideje legyen a következő egy éven belül." });
+            return;
+          }
+          keepAliveUntil = new Date(deadline).toISOString();
+        }
+
+        // K5: a hibás belépéseket fiókonként korlátozzuk, hogy a végpont ne
+        // legyen szabadon futtatható jelszópróbálgató a KRÉTA IDP-je ellen.
+        const throttleKey = `${user.uid}:${instituteCode}`;
+        const retryAfter = throttle.retryAfter(throttleKey);
+        if (retryAfter > 0) {
+          res.set("Retry-After", String(retryAfter)).status(429).json({
+            error: "Túl sok sikertelen KRÉTA-belépés. Próbáld újra később.",
+          });
           return;
         }
-        keepAliveUntil = new Date(deadline).toISOString();
+
+        try {
+          tokens = await doLogin({
+            username: parsed.data.kretaUsername,
+            password: parsed.data.password,
+            instituteCode,
+          });
+          throttle.clear(throttleKey);
+        } catch (error) {
+          throttle.recordFailure(throttleKey);
+          throttle.prune();
+          res.status(400).json({
+            error: error instanceof KretaError
+              ? error.message
+              : "A KRÉTA-kapcsolatot nem sikerült létrehozni.",
+          });
+          return;
+        }
+
+        connection = createConnection(
+          deps.config.sealer,
+          tokens,
+          parsed.data.keepAlive ? "keep_alive" : "trial",
+          keepAliveUntil,
+          now,
+        );
       }
 
-      // K5: a hibás belépéseket fiókonként korlátozzuk, hogy a végpont ne
-      // legyen szabadon futtatható jelszópróbálgató a KRÉTA IDP-je ellen.
-      const throttleKey = `${user.uid}:${instituteCode}`;
-      const retryAfter = throttle.retryAfter(throttleKey);
-      if (retryAfter > 0) {
-        res.set("Retry-After", String(retryAfter)).status(429).json({
-          error: "Túl sok sikertelen KRÉTA-belépés. Próbáld újra később.",
-        });
-        return;
-      }
+      // Másik naplóhoz szóló belépés nem maradhat a profilon: ha a
+      // felhasználónév vagy az iskola megváltozik, a régi kapcsolat megszűnik.
+      const identityChanged = Boolean(previous?.connection) &&
+        (previous!.kretaUsername !== parsed.data.kretaUsername || previous!.instituteCode !== instituteCode);
+      const previousConnection = connection || identityChanged ? previous?.connection : undefined;
 
-      let tokens;
-      try {
-        tokens = await doLogin({
-          username: parsed.data.kretaUsername,
-          password: parsed.data.password,
-          instituteCode,
-        });
-        throttle.clear(throttleKey);
-      } catch (error) {
-        throttle.recordFailure(throttleKey);
-        throttle.prune();
-        res.status(400).json({
-          error: error instanceof KretaError
-            ? error.message
-            : "A KRÉTA-kapcsolatot nem sikerült létrehozni.",
-        });
-        return;
-      }
-
-      const connection = createConnection(
-        deps.config.sealer,
-        tokens,
-        parsed.data.keepAlive ? "keep_alive" : "trial",
-        keepAliveUntil,
-        now,
-      );
-      const previousConnection = parsed.data.id
-        ? profiles.find((profile) => profile.id === parsed.data.id)?.connection
-        : undefined;
       let profile;
       try {
         profile = await deps.store.save(user.uid, {
@@ -205,8 +231,14 @@ export function createChildProfileRouter(deps: ChildProfileRouterDeps): Router {
           instituteCode,
         }, connection);
       } catch (error) {
-        await revokeRefreshToken(tokens.refreshToken, deps.fetchImpl ?? fetch);
+        if (tokens) await revokeRefreshToken(tokens.refreshToken, deps.fetchImpl ?? fetch);
         throw error;
+      }
+      if (!connection && identityChanged) {
+        await deps.store.clearConnection(user.uid, profile.id);
+        const { connection: dropped, ...rest } = profile;
+        void dropped;
+        profile = rest;
       }
       if (previousConnection) {
         try {

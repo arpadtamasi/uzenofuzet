@@ -1,7 +1,7 @@
 ---
-/** Egy gyerek két külön csatlakozója egymás mellett, saját leválasztással.
- *  A KRÉTA-fül helyben vált szerkesztő módba: ugyanazok a sorok, mezőkkel. */
-import ProfileForm from "./ProfileForm.astro";
+/** Egy gyerek két csatlakozója két fülön, saját leválasztással. Az egész blokk
+ *  csak elmentett gyereknél jelenik meg; a KRÉTA-fül iskola nélkül zárt. */
+import KretaForm from "./KretaForm.astro";
 ---
 
 <section class="details" id="child-details" hidden>
@@ -18,17 +18,9 @@ import ProfileForm from "./ProfileForm.astro";
     </div>
 
     <section class="panel" id="panel-kreta" role="tabpanel" aria-labelledby="tab-kreta">
-      <div id="kreta-view">
-      <dl class="facts">
-        <div><dt>KRÉTA-felhasználónév</dt><dd id="child-username"></dd></div>
-        <div><dt>Intézmény</dt><dd id="child-institute"></dd></div>
-      </dl>
       <p class="detail" id="child-kreta-detail"></p>
-      <div class="panel-actions">
-        <button class="source-action" id="child-kreta-connect" type="button">Online kapcsolás</button>
-        <button class="edit-profile" id="child-edit" type="button">Adatok módosítása</button>
-      </div>
-      <p class="hint">A név, a KRÉTA-felhasználónév, az intézmény és az online tartás egy űrlapon szerkeszthető. A KRÉTA-jelszót minden mentéskor újra be kell írni, mert nem tároljuk.</p>
+
+      <KretaForm />
 
       <div class="source-danger" id="danger-kreta">
         <div class="danger-head">
@@ -46,9 +38,6 @@ import ProfileForm from "./ProfileForm.astro";
           </div>
         </div>
       </div>
-      </div>
-
-      <ProfileForm />
     </section>
 
     <section class="panel" id="panel-classroom" role="tabpanel" aria-labelledby="tab-classroom" hidden>
@@ -98,7 +87,7 @@ import ProfileForm from "./ProfileForm.astro";
     </section>
   </div>
 
-  <section class="danger" aria-labelledby="child-danger-title">
+  <section class="danger" id="child-danger" aria-labelledby="child-danger-title">
     <h2 id="child-danger-title">Veszélyzóna</h2>
 
     <div class="danger-item" id="danger-delete">
@@ -121,23 +110,6 @@ import ProfileForm from "./ProfileForm.astro";
 </section>
 
 <style>
-  .panel-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; }
-
-  .edit-profile {
-    min-height: 2.9rem;
-    margin-top: .9rem;
-    padding: .45rem 1rem;
-    border: 1px solid var(--blue);
-    border-radius: 0;
-    color: var(--blue);
-    background: transparent;
-    font-size: .78rem;
-    font-weight: 800;
-    cursor: pointer;
-  }
-
-  .edit-profile:hover { color: white; background: var(--blue); }
-
   .sources { border: 1px solid var(--blue-soft); background: var(--paper-bright); }
   .tabs { display: flex; border-bottom: 1px solid var(--blue-soft); }
 
@@ -155,7 +127,11 @@ import ProfileForm from "./ProfileForm.astro";
   }
 
   .tab + .tab { border-left: 1px solid var(--blue-soft); }
-  .tab:hover { background: var(--paper); }
+  .tab:hover:not(:disabled) { background: var(--paper); }
+
+  /* A zárt fül nem üres: a felirata megmondja, mi hiányzik hozzá. */
+  .tab:disabled { cursor: not-allowed; opacity: .55; }
+  .tab:disabled .tab-state { color: var(--ink-muted); }
   .tab[aria-selected="true"] { border-bottom-color: var(--blue); color: var(--blue); background: var(--paper); }
   .tab-name { display: block; font-size: .82rem; font-weight: 800; letter-spacing: -.01em; }
   .tab-state { display: block; margin-top: .2rem; font-family: "IBM Plex Mono", monospace; font-size: .66rem; font-weight: 500; }
@@ -167,6 +143,7 @@ import ProfileForm from "./ProfileForm.astro";
   dt { color: var(--ink-muted); font-family: "IBM Plex Mono", monospace; font-size: .7rem; }
   dd { margin: 0; overflow-wrap: anywhere; color: var(--blue); font-family: "IBM Plex Mono", monospace; font-size: .8rem; }
   .detail { max-width: 46rem; margin: 0; color: var(--ink-muted); font-size: .8rem; line-height: 1.55; }
+  #child-kreta-detail { margin-bottom: 1rem; }
 
   .source-action {
     min-height: 2.9rem;
@@ -271,8 +248,6 @@ import ProfileForm from "./ProfileForm.astro";
 
   @media (max-width: 620px) {
     .facts > div { grid-template-columns: 1fr; gap: .2rem; }
-    .panel-actions { align-items: stretch; flex-direction: column; }
-    .panel-actions button { width: 100%; }
     .tab { padding: .55rem .7rem; }
     .tab-name { font-size: .76rem; }
     .danger-head { align-items: stretch; flex-direction: column; gap: .7rem; }

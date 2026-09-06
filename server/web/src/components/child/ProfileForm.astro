@@ -1,93 +1,40 @@
 ---
-/** Gyerekprofil hozzáadása, szerkesztése és KRÉTA-online kapcsolása. */
-import ArrowMark from "../ArrowMark.astro";
+/** A gyerek azonossága: név és iskola. Ez a lap teteje, a két csatlakozó fölött.
+ *  Ugyanez az űrlap fogadja az új gyereket és szerkeszti a meglévőt. */
 ---
 
-<section class="editor" id="child-editor" hidden aria-labelledby="profile-form-title">
-  <h2 id="profile-form-title">Gyerek hozzáadása</h2>
-  <p id="profile-form-intro">A profil a te Google-fiókodhoz tartozik.</p>
-
-  <aside class="trust-notice">
-    <p><strong>A KRÉTA-jelszó átmegy az Üzenőfüzet szerverén.</strong> Nem mentjük el — de ha ezt nem tudod elfogadni, ne lépj tovább.</p>
-    <a href="/hogy-mukodik#jelszo">Mi történik pontosan?<ArrowMark /></a>
-  </aside>
+<section class="profile" id="child-profile" aria-labelledby="profile-form-title">
+  <h2 id="profile-form-title">A gyerek adatai</h2>
+  <p id="profile-form-intro">A profil a te Google-fiókodhoz tartozik. Jelszót itt nem kérünk.</p>
 
   <form id="profile-form" novalidate>
-    <input id="profile-id" type="hidden" />
-
-    <label class="field profile-detail" for="child-name">
-      <span class="field-label">A gyerek rendes neve</span>
-      <span class="field-help">A jelszókezelő ezt párosíthatja a KRÉTA-jelszóval; Claude-nak is ezen a néven hivatkozhatsz rá.</span>
-      <input id="child-name" name="childName" type="text" minlength="2" maxlength="80" autocomplete="username" required placeholder="pl. Lilla" />
+    <label class="field" for="child-name">
+      <span class="field-label">A gyerek neve</span>
+      <span class="field-help">Claude-nak ezen a néven hivatkozhatsz rá. Ennyi elég ahhoz, hogy a gyerek létrejöjjön.</span>
+      <input id="child-name" name="childName" type="text" minlength="2" maxlength="80" autocomplete="off" required placeholder="pl. Lilla" />
     </label>
 
-    <label class="field profile-detail" for="kreta-username">
-      <span class="field-label">KRÉTA-felhasználónév</span>
-      <span class="field-help">Az eKRÉTA belépési azonosítója. Csak a te profilodban tároljuk.</span>
-      <input id="kreta-username" name="kretaUsername" type="text" maxlength="120" autocomplete="off" autocapitalize="none" spellcheck="false" required />
-    </label>
-
-    <label class="field profile-detail" for="institute-code">
-      <span class="field-label">Intézmény</span>
-      <span class="field-help" id="institute-help">Írj be legalább 3 karaktert az iskola nevéből vagy kódjából, majd válassz a találatok közül. A kód kézzel is megadható.</span>
-      <input id="institute-code" name="instituteCode" type="text" maxlength="200" autocomplete="off" autocapitalize="none" spellcheck="false" list="institute-options" aria-describedby="institute-help institute-search-status" aria-busy="false" required placeholder="pl. Budenz vagy klik034802001" />
+    <label class="field" for="institute-code">
+      <span class="field-label">Iskola <em>nem kötelező</em></span>
+      <span class="field-help" id="institute-help">A KRÉTA-naplóhoz kell; a Classroomhoz nem. Írj be legalább 3 karaktert az iskola nevéből vagy kódjából, majd válassz a találatok közül. A kód kézzel is megadható.</span>
+      <input id="institute-code" name="instituteCode" type="text" maxlength="200" autocomplete="off" autocapitalize="none" spellcheck="false" list="institute-options" aria-describedby="institute-help institute-search-status" aria-busy="false" placeholder="pl. Budenz vagy klik034802001" />
     </label>
     <datalist id="institute-options"></datalist>
     <p class="institute-status" id="institute-search-status" role="status" aria-live="polite"></p>
 
-    <label class="field" for="kreta-password">
-      <span class="field-label">KRÉTA-jelszó</span>
-      <span class="field-help">A kapcsolat most készül el. A jelszó átmegy a szerveren, de nem mentjük el.</span>
-      <input id="kreta-password" name="password" type="password" maxlength="512" autocomplete="current-password" required />
-    </label>
-
-    <fieldset class="keep-alive" id="keep-alive">
-      <legend>Meddig maradjon online?</legend>
-      <p class="keep-alive-lead">Az online tartáshoz a forgó KRÉTA-tokent titkosítva tároljuk, és legfeljebb 25 percenként megújítjuk (kicsit szórva, hogy ne egyszerre fusson minden kapcsolat). A jelszót nem tároljuk.</p>
-      <label><input type="radio" name="keepAliveWindow" value="trial" checked /><span><strong>30 perces próba</strong>Nem tartjuk online; 30 perc múlva Offline lesz.</span></label>
-      <label><input type="radio" name="keepAliveWindow" value="7" /><span><strong>1 hét</strong></span></label>
-      <label><input type="radio" name="keepAliveWindow" value="14" /><span><strong>2 hét</strong></span></label>
-      <label><input type="radio" name="keepAliveWindow" value="30" /><span><strong>1 hónap</strong></span></label>
-      <label><input type="radio" name="keepAliveWindow" value="none" /><span><strong>Határidő nélkül</strong>Amíg le nem állítod a kapcsolatot.</span></label>
-      <p class="keep-alive-note" id="keep-alive-note" role="status"></p>
-    </fieldset>
-
     <div class="form-actions">
-      <button class="save-profile" type="submit">Mentés és kapcsolás</button>
+      <button class="save-profile" id="save-profile" type="submit">Gyerek mentése</button>
       <button class="cancel-profile" id="cancel-profile" type="button">Mégse</button>
     </div>
   </form>
 </section>
 
 <style>
-  .editor { padding-top: .2rem; }
+  .profile { padding: 1.1rem 0 1.4rem; }
   h2 { margin: 0; color: var(--blue); font-size: .95rem; letter-spacing: -.025em; }
   #profile-form-intro { max-width: 44rem; margin: .35rem 0 .5rem; color: var(--ink-muted); font-size: .8rem; line-height: 1.55; }
 
-  /* A bizalmi határ a mezők előtt áll, nem alattuk. Négyzetes, 2px-es kobalt
-     keret — a rendszer „fontos kút” jelölése, nem lebegő kártya. */
-  .trust-notice {
-    max-width: 46rem;
-    margin: 1rem 0 .25rem;
-    padding: 1rem 1.15rem;
-    border: 2px solid var(--blue);
-    background: var(--paper-bright);
-  }
-  .trust-notice p { margin: 0; color: var(--ink); font-size: .85rem; line-height: 1.6; }
-  .trust-notice strong { color: var(--blue); }
-  .trust-notice a {
-    display: inline-flex;
-    min-height: 44px;
-    align-items: center;
-    gap: .5rem;
-    margin-top: .35rem;
-    color: var(--blue-strong);
-    font-size: .85rem;
-    font-weight: 800;
-    text-underline-offset: .35rem;
-  }
-
-  /* Ugyanaz a kétoszlopos rács, mint a fül nézetsoraiban: bal oldalt a
+  /* Ugyanaz a kétoszlopos rács, mint a fülek nézetsoraiban: bal oldalt a
      megnevezés, jobb oldalt az érték — csak most szerkeszthető. */
   .field {
     display: grid;
@@ -102,6 +49,7 @@ import ArrowMark from "../ArrowMark.astro";
   }
 
   .field-label { grid-column: 1; align-self: start; }
+  .field-label em { color: var(--ink-muted); font-size: .74rem; font-style: normal; font-weight: 500; }
   .field-help { grid-column: 1; margin-top: .3rem; color: var(--ink-muted); font-size: .74rem; font-weight: 450; line-height: 1.5; }
   .field input { grid-column: 2; grid-row: 1 / span 2; align-self: start; }
 
@@ -116,40 +64,14 @@ import ArrowMark from "../ArrowMark.astro";
     caret-color: var(--blue);
   }
 
-  #profile-form[data-mode="connect"] .profile-detail,
-  #profile-form[data-mode="connect"] .institute-status { display: none; }
-
   .institute-status { max-width: 46rem; min-height: 1.2rem; margin: .5rem 0 0; color: var(--ink-muted); font-size: .78rem; line-height: 1.5; }
   .institute-status[data-kind="error"] { color: #a62f22; }
 
-  .keep-alive { max-width: 46rem; margin: 1.25rem 0 0; padding: .25rem 1.1rem 1rem; border: 1px solid var(--blue-soft); }
-  legend { padding: 0 .45rem; color: var(--blue); font-size: .8rem; font-weight: 800; }
-  .keep-alive-lead { margin: .6rem 0 .9rem; color: var(--ink-muted); font-size: .78rem; line-height: 1.55; }
-
-  .keep-alive label {
-    display: grid;
-    grid-template-columns: 1.1rem minmax(0, 1fr);
-    gap: .75rem;
-    align-items: start;
-    max-width: none;
-    padding: .55rem 0;
-    border: 0;
-    font-size: .82rem;
-  }
-
-  .keep-alive label + label { border-top: 1px solid var(--blue-soft); }
-  .keep-alive input { width: 1.1rem; height: 1.1rem; margin: .1rem 0 0; accent-color: var(--blue-strong); }
-  .keep-alive label > span { margin: 0; color: var(--ink); font-weight: 800; }
-  .keep-alive label span strong { display: block; font-size: .82rem; }
-  .keep-alive label span { color: var(--ink-muted); font-size: .76rem; font-weight: 450; line-height: 1.45; }
-  .keep-alive label span strong { color: var(--ink); }
-  .keep-alive-note { min-height: 1.2rem; margin: .8rem 0 0; color: var(--blue); font-size: .76rem; font-weight: 700; line-height: 1.45; }
-
-  .form-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem; margin-top: 1.4rem; }
+  .form-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem; margin-top: 1.1rem; }
 
   .save-profile {
-    min-height: 3.3rem;
-    padding: .8rem 1.5rem;
+    min-height: 3.1rem;
+    padding: .7rem 1.4rem;
     border: 2px solid var(--blue-strong);
     border-radius: 0;
     color: white;
@@ -163,8 +85,8 @@ import ArrowMark from "../ArrowMark.astro";
   .save-profile:disabled { cursor: wait; opacity: .6; }
 
   .cancel-profile {
-    min-height: 3.3rem;
-    padding: .8rem 1rem;
+    min-height: 3.1rem;
+    padding: .7rem 1rem;
     border: 0;
     color: var(--blue);
     background: transparent;

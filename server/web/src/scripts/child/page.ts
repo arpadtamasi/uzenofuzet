@@ -1,6 +1,9 @@
-/** A gyerek saját oldala: adatok, kapcsolatok, szerkesztés, veszélyzóna. */
+/** A gyerek saját oldala: fent a név és az iskola, alatta a két csatlakozó
+ *  saját fülön, legalul a veszélyzóna. Ugyanez az oldal fogadja az új gyereket:
+ *  a névvel már létrejön, a kapcsolatok utána következnek. */
 import { onAuthStateChanged, signInWithPopup, type User } from "firebase/auth";
 import {
+  connectKreta,
   deleteProfile,
   disconnectClassroom,
   establishSession,
@@ -20,7 +23,7 @@ import {
 } from "../dashboard/profiles";
 import { choiceFor, describeChoice, isChoice, keepAlivePayload, type KeepAliveChoice } from "./keepAlive";
 
-type EditorMode = "new" | "edit" | "connect";
+type Connector = "kreta" | "classroom";
 
 export function startChildPage(): void {
   const loading = document.querySelector<HTMLElement>("#child-loading")!;
@@ -29,8 +32,6 @@ export function startChildPage(): void {
   const back = document.querySelector<HTMLAnchorElement>("#child-back")!;
   const status = document.querySelector<HTMLElement>("#child-status")!;
   const details = document.querySelector<HTMLElement>("#child-details")!;
-  const username = document.querySelector<HTMLElement>("#child-username")!;
-  const institute = document.querySelector<HTMLElement>("#child-institute")!;
   const kretaState = document.querySelector<HTMLElement>("#tab-kreta-state")!;
   const kretaDetailText = document.querySelector<HTMLElement>("#child-kreta-detail")!;
   const classroomState = document.querySelector<HTMLElement>("#tab-classroom-state")!;
@@ -44,31 +45,26 @@ export function startChildPage(): void {
   const sessionIssue = document.querySelector<HTMLElement>("#child-session-issue")!;
   const sessionFix = document.querySelector<HTMLButtonElement>("#child-session-fix")!;
   const tabs = [...document.querySelectorAll<HTMLButtonElement>(".tabs .tab")];
-  const kretaConnect = document.querySelector<HTMLButtonElement>("#child-kreta-connect")!;
   const classroomConnect = document.querySelector<HTMLButtonElement>("#child-classroom-connect")!;
-  const editButton = document.querySelector<HTMLButtonElement>("#child-edit")!;
   const dangerKreta = document.querySelector<HTMLElement>("#danger-kreta")!;
   const dangerClassroom = document.querySelector<HTMLElement>("#danger-classroom")!;
   const dangerDelete = document.querySelector<HTMLElement>("#danger-delete")!;
   const adminHelp = document.querySelector<HTMLDetailsElement>("#classroom-admin-help")!;
 
-  const editor = document.querySelector<HTMLElement>("#child-editor")!;
-  const kretaView = document.querySelector<HTMLElement>("#kreta-view")!;
-  const tabsRow = document.querySelector<HTMLElement>(".tabs")!;
+  const profileSection = document.querySelector<HTMLElement>("#child-profile")!;
   const form = document.querySelector<HTMLFormElement>("#profile-form")!;
-  const formTitle = document.querySelector<HTMLElement>("#profile-form-title")!;
-  const formIntro = document.querySelector<HTMLElement>("#profile-form-intro")!;
-  const idInput = document.querySelector<HTMLInputElement>("#profile-id")!;
   const nameInput = document.querySelector<HTMLInputElement>("#child-name")!;
-  const usernameInput = document.querySelector<HTMLInputElement>("#kreta-username")!;
   const instituteInput = document.querySelector<HTMLInputElement>("#institute-code")!;
+  const saveButton = document.querySelector<HTMLButtonElement>("#save-profile")!;
+  const cancelButton = document.querySelector<HTMLButtonElement>("#cancel-profile")!;
+
+  const kretaForm = document.querySelector<HTMLFormElement>("#kreta-form")!;
+  const usernameInput = document.querySelector<HTMLInputElement>("#kreta-username")!;
   const passwordInput = document.querySelector<HTMLInputElement>("#kreta-password")!;
   const keepAliveNote = document.querySelector<HTMLElement>("#keep-alive-note")!;
-  const cancelButton = document.querySelector<HTMLButtonElement>("#cancel-profile")!;
-  const submitButton = form.querySelector<HTMLButtonElement>(".save-profile")!;
+  const kretaConnect = document.querySelector<HTMLButtonElement>("#child-kreta-connect")!;
 
   const params = new URLSearchParams(location.search);
-  const profileId = params.get("id") ?? "";
   const candidateReturn = params.get("return_to") ?? "";
   const returnTo = candidateReturn.startsWith("/authorize?") && candidateReturn.length <= 12_000
     ? candidateReturn
@@ -78,36 +74,67 @@ export function startChildPage(): void {
   back.href = backHref;
 
   const instituteSearch = createInstituteSearch(() => auth.currentUser);
+  let profileId = params.get("id") ?? "";
   let profile: Profile | null = null;
+  let selected: Connector = "kreta";
 
-  /** A két csatlakozó külön fül; a Classroom nyílik meg, ha onnan jöttünk vissza. */
-  function selectTab(id: "kreta" | "classroom") {
+  function school(): string {
+    return instituteInput.value.trim();
+  }
+
+  function connectorOf(tab: HTMLButtonElement): Connector {
+    return tab.id === "tab-classroom" ? "classroom" : "kreta";
+  }
+
+  /** A két csatlakozó külön fül; a KRÉTA iskola nélkül zárt, és ezt ki is írja. */
+  function renderTabs() {
+    const kretaLocked = !school();
+    if (kretaLocked && selected === "kreta") selected = "classroom";
+
     for (const tab of tabs) {
-      const selected = tab.id === `tab-${id}`;
-      tab.setAttribute("aria-selected", String(selected));
-      tab.tabIndex = selected ? 0 : -1;
-      document.querySelector<HTMLElement>(`#${tab.getAttribute("aria-controls")}`)!.hidden = !selected;
+      const connector = connectorOf(tab);
+      const active = connector === selected;
+      tab.disabled = connector === "kreta" && kretaLocked;
+      tab.setAttribute("aria-selected", String(active));
+      tab.tabIndex = active ? 0 : -1;
+      document.querySelector<HTMLElement>(`#${tab.getAttribute("aria-controls")}`)!.hidden = !active;
     }
+
+    if (!profile) return;
+    const online = isOnline(profile);
+    const classroomConnected = isClassroomConnected(profile);
+    kretaState.textContent = kretaLocked ? "iskola kell" : online ? "Online" : "Offline";
+    kretaState.classList.toggle("online", online);
+    classroomState.textContent = classroomConnected ? "Kapcsolva" : "Nincs kapcsolva";
+    classroomState.classList.toggle("online", classroomConnected);
+  }
+
+  function selectTab(connector: Connector) {
+    selected = connector;
+    renderTabs();
   }
 
   for (const [index, tab] of tabs.entries()) {
-    tab.addEventListener("click", () => selectTab(tab.id === "tab-classroom" ? "classroom" : "kreta"));
+    tab.addEventListener("click", () => selectTab(connectorOf(tab)));
     tab.addEventListener("keydown", (event) => {
       const step = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
       if (!step) return;
       event.preventDefault();
       const next = tabs[(index + step + tabs.length) % tabs.length]!;
-      selectTab(next.id === "tab-classroom" ? "classroom" : "kreta");
+      if (next.disabled) return;
+      selectTab(connectorOf(next));
       next.focus();
     });
   }
 
   /** Az iskola tiltását megjegyezzük: enélkül a gomb úgy néz ki, mintha működne. */
-  const blockedKey = `uzenofuzet-classroom-blocked:${profileId}`;
+  function blockedKey(): string {
+    return `uzenofuzet-classroom-blocked:${profileId}`;
+  }
 
   function readBlocked(): boolean {
     try {
-      return localStorage.getItem(blockedKey) === "1";
+      return localStorage.getItem(blockedKey()) === "1";
     } catch {
       return false;
     }
@@ -115,8 +142,8 @@ export function startChildPage(): void {
 
   function writeBlocked(blocked: boolean) {
     try {
-      if (blocked) localStorage.setItem(blockedKey, "1");
-      else localStorage.removeItem(blockedKey);
+      if (blocked) localStorage.setItem(blockedKey(), "1");
+      else localStorage.removeItem(blockedKey());
     } catch {
       // A blokkolás emléke kényelmi funkció; privát módban elmarad.
     }
@@ -184,22 +211,25 @@ export function startChildPage(): void {
   }
 
   function keepAliveChoice(): KeepAliveChoice {
-    const checked = form.querySelector<HTMLInputElement>("input[name=keepAliveWindow]:checked");
+    const checked = kretaForm.querySelector<HTMLInputElement>("input[name=keepAliveWindow]:checked");
     return checked && isChoice(checked.value) ? checked.value : "trial";
   }
 
   function selectKeepAlive(choice: KeepAliveChoice) {
-    for (const input of form.querySelectorAll<HTMLInputElement>("input[name=keepAliveWindow]")) {
+    for (const input of kretaForm.querySelectorAll<HTMLInputElement>("input[name=keepAliveWindow]")) {
       input.checked = input.value === choice;
     }
     keepAliveNote.textContent = describeChoice(choice);
   }
 
-  form.addEventListener("change", (event) => {
+  kretaForm.addEventListener("change", (event) => {
     if ((event.target as HTMLInputElement).name === "keepAliveWindow") {
       keepAliveNote.textContent = describeChoice(keepAliveChoice());
     }
   });
+
+  // Az iskola beírása azonnal kinyitja a KRÉTA-fület: a szülő lássa, mit oldott fel.
+  instituteInput.addEventListener("input", renderTabs);
 
   /** A törzs csak akkor jelenik meg, ha már a helyes cím és tartalom van benne. */
   function reveal() {
@@ -207,80 +237,65 @@ export function startChildPage(): void {
     body.hidden = false;
   }
 
-  function openEditor(mode: EditorMode) {
-    if (mode === "new") {
-      title.textContent = "Gyerek hozzáadása";
-      document.title = "Gyerek hozzáadása – Üzenőfüzet";
-    }
-    reveal();
+  /** A mezők a mentett állapotot tükrözik; a jelszó soha nem marad a lapon. */
+  function fillForm() {
     instituteSearch.reset();
-    idInput.value = profile?.id ?? "";
     nameInput.value = profile?.childName ?? "";
-    usernameInput.value = profile?.kretaUsername ?? "";
     instituteInput.value = profile?.instituteCode ?? "";
+    usernameInput.value = profile?.kretaUsername ?? "";
     passwordInput.value = "";
     selectKeepAlive(choiceFor(profile ?? undefined));
-    form.dataset.mode = mode;
-    // Új gyereknél az oldal címe már kimondja, mi történik; ne ismételjük meg.
-    formTitle.hidden = mode === "new";
-    formTitle.textContent = mode === "connect" ? "Online kapcsolás" : "Profil és KRÉTA-belépés";
-    // A jelszó sorsát a mezők fölötti bizalmi keret mondja ki; itt csak az marad,
-    // ami módonként tényleg különbözik.
-    formIntro.textContent = mode === "connect" ? "" : "A profil a te Google-fiókodhoz tartozik.";
-    formIntro.hidden = mode === "connect";
-    submitButton.textContent = mode === "connect" ? "Online kapcsolás" : "Mentés és kapcsolás";
-    details.hidden = false;
-    selectTab("kreta");
-    // Új gyereknél még nincs mit fülekre bontani: csak az űrlap kell.
-    tabsRow.hidden = mode === "new";
-    kretaView.hidden = true;
-    editor.hidden = false;
-    (mode === "connect" ? passwordInput : nameInput).focus();
-  }
-
-  function closeEditor() {
-    editor.hidden = true;
-    kretaView.hidden = false;
-    tabsRow.hidden = false;
-    instituteSearch.reset();
-    form.reset();
-    delete form.dataset.mode;
-    if (profile) details.hidden = false;
   }
 
   function renderProfile() {
-    if (!profile) return;
-    const online = isOnline(profile);
-    const classroomConnected = isClassroomConnected(profile);
-    title.textContent = profile.childName;
-    document.title = `${profile.childName} – Üzenőfüzet`;
-    username.textContent = profile.kretaUsername;
-    institute.textContent = profile.instituteCode;
-    kretaState.textContent = online ? "Online" : "Offline";
-    kretaState.classList.toggle("online", online);
-    kretaDetailText.textContent = kretaDetail(profile);
-    classroomState.textContent = classroomConnected ? "Kapcsolva" : "Nincs kapcsolva";
-    classroomState.classList.toggle("online", classroomConnected);
-    classroomAccount.textContent = profile.classroom.email ?? "";
-    classroomFacts.hidden = !profile.classroom.email;
-    classroomDetailText.textContent = classroomDetail(profile);
-    kretaConnect.hidden = online;
+    const online = Boolean(profile && isOnline(profile));
+    const classroomConnected = Boolean(profile && isClassroomConnected(profile));
+
+    title.textContent = profile ? profile.childName : "Gyerek hozzáadása";
+    document.title = profile ? `${profile.childName} – Üzenőfüzet` : "Gyerek hozzáadása – Üzenőfüzet";
+    saveButton.textContent = profile ? "Adatok mentése" : "Gyerek mentése";
+    cancelButton.textContent = profile ? "Változtatások elvetése" : "Mégse";
+
+    profileSection.hidden = false;
+    // Amíg nincs mit kapcsolni, a fülek meg sem jelennek: nincs kiírt tiltás.
+    details.hidden = !profile;
+
+    kretaDetailText.textContent = profile ? kretaDetail(profile) : "";
+    kretaConnect.textContent = online ? "Újrakapcsolás" : "Kapcsolódás";
+    dangerKreta.hidden = !online;
+
+    classroomAccount.textContent = profile?.classroom.email ?? "";
+    classroomFacts.hidden = !profile?.classroom.email;
+    classroomDetailText.textContent = profile ? classroomDetail(profile) : "";
     classroomConnect.hidden = classroomConnected;
-    const blocked = !classroomConnected && readBlocked();
+    const blocked = Boolean(profile) && !classroomConnected && readBlocked();
     classroomBlocked.hidden = !blocked;
     classroomHint.hidden = classroomConnected || blocked;
     classroomConnect.textContent = blocked
       ? "Újra megpróbálom"
-      : profile.classroom.status === "expired"
+      : profile?.classroom.status === "expired"
         ? "Classroom újrakapcsolása"
         : "Classroom összekapcsolása";
-    dangerKreta.hidden = !online;
     dangerClassroom.hidden = !classroomConnected;
+
     for (const target of document.querySelectorAll<HTMLElement>("[data-child-name]")) {
-      target.textContent = profile.childName;
+      target.textContent = profile?.childName ?? "";
     }
+    renderTabs();
     reveal();
-    details.hidden = false;
+  }
+
+  /** A mentés válasza a lap új igazsága; új gyereknél a cím is megkapja az azonosítót. */
+  function adoptProfile(saved: Profile) {
+    profile = saved;
+    if (profileId !== saved.id) {
+      profileId = saved.id;
+      const url = new URL(location.href);
+      url.searchParams.set("id", saved.id);
+      history.replaceState(null, "", `${url.pathname}${url.search}`);
+    }
+    fillForm();
+    renderProfile();
   }
 
   async function load(user: User) {
@@ -288,12 +303,13 @@ export function startChildPage(): void {
     profile = profiles.find((candidate) => candidate.id === profileId) ?? null;
     if (!profile) {
       details.hidden = true;
-      editor.hidden = true;
+      profileSection.hidden = true;
       title.textContent = "Ismeretlen gyerek";
       reveal();
       setStatus("Ez a gyerekprofil már nem található. Térj vissza a listához.", "error");
       return;
     }
+    fillForm();
     renderProfile();
   }
 
@@ -368,9 +384,6 @@ export function startChildPage(): void {
     return `${current.childName} profilját a KRÉTA- és Classroom-kapcsolatával együtt töröltük.`;
   }, true);
 
-  editButton.addEventListener("click", () => openEditor("edit"));
-  kretaConnect.addEventListener("click", () => openEditor("connect"));
-
   classroomConnect.addEventListener("click", async () => {
     const current = profile;
     const user = auth.currentUser;
@@ -395,43 +408,76 @@ export function startChildPage(): void {
   });
 
   cancelButton.addEventListener("click", () => {
-    if (!profileId) {
+    if (!profile) {
       location.assign(backHref);
       return;
     }
-    closeEditor();
-    editButton.focus();
+    fillForm();
+    renderProfile();
+    setStatus("A változtatásokat elvetettük.");
+    nameInput.focus();
   });
 
+  // A név és az iskola mentése önmagában is teljes művelet: a gyerek ettől létezik.
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!form.reportValidity()) return;
     const user = auth.currentUser;
     if (!user) return;
-    submitButton.disabled = true;
-    setStatus("Profil mentése…");
+    const created = !profile;
+    const wasOnline = Boolean(profile && isOnline(profile));
+    saveButton.disabled = true;
+    setStatus("Mentés…");
     try {
-      await saveProfile(user, {
-        ...(idInput.value ? { id: idInput.value } : {}),
+      const saved = await saveProfile(user, {
+        ...(profileId ? { id: profileId } : {}),
         childName: nameInput.value,
-        kretaUsername: usernameInput.value,
-        instituteCode: instituteInput.value,
-        password: passwordInput.value,
-        ...keepAlivePayload(keepAliveChoice()),
+        instituteCode: school(),
       });
-      if (!profileId) {
-        sessionStorage.setItem("uzenofuzet-status", `${nameInput.value} profilját elmentettük.`);
-        location.assign(backHref);
-        return;
-      }
-      closeEditor();
-      await load(user);
-      setStatus("A gyerekprofilt elmentettük.", "success");
+      adoptProfile(saved);
+      // Az iskola cseréje eldobja a régi naplóhoz szóló belépést; ezt ki kell mondani.
+      const droppedConnection = wasOnline && !isOnline(saved);
+      setStatus(
+        created
+          ? `${saved.childName} profilját elmentettük. Most kapcsolhatod a KRÉTA-naplót vagy a Classroomot.`
+          : droppedConnection
+            ? "A gyerek adatait elmentettük. Az iskola megváltozott, ezért a KRÉTA-kapcsolat megszűnt: a jelszóval kapcsolhatod vissza."
+            : "A gyerek adatait elmentettük.",
+        "success",
+      );
       status.focus();
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "A profilt nem sikerült elmenteni.", "error");
     } finally {
-      submitButton.disabled = false;
+      saveButton.disabled = false;
+    }
+  });
+
+  // A KRÉTA-fül egyetlen művelete: belépés a naplóba a most beírt jelszóval.
+  kretaForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const user = auth.currentUser;
+    if (!profile || !user) return;
+    if (!form.reportValidity() || !kretaForm.reportValidity()) return;
+    kretaConnect.disabled = true;
+    setStatus("Kapcsolódás a KRÉTA-naplóhoz…");
+    try {
+      const saved = await connectKreta(user, {
+        id: profile.id,
+        childName: nameInput.value,
+        instituteCode: school(),
+        kretaUsername: usernameInput.value,
+        password: passwordInput.value,
+        ...keepAlivePayload(keepAliveChoice()),
+      });
+      passwordInput.value = "";
+      adoptProfile(saved);
+      setStatus(`${saved.childName} KRÉTA-kapcsolata Online.`, "success");
+      status.focus();
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : "A KRÉTA-kapcsolatot nem sikerült létrehozni.", "error");
+    } finally {
+      kretaConnect.disabled = false;
     }
   });
 
@@ -453,9 +499,11 @@ export function startChildPage(): void {
     };
     const outcome = outcomes[classroomResult] ?? outcomes.failed!;
     setStatus(outcome.message, outcome.kind);
-    selectTab("classroom");
     if (classroomResult === "blocked" || classroomResult === "connected") {
       writeBlocked(classroomResult === "blocked");
+    }
+    if (profile) {
+      selectTab("classroom");
       renderProfile();
     }
     if (classroomResult === "blocked") adminHelp.hidden = false;
@@ -472,8 +520,13 @@ export function startChildPage(): void {
     }
     await ensureSession(user);
     try {
-      if (profileId) await load(user);
-      else openEditor("new");
+      if (profileId) {
+        await load(user);
+      } else {
+        fillForm();
+        renderProfile();
+        nameInput.focus();
+      }
       showClassroomResult();
     } catch (error) {
       reveal();

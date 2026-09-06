@@ -15,7 +15,7 @@ import ClassroomAdminHelp from "../components/dashboard/ClassroomAdminHelp.astro
       <h2 id="flow-title">Mi történik<br />a háttérben?</h2>
     </div>
     <ol>
-      <li><span>01</span><div><h3>Hozzáadod és Online kapcsolod a gyereket</h3><p>A Google-fiókodhoz a gyerek rendes neve, KRÉTA-felhasználóneve és intézménykódja kerül. A megadott jelszóval a szerver egyszer belép a KRÉTA-ba, majd a jelszót eldobja.</p></div></li>
+      <li><span>01</span><div><h3>Hozzáadod és Online kapcsolod a gyereket</h3><p>A gyerek a nevével jön létre a Google-fiókodban. A KRÉTA-naplóhoz ezután megadod az iskolát és a KRÉTA-felhasználónevet is: a megadott jelszóval a szerver egyszer belép a KRÉTA-ba, majd a jelszót eldobja. A Classroomhoz jelszó nem kell.</p></div></li>
       <li><span>02</span><div><h3>Te választod ki az időtartamot</h3><p>Jelölés nélkül ez 30 perces próba. Ha kéred a frissen tartást, az Üzenőfüzet 25 percenként megújítja a kapcsolatot. Opcionális befejezési napot is adhatsz.</p></div></li>
       <li><span>03</span><div><h3>A forgó token titkosítva marad</h3><p>A KRÉTA access és refresh tokenje lejáró AES-256-GCM titkosítással kerül a privát profilodba. A szerver birtokolja a kulcsot: ez nyugalmi titkosítás, nem „zero knowledge”.</p></div></li>
       <li><span>04</span><div><h3>A Classroom külön, gyerekenként kapcsolódik</h3><p>A gyerek a Google saját oldalán választja ki az iskolai fiókját. A szülői Google-belépés csak a profilokat védi; nem helyettesíti a gyerek Classroom-engedélyét.</p></div></li>
