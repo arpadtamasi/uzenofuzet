@@ -3,7 +3,7 @@ import { onAuthStateChanged, signOut, type User } from "firebase/auth";
 import { clearSession, establishSession, fetchProfiles } from "./api";
 import { renderChildList } from "./childList";
 import { auth } from "./firebase";
-import { finishRedirectSignIn, reauthenticateWithGoogle, signInWithGoogle } from "./googleSignIn";
+import { describeSignInError, finishRedirectSignIn, reauthenticateWithGoogle, signInWithGoogle } from "./googleSignIn";
 import { claudeSummary, hasClaudeSource, type Profile } from "./profiles";
 
 export function startDashboard(): void {
@@ -185,8 +185,8 @@ export function startDashboard(): void {
   signInButton.addEventListener("click", () => {
     signInButton.disabled = true;
     setStatus("Google-belépés…");
-    signInWithGoogle().catch(() => {
-      setStatus("A Google-belépés nem sikerült vagy megszakadt.", "error");
+    signInWithGoogle().catch((error) => {
+      setStatus(describeSignInError(error), "error");
       signInButton.disabled = false;
     });
   });
@@ -216,9 +216,9 @@ export function startDashboard(): void {
       hideReturnAction();
       await loadProfiles(user);
       if (!returnTo) setStatus("A belépést megerősítettük.", "success");
-    } catch {
+    } catch (error) {
       showReturnAction();
-      setStatus("A Google-belépés megszakadt. A kapcsolódás folytatásához próbáld újra.", "error");
+      setStatus(describeSignInError(error), "error");
     } finally {
       reauthButton.disabled = false;
     }
@@ -226,8 +226,8 @@ export function startDashboard(): void {
 
   // Az átirányításos belépésből ide érkezik vissza a szülő: a hibát csak ez
   // a lezárás mondja meg, a belépett állapotot már az onAuthStateChanged hozza.
-  finishRedirectSignIn().catch(() => {
-    setStatus("A Google-belépés nem fejeződött be. Próbáld újra.", "error");
+  finishRedirectSignIn().catch((error) => {
+    setStatus(describeSignInError(error), "error");
   });
 
   onAuthStateChanged(auth, async (user) => {

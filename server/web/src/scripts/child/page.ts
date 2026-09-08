@@ -13,7 +13,7 @@ import {
   stopKretaConnection,
 } from "../dashboard/api";
 import { auth } from "../dashboard/firebase";
-import { finishRedirectSignIn, signInWithGoogle } from "../dashboard/googleSignIn";
+import { describeSignInError, finishRedirectSignIn, signInWithGoogle } from "../dashboard/googleSignIn";
 import { createInstituteSearch } from "../dashboard/institutes";
 import {
   classroomDetail,
@@ -200,8 +200,8 @@ export function startChildPage(): void {
       const user = auth.currentUser;
       if (user && await ensureSession(user)) setStatus("A Google-belépés megújítva. Indulhat a Classroom összekapcsolása.", "success");
       else setStatus("A Google-belépést nem sikerült megújítani. Próbáld újra, vagy lépj be újra a főoldalon.", "error");
-    } catch {
-      setStatus("A Google-belépés ablakát bezártad; nem változtattunk semmin.", "");
+    } catch (error) {
+      setStatus(describeSignInError(error), "");
     } finally {
       sessionFix.disabled = false;
     }
@@ -517,8 +517,8 @@ export function startChildPage(): void {
 
   // Az átirányításos belépés a saját lapjára hozza vissza a szülőt: a friss
   // belépést itt kell lezárni, különben a munkamenet megújítása nem történik meg.
-  finishRedirectSignIn().catch(() => {
-    setStatus("A Google-belépés nem fejeződött be. Próbáld újra.", "error");
+  finishRedirectSignIn().catch((error) => {
+    setStatus(describeSignInError(error), "error");
   });
 
   onAuthStateChanged(auth, async (user) => {
