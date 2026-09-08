@@ -134,11 +134,12 @@ regisztrál, és megnyitja a bejelentkező oldalt.
 ### Automatikus deploy GitHub Actionsből
 
 A `.github/workflows/deploy.yml` minden PR-en és `main`-re pusholásnál lefuttatja
-a `npm run typecheck`, `npm test`, `npm run build` hármast, és `main`-en ezután
-deployol: előbb Cloud Runra (env-flag nélkül, hogy a secretek és a
-`--max-instances=1` megmaradjanak), majd Firebase Hostingra a most épült
-`public/` könyvtárral. A Firestore-szabályok kézi deployok maradnak, hogy a
-deployer fióknak ne kelljen adatbázisjoga legyen.
+a repó gyökeréből a `npm run typecheck`, `npm test`, `npm run build` hármast —
+tehát a core, a szerver és az asztali csomag együtt —, és `main`-en ezután
+deployol: előbb Cloud Runra a gyökérből (env-flag nélkül, hogy a secretek és a
+`--max-instances=1` megmaradjanak), majd Firebase Hostingra a `server/`
+könyvtárból, a most épült `public/`-kal. A Firestore-szabályok kézi deployok
+maradnak, hogy a deployer fióknak ne kelljen adatbázisjoga legyen.
 
 A hitelesítés Workload Identity Federationnel megy, tárolt kulcs nélkül. Egyszeri
 beállítás a Google Cloud oldalán:

@@ -1,5 +1,5 @@
 import { defineConfig } from "astro/config";
-import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
 
 export default defineConfig({
   outDir: "./public",
@@ -13,15 +13,15 @@ export default defineConfig({
     inlineStylesheets: "never",
   },
   // The backend's Express tree also depends on the older CommonJS `cookie`
-  // package. Keep Astro's ESM copy explicit during prerendering.
+  // package. Keep Astro's ESM copy explicit during prerendering — resolved,
+  // not spelled out: a workspace install hoists the package to the repository
+  // root, so any hand-written path under `server/` points at nothing.
   vite: {
     // A produkciós CSP csak külső scriptet enged: ne inlineoljon apró chunkokat.
     build: { assetsInlineLimit: 0 },
     resolve: {
       alias: {
-        cookie: fileURLToPath(
-          new URL("./node_modules/astro/node_modules/cookie/dist/index.js", import.meta.url),
-        ),
+        cookie: createRequire(import.meta.url).resolve("cookie"),
       },
     },
   },
