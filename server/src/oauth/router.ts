@@ -49,6 +49,18 @@ function firstString(value: unknown): string | undefined {
   return undefined;
 }
 
+/**
+ * A jóváhagyó lap tartalombiztonsági szabálya. A `form-action` a Chrome-ban és
+ * a Safariban az űrlap küldése utáni átirányításra is vonatkozik: ha a kliens
+ * visszatérési címe nincs benne, a jóváhagyás után a böngésző némán a lapon
+ * marad — a kód viszont már elhasználódott, ezért az újrapróbálás "Már
+ * felhasznált kérés". Csak a már ellenőrzött redirect_uri origin-je kerül bele.
+ */
+function consentPolicy(redirectUri: string): string {
+  const { origin } = new URL(redirectUri);
+  return `default-src 'none'; style-src 'self'; form-action 'self' ${origin}; base-uri 'none'; frame-ancestors 'none'`;
+}
+
 function setupRedirect(returnTo: string): string {
   return `/?${new URLSearchParams({ return_to: returnTo }).toString()}#gyerekek`;
 }
@@ -201,7 +213,7 @@ export function createOAuthRouter(deps: OAuthRouterDeps): Router {
       };
       res
         .set("Cache-Control", "no-store")
-        .set("Content-Security-Policy", "default-src 'none'; style-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'")
+        .set("Content-Security-Policy", consentPolicy(redirectUri))
         .type("html")
         .send(renderConsentPage({
           clientName: client.n ?? "Claude",

@@ -17,6 +17,9 @@ const mainModule = read("../web/src/scripts/dashboard/main.ts");
 const childListModule = read("../web/src/scripts/dashboard/childList.ts");
 const serviceStatusModule = read("../web/src/scripts/dashboard/serviceStatus.ts");
 const astroConfig = read("../astro.config.mjs");
+const signInModule = read("../web/src/scripts/dashboard/googleSignIn.ts");
+const firebaseModule = read("../web/src/scripts/dashboard/firebase.ts");
+const hostingConfig = read("../firebase.json");
 
 test("the root page is one full-width workspace, with no decorative hero column", () => {
   assert.match(indexPage, /<ChildProfiles \/>/);
@@ -168,4 +171,31 @@ test("the client logic lives in modules, not in the profiles component", () => {
 
 test("component scripts stay external files, because production CSP forbids inline script", () => {
   assert.match(astroConfig, /build: \{ assetsInlineLimit: 0 \}/);
+});
+
+test("the parent arriving from Claude signs in on a phone, where a popup never opens", () => {
+  assert.match(signInModule, /iPhone\|iPad\|iPod\|Mobile/, "mobile goes straight to the redirect");
+  assert.match(signInModule, /window\.top === window\.self/, "an embedded page has no window to open");
+  assert.match(signInModule, /signInWithRedirect\(auth, provider\)/);
+  assert.match(signInModule, /reauthenticateWithRedirect\(user, provider\)/);
+  assert.match(signInModule, /auth\/popup-blocked/, "a refused popup still ends in a sign-in");
+  assert.match(mainModule, /finishRedirectSignIn\(\)/, "the returning page closes the sign-in");
+  assert.doesNotMatch(mainModule, /signInWithPopup|reauthenticateWithPopup/, "one shared way in");
+});
+
+test("nothing runs between the click and the Google window, or the browser drops it", () => {
+  const handler = mainModule.slice(
+    mainModule.indexOf('signInButton.addEventListener'),
+    mainModule.indexOf('signOutButton.addEventListener'),
+  );
+  assert.doesNotMatch(handler, /await/, "an await before the popup makes it an unrequested window");
+  assert.doesNotMatch(mainModule, /setPersistence/, "local persistence is already the default");
+  assert.match(handler, /signInWithGoogle\(\)\.catch/);
+});
+
+test("the redirect sign-in returns through our own domain, not firebaseapp.com", () => {
+  assert.match(firebaseModule, /authDomain: "uzenofuzet\.hu"/);
+  assert.match(hostingConfig, /"source": "\/__\/\*\*"/, "the Google sign-in handler needs its own CSP");
+  assert.match(hostingConfig, /frame-ancestors 'self'/, "our page embeds the same-origin auth iframe");
+  assert.match(hostingConfig, /frame-src 'self' https:\/\/accounts\.google\.com/);
 });

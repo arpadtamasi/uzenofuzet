@@ -1,0 +1,73 @@
+# A main ág deployja: előbb a tesztek, aztán a Cloud Run, végül a Hosting.
+# A hitelesítés Workload Identity Federationnel megy, tárolt kulcs nélkül; a
+# beállítás lépései a server/README.md deploy fejezetében vannak.
+#
+# Minden parancs a repó gyökeréből fut: a szerver a @uzenofuzet/core workspace
+# csomagtól függ, ezért a lockfile, a Dockerfile és a build kontextus is ott van.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      # A statikus oldal ugyanitt épül meg, amit a Hosting deploy kitesz.
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: web
+          path: server/public
+          retention-days: 1
+
+  deploy:
+    needs: checks
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      # A WIF-hez a futás saját OIDC tokenje kell.
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: web
+          path: server/public
+
+      - uses: google-github-actions/auth@v2
+        with:
+          project_id: uzenofuzet
+          workload_identity_provider: ${{ vars.WIF_PROVIDER }}
+          service_account: ${{ vars.DEPLOY_SERVICE_ACCOUNT }}
+      - uses: google-github-actions/setup-gcloud@v2
+
+      # Env-flag nélkül: a meglévő szolgáltatás beállításai (secretek,
+      # max-instances=1, futtató service account) így maradnak érintetlenül.
+      - name: Cloud Run
+        run: gcloud run deploy uzenofuzet --source . --region europe-west1 --project uzenofuzet --quiet
+
+      # A Hosting a fenti lépés után kap új revíziót a rewrite-ok mögé. A
+      # firebase.json és a .firebaserc a server/ könyvtárban van.
+      # A Firestore-szabályok szándékosan kézi deployok maradnak.
+      - name: Firebase Hosting
+        working-directory: server
+        run: npx --yes firebase-tools@14 deploy --project uzenofuzet --only hosting --non-interactive
