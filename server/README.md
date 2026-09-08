@@ -129,6 +129,68 @@ Ezután Claude-ban: Settings → Connectors → Add custom connector → a
 szolgáltatás URL-je. Claude felfedezi a `/.well-known/...` végpontokat, maga
 regisztrál, és megnyitja a bejelentkező oldalt.
 
+### Automatikus deploy GitHub Actionsből
+
+A `.github/workflows/deploy.yml` minden PR-en és `main`-re pusholásnál lefuttatja
+a `npm run typecheck`, `npm test`, `npm run build` hármast, és `main`-en ezután
+deployol: előbb Cloud Runra (env-flag nélkül, hogy a secretek és a
+`--max-instances=1` megmaradjanak), majd Firebase Hostingra a most épült
+`public/` könyvtárral. A Firestore-szabályok kézi deployok maradnak, hogy a
+deployer fióknak ne kelljen adatbázisjoga legyen.
+
+A hitelesítés Workload Identity Federationnel megy, tárolt kulcs nélkül. Egyszeri
+beállítás a Google Cloud oldalán:
+
+```bash
+PROJECT=uzenofuzet
+NUMBER=$(gcloud projects describe $PROJECT --format='value(projectNumber)')
+SA=github-deployer@$PROJECT.iam.gserviceaccount.com
+
+gcloud iam service-accounts create github-deployer --project $PROJECT \
+  --display-name "GitHub Actions deploy"
+
+for role in roles/run.admin roles/cloudbuild.builds.editor \
+            roles/artifactregistry.writer roles/storage.admin \
+            roles/firebasehosting.admin \
+            roles/serviceusage.serviceUsageConsumer; do
+  gcloud projects add-iam-policy-binding $PROJECT --member="serviceAccount:$SA" --role="$role"
+done
+
+# A Cloud Run futtató fiókja nevében indíthat revíziót.
+gcloud iam service-accounts add-iam-policy-binding \
+  uzenofuzet-runner@$PROJECT.iam.gserviceaccount.com --project $PROJECT \
+  --member="serviceAccount:$SA" --role=roles/iam.serviceAccountUser
+
+gcloud iam workload-identity-pools create github --project $PROJECT \
+  --location=global --display-name="GitHub"
+
+gcloud iam workload-identity-pools providers create-oidc github \
+  --project $PROJECT --location=global --workload-identity-pool=github \
+  --display-name="GitHub OIDC" \
+  --issuer-uri="https://token.actions.githubusercontent.com" \
+  --attribute-mapping="google.subject=assertion.sub,attribute.repository=assertion.repository" \
+  --attribute-condition="assertion.repository=='arpadtamasi/uzenofuzet'"
+
+# Csak ez az egy repó veheti fel a deployer fiók személyazonosságát.
+gcloud iam service-accounts add-iam-policy-binding $SA --project $PROJECT \
+  --role=roles/iam.workloadIdentityUser \
+  --member="principalSet://iam.googleapis.com/projects/$NUMBER/locations/global/workloadIdentityPools/github/attribute.repository/arpadtamasi/uzenofuzet"
+
+echo "projects/$NUMBER/locations/global/workloadIdentityPools/github/providers/github"
+```
+
+A repóban (Settings → Secrets and variables → Actions → Variables) két változó
+kell, titok egyik sem:
+
+- `WIF_PROVIDER` — a fenti `echo` által kiírt teljes provider-útvonal,
+- `DEPLOY_SERVICE_ACCOUNT` — `github-deployer@uzenofuzet.iam.gserviceaccount.com`.
+
+A deploy job a `production` environmentre hivatkozik: ha kézi jóváhagyást
+szeretnél élesítés előtt, a Settings → Environments alatt tegyél rá required
+reviewert. Az `--allow-unauthenticated` szándékosan nincs a parancsban — a
+szolgáltatás IAM-szabálya marad, ami volt, és a deployer fióknak nem kell
+jogosultságot állítania.
+
 ### Firebase Hosting, Google-belépés és gyerekprofilok
 
 Az Astro frontend statikusan a `public/` könyvtárba épül. A Firebase Hosting
