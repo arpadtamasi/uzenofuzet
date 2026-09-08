@@ -193,7 +193,7 @@ test("a lapsed Google session is raised where it blocks, with a way out", () => 
   );
   assert.match(pageModule, /async function ensureSession\(user: User\): Promise<boolean>/);
   assert.match(pageModule, /if \(!sessionReady && !await ensureSession\(user\)\)/, "retry before leaving for Google");
-  assert.match(pageModule, /signInWithPopup\(auth, provider\)/);
+  assert.match(pageModule, /await signInWithGoogle\(\) === "redirecting"/);
   assert.doesNotMatch(
     pageModule,
     /A Google-munkamenetet nem sikerült megújítani/,

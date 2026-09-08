@@ -1,16 +1,9 @@
 /** A műhely összekötése: belépés, gyereklista, Kezelés panel, szerkesztő. */
-import {
-  browserLocalPersistence,
-  onAuthStateChanged,
-  reauthenticateWithPopup,
-  setPersistence,
-  signInWithPopup,
-  signOut,
-  type User,
-} from "firebase/auth";
+import { onAuthStateChanged, signOut, type User } from "firebase/auth";
 import { clearSession, establishSession, fetchProfiles } from "./api";
 import { renderChildList } from "./childList";
-import { auth, provider } from "./firebase";
+import { auth } from "./firebase";
+import { finishRedirectSignIn, reauthenticateWithGoogle, signInWithGoogle } from "./googleSignIn";
 import { claudeSummary, hasClaudeSource, type Profile } from "./profiles";
 
 export function startDashboard(): void {
@@ -187,16 +180,15 @@ export function startDashboard(): void {
     }
   }
 
-  signInButton.addEventListener("click", async () => {
+  // A kattintás és a Google-belépés közé semmi nem kerülhet: egyetlen await is
+  // elég ahhoz, hogy a böngésző már ne felhasználói szándéknak lássa.
+  signInButton.addEventListener("click", () => {
     signInButton.disabled = true;
     setStatus("Google-belépés…");
-    try {
-      await setPersistence(auth, browserLocalPersistence);
-      await signInWithPopup(auth, provider);
-    } catch {
+    signInWithGoogle().catch(() => {
       setStatus("A Google-belépés nem sikerült vagy megszakadt.", "error");
       signInButton.disabled = false;
-    }
+    });
   });
 
   signOutButton.addEventListener("click", async () => {
@@ -218,7 +210,8 @@ export function startDashboard(): void {
     reauthButton.textContent = "Google-belépés megnyitása…";
     setStatus("A folytatáshoz erősítsd meg a Google-fiókodat…");
     try {
-      await reauthenticateWithPopup(user, provider);
+      // Átirányításnál a lap elmegy; a visszatérő oldal folytatja a kapcsolódást.
+      if (await reauthenticateWithGoogle(user) === "redirecting") return;
       await establishSession(user);
       hideReturnAction();
       await loadProfiles(user);
@@ -229,6 +222,12 @@ export function startDashboard(): void {
     } finally {
       reauthButton.disabled = false;
     }
+  });
+
+  // Az átirányításos belépésből ide érkezik vissza a szülő: a hibát csak ez
+  // a lezárás mondja meg, a belépett állapotot már az onAuthStateChanged hozza.
+  finishRedirectSignIn().catch(() => {
+    setStatus("A Google-belépés nem fejeződött be. Próbáld újra.", "error");
   });
 
   onAuthStateChanged(auth, async (user) => {

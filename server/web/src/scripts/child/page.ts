@@ -1,7 +1,7 @@
 /** A gyerek saját oldala: fent a név és az iskola, alatta a két csatlakozó
  *  saját fülön, legalul a veszélyzóna. Ugyanez az oldal fogadja az új gyereket:
  *  a névvel már létrejön, a kapcsolatok utána következnek. */
-import { onAuthStateChanged, signInWithPopup, type User } from "firebase/auth";
+import { onAuthStateChanged, type User } from "firebase/auth";
 import {
   connectKreta,
   deleteProfile,
@@ -12,7 +12,8 @@ import {
   startClassroomAuthorization,
   stopKretaConnection,
 } from "../dashboard/api";
-import { auth, provider } from "../dashboard/firebase";
+import { auth } from "../dashboard/firebase";
+import { finishRedirectSignIn, signInWithGoogle } from "../dashboard/googleSignIn";
 import { createInstituteSearch } from "../dashboard/institutes";
 import {
   classroomDetail,
@@ -194,7 +195,8 @@ export function startChildPage(): void {
   sessionFix.addEventListener("click", async () => {
     sessionFix.disabled = true;
     try {
-      await signInWithPopup(auth, provider);
+      // Mobilon átirányítással megy a belépés: a lap elmegy, és ide tér vissza.
+      if (await signInWithGoogle() === "redirecting") return;
       const user = auth.currentUser;
       if (user && await ensureSession(user)) setStatus("A Google-belépés megújítva. Indulhat a Classroom összekapcsolása.", "success");
       else setStatus("A Google-belépést nem sikerült megújítani. Próbáld újra, vagy lépj be újra a főoldalon.", "error");
@@ -512,6 +514,12 @@ export function startChildPage(): void {
     history.replaceState(null, "", `${clean.pathname}${clean.search}`);
     status.focus();
   }
+
+  // Az átirányításos belépés a saját lapjára hozza vissza a szülőt: a friss
+  // belépést itt kell lezárni, különben a munkamenet megújítása nem történik meg.
+  finishRedirectSignIn().catch(() => {
+    setStatus("A Google-belépés nem fejeződött be. Próbáld újra.", "error");
+  });
 
   onAuthStateChanged(auth, async (user) => {
     if (!user) {

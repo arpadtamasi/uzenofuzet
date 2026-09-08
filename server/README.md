@@ -149,6 +149,26 @@ backend Firebase Adminnal ellenőrzi. A Firestore kliensszabályok mindent
 tiltanak: a gyerekprofilokat, a titkosított kapcsolatokat és az üzenőfalat
 csak a Cloud Run szolgáltatás olvassa és írja.
 
+A belépés `authDomain`-je a saját domain (`uzenofuzet.hu`), nem a
+`uzenofuzet.firebaseapp.com`. Ez a telefonos kapcsolódás feltétele: a Claude a
+csatlakoztatást az appon belüli böngészőben nyitja meg, ahol felugró ablak nincs,
+ezért átirányítással lépünk be — a Safari pedig csak akkor adja vissza a belépés
+eredményét, ha a Google belépéskezelője ugyanarról az origin-ről jön. A kezelőt a
+Firebase Hosting a `/__/auth/*` útvonalon szolgálja ki, de két beállítás nélkül
+nem működik:
+
+- a Google Cloud console-ban a Firebase által létrehozott **Web client** OAuth
+  kliens engedélyezett átirányítási URI-jai közé fel kell venni a
+  `https://uzenofuzet.hu/__/auth/handler` címet (enélkül a Google
+  `redirect_uri_mismatch` hibát ad),
+- a Firebase Console Authentication → Settings → Authorized domains listáján
+  szerepelnie kell az `uzenofuzet.hu` domainnek.
+
+A `firebase.json` ezért a `/__/**` útvonalra külön, engedékenyebb CSP-t ad: a
+Google belépéskezelője beágyazott scripteket futtat, és a saját lapunk
+ugyanerről az origin-ről ágyazza be a belépési iframe-et, amit az oldal
+`frame-ancestors 'none'` szabálya megtiltana.
+
 A Classroomhoz ugyanebben a Google Cloud projektben engedélyezd a **Google
 Classroom API-t**, majd hozz létre egy **Web application** OAuth klienst. Az
 engedélyezett redirect URI pontosan
