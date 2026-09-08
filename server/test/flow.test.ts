@@ -393,6 +393,12 @@ test("/authorize identifies the parent with Google, then returns a code without 
   assert.match(consent, /Lilla/);
   assert.ok(!consent.includes("lilla-diak"));
 
+  // A Chrome és a Safari a form-action szabályt a küldés utáni átirányításra is
+  // alkalmazza: a kliens visszatérési címe nélkül a jóváhagyás a lapon ragadna,
+  // az egyszer használatos kód viszont már elveszne.
+  const policy = withSession.headers.get("content-security-policy") ?? "";
+  assert.match(policy, /form-action 'self' https:\/\/claude\.ai;/);
+
   const authorizationRequest = /name="authorization_request" value="([^"]+)"/.exec(consent)?.[1];
   assert.ok(authorizationRequest);
   const approved = await fetch(`${base}/authorize`, {
