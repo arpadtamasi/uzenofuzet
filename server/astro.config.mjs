@@ -1,6 +1,19 @@
 import { defineConfig } from "astro/config";
 import { createRequire } from "node:module";
 
+/**
+ * Az Astro saját, ESM `cookie` példánya. A backend Express-fája a régi,
+ * CommonJS változatot húzza be, és workspace-telepítésnél az npm bármelyiket a
+ * gyökérbe emelheti: ha az express-é kerül felülre, a puszta "cookie" feloldás
+ * azt adja, és az Astro előrenderelése "exports is not defined"-dal áll meg.
+ * Ezért nem kézzel írt útvonal és nem is a projekt feloldása dönt, hanem az
+ * Astro sajátja — onnan nézve mindig a hozzá tartozó példány jön.
+ */
+function astroCookie() {
+  const fromConfig = createRequire(import.meta.url);
+  return createRequire(fromConfig.resolve("astro/package.json")).resolve("cookie");
+}
+
 export default defineConfig({
   outDir: "./public",
   publicDir: "./web/public",
@@ -12,16 +25,12 @@ export default defineConfig({
     // files instead of Astro's small inline <style> blocks.
     inlineStylesheets: "never",
   },
-  // The backend's Express tree also depends on the older CommonJS `cookie`
-  // package. Keep Astro's ESM copy explicit during prerendering — resolved,
-  // not spelled out: a workspace install hoists the package to the repository
-  // root, so any hand-written path under `server/` points at nothing.
   vite: {
     // A produkciós CSP csak külső scriptet enged: ne inlineoljon apró chunkokat.
     build: { assetsInlineLimit: 0 },
     resolve: {
       alias: {
-        cookie: createRequire(import.meta.url).resolve("cookie"),
+        cookie: astroCookie(),
       },
     },
   },
