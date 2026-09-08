@@ -1,9 +1,9 @@
 import { Router, type Request } from "express";
 import { z } from "zod";
 import type { Config } from "../config.js";
-import { login, revokeRefreshToken, type LoginCredentials } from "../kreta/auth.js";
+import { login, revokeRefreshToken, type LoginCredentials } from "@uzenofuzet/core/kreta";
 import { LoginThrottle } from "./loginThrottle.js";
-import { KretaError, normalizeInstituteCode } from "../kreta/institute.js";
+import { KretaError, normalizeInstituteCode } from "@uzenofuzet/core/kreta";
 import type { VerifyIdToken, VerifiedUser } from "../auth/types.js";
 import { connectionIsOnline, createConnection, openConnectionCredential } from "./connection.js";
 import {

@@ -83,20 +83,21 @@ Ezt a szöveget ne lágyítsd.
 ## Deploy
 
 ```bash
-cd server
-npm install
-npm run keygen            # ezt tedd Secret Managerbe TOKEN_SEALING_KEY néven
+npm install                              # a repó gyökeréből
+npm run keygen -w uzenofuzet-server      # ezt tedd Secret Managerbe TOKEN_SEALING_KEY néven
 npm test
 npm run build
 ```
 
-Cloud Runra:
+Cloud Runra. **A parancsot a repó gyökeréből futtasd**: a szerver a
+`@uzenofuzet/core` workspace-csomagtól függ, ezért a `Dockerfile` és a build
+kontextus is a gyökérben van, nem itt.
 
 Meglévő szolgáltatás frissítése — env-flag nélkül, hogy a beállítások
 megmaradjanak:
 
 ```bash
-gcloud run deploy uzenofuzet --source . --region europe-west1
+gcloud run deploy uzenofuzet --source . --region europe-west1 --project uzenofuzet
 ```
 
 Első telepítéskor a teljes lista. **A `--set-env-vars` mindent felülír**, ezért
@@ -107,6 +108,7 @@ KRÉTA-hívások adatközponti IP-ről mennének, és a KRÉTA eldobja őket:
 gcloud run deploy uzenofuzet \
   --source . \
   --region europe-west1 \
+  --project uzenofuzet \
   --allow-unauthenticated \
   --max-instances=1 \
   --service-account uzenofuzet-runner@<project>.iam.gserviceaccount.com \
@@ -136,9 +138,8 @@ csak az API-, MCP- és OAuth-útvonalakat továbbítja a fenti Cloud Run
 szolgáltatáshoz; a többi útvonalat és a 404 oldalt statikusan szolgálja ki.
 
 ```bash
-cd server
-npm run build:web
-firebase deploy --project uzenofuzet --only firestore:rules,hosting
+npm run build:web -w uzenofuzet-server
+cd server && firebase deploy --project uzenofuzet --only firestore:rules,hosting
 ```
 
 A Google-belépéshez a Firebase Console Authentication → Sign-in method

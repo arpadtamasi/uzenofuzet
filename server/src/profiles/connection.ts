@@ -1,4 +1,4 @@
-import type { KretaTokens } from "../kreta/auth.js";
+import type { KretaTokens } from "@uzenofuzet/core/kreta";
 import type { Sealer } from "../seal.js";
 import type { ChildConnection, ConnectionMode } from "./store.js";
 
