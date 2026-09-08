@@ -1,12 +1,12 @@
 /**
- * Response shaping and argument validation for the hosted MCP tools.
+ * Response shaping and argument validation for the MCP tools.
  * Every tool response uses the same stable envelope.
  *
  * Every list answer is capped and reports whether it was truncated: a school
  * year of evaluations or timetable items would otherwise flood the model's
  * context with personal data nobody asked to see.
  */
-import { ToolError } from "./context.js";
+import { ToolError } from "./errors.js";
 
 export const MAX_ITEMS = 500;
 export const MAX_RANGE_DAYS = 120;

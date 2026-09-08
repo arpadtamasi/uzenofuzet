@@ -1,0 +1,33 @@
+{
+  "name": "@uzenofuzet/core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "KRÉTA client, institute search and read-only MCP tool table shared by the hosted service and the desktop extension.",
+  "type": "module",
+  "exports": {
+    "./kreta": "./dist/kreta/index.js",
+    "./institutes": "./dist/institutes/index.js",
+    "./mcp": "./dist/mcp/index.js",
+    "./brand": "./dist/brand.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "tsx --test test/*.test.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

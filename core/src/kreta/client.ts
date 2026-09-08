@@ -2,9 +2,9 @@
  * Read-only KRÉTA Student API client.
  *
  * One instance serves one child for one MCP request: it holds no password,
- * only the encrypted profile's opened token pair. Only relative, fixed API
- * paths are accepted — there is
- * no "call any URL" escape hatch, and no write verb anywhere in the class.
+ * only an opened access/refresh token pair. Only relative, fixed API paths
+ * are accepted — there is no "call any URL" escape hatch, and no write verb
+ * anywhere in the class.
  */
 import { MOBILE_API_KEY, MOBILE_USER_AGENT, HTTP_TIMEOUT_MS } from "./constants.js";
 import { KretaError } from "./institute.js";
@@ -16,6 +16,8 @@ export interface KretaClientOptions {
   accessToken?: string;
   accessExpiresAt?: number;
   allowRefresh?: boolean;
+  /** Shown when `allowRefresh` is false and the access token has expired. */
+  refreshDeniedMessage?: string;
   fetchImpl?: typeof fetch;
   /** Persists every newly minted access token and any rotated refresh token. */
   onRefresh?: (tokens: KretaTokens) => void | Promise<void>;
@@ -29,6 +31,7 @@ export class KretaClient {
   private readonly onRefresh: ((tokens: KretaTokens) => void | Promise<void>) | undefined;
   private readonly onBeforeRefresh: (() => void | Promise<void>) | undefined;
   private readonly allowRefresh: boolean;
+  private readonly refreshDeniedMessage: string;
   private refreshToken: string;
   private tokens: KretaTokens | null = null;
   private expiresAt = 0;
@@ -44,6 +47,8 @@ export class KretaClient {
     this.onRefresh = options.onRefresh;
     this.onBeforeRefresh = options.onBeforeRefresh;
     this.allowRefresh = options.allowRefresh ?? true;
+    this.refreshDeniedMessage =
+      options.refreshDeniedMessage ?? "A KRÉTA-kapcsolat lejárt. Csatlakoztasd újra a gyereket.";
     if (options.accessToken && options.accessExpiresAt) {
       this.tokens = {
         accessToken: options.accessToken,
@@ -63,7 +68,7 @@ export class KretaClient {
   private async authenticate(force = false): Promise<void> {
     if (!force && this.tokens && Date.now() < this.expiresAt - 60_000) return;
     if (!this.allowRefresh) {
-      throw new KretaError("A 30 perces próbakapcsolat lejárt. Csatlakoztasd újra a gyereket a kapcsolati pulton.");
+      throw new KretaError(this.refreshDeniedMessage);
     }
     // Collapse concurrent tool calls onto one token request rather than
     // racing several refreshes for the same connection.
