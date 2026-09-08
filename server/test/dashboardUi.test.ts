@@ -77,6 +77,10 @@ test("the workspace header summarises how much Claude can reach", () => {
 test("the service indicator says the service works, not that data is available", () => {
   assert.match(serviceStatusModule, /A szolgáltatás működik/);
   assert.doesNotMatch(serviceStatusModule, /Elérhető/);
+  // Egy el sem ért kérés nem bizonyít leállást: rossz wifi és helyi dev szerver is ilyen.
+  assert.doesNotMatch(serviceStatusModule, /nem működik/, "csak a szolgáltatás saját hibája leállás");
+  assert.match(serviceStatusModule, /response\.status >= 500/);
+  assert.match(serviceStatusModule, /Az állapot most ismeretlen/);
 });
 
 test("the signed-out state pairs one sign-in control with a preview of the payoff", () => {
