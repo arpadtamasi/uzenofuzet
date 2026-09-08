@@ -228,10 +228,12 @@ nem működik:
 - a Firebase Console Authentication → Settings → Authorized domains listáján
   szerepelnie kell az `uzenofuzet.hu` domainnek.
 
-A `firebase.json` ezért a `/__/**` útvonalra külön, engedékenyebb CSP-t ad: a
-Google belépéskezelője beágyazott scripteket futtat, és a saját lapunk
-ugyanerről az origin-ről ágyazza be a belépési iframe-et, amit az oldal
-`frame-ancestors 'none'` szabálya megtiltana.
+A `/__/auth/*` lapokat a Firebase Hosting a saját, fenntartott névterében
+szolgálja ki: a `firebase.json` fejléc-szabályai nem érnek el odáig (a válaszon
+egyáltalán nincs `Content-Security-Policy`), ezért az oldal szigorú CSP-je nem
+is akadályozza a Google belépéskezelőjét. A saját lapjaink CSP-jében viszont
+kell a `frame-src 'self'`: a belépési iframe mostantól ugyanerről az origin-ről
+jön, nem a firebaseapp.com-ról.
 
 A Classroomhoz ugyanebben a Google Cloud projektben engedélyezd a **Google
 Classroom API-t**, majd hozz létre egy **Web application** OAuth klienst. Az

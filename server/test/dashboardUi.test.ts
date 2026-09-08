@@ -77,6 +77,10 @@ test("the workspace header summarises how much Claude can reach", () => {
 test("the service indicator says the service works, not that data is available", () => {
   assert.match(serviceStatusModule, /A szolgáltatás működik/);
   assert.doesNotMatch(serviceStatusModule, /Elérhető/);
+  // Egy el sem ért kérés nem bizonyít leállást: rossz wifi és helyi dev szerver is ilyen.
+  assert.doesNotMatch(serviceStatusModule, /nem működik/, "csak a szolgáltatás saját hibája leállás");
+  assert.match(serviceStatusModule, /response\.status >= 500/);
+  assert.match(serviceStatusModule, /Az állapot most ismeretlen/);
 });
 
 test("the signed-out state pairs one sign-in control with a preview of the payoff", () => {
@@ -195,7 +199,7 @@ test("nothing runs between the click and the Google window, or the browser drops
 
 test("the redirect sign-in returns through our own domain, not firebaseapp.com", () => {
   assert.match(firebaseModule, /authDomain: "uzenofuzet\.hu"/);
-  assert.match(hostingConfig, /"source": "\/__\/\*\*"/, "the Google sign-in handler needs its own CSP");
-  assert.match(hostingConfig, /frame-ancestors 'self'/, "our page embeds the same-origin auth iframe");
+  // A belépési iframe is innen jön már, nem a firebaseapp.com-ról.
   assert.match(hostingConfig, /frame-src 'self' https:\/\/accounts\.google\.com/);
+  assert.doesNotMatch(hostingConfig, /"source": "\/__\//, "a fenntartott névtérre a Hosting nem húz rá fejlécet");
 });
