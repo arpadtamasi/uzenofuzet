@@ -8,7 +8,7 @@ felhatalmazáson alapuló szoftveres hozzáférésről.
 | --- | --- |
 | [`AI-Orszag-sajat-oktatasi-adat.md`](AI-Orszag-sajat-oktatasi-adat.md) | a dokumentum forrása, ez a szerkesztendő változat |
 | `AI-Orszag-sajat-oktatasi-adat.docx` | a forrásból generált, beadható változat |
-| [`valaszok-a-review-ra.md`](valaszok-a-review-ra.md) | pontonkénti válasz a szakmai észrevételekre |
+| [`valaszok-a-review-ra.md`](valaszok-a-review-ra.md) | a 12 pontos bírálat pontonkénti feldolgozása: mit állít, megáll-e, mi volt az 1.0-ban, mi lett a 2.0-ban, mi maradt nyitva |
 | [`build-docx.cjs`](build-docx.cjs) | a Markdown→docx konverter |
 
 ## A .docx újragenerálása
