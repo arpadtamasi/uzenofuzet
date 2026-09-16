@@ -2,11 +2,15 @@
 
 ## Előterjesztés a meglévő oktatási adathozzáférés biztonságos és visszavonható delegálásáról
 
-**2.1 változat.** A 2.0-hoz képest a szöveg áthelyezi az érvelés súlypontját: nem adatnyitást javasol, hanem a ma is meglévő hozzáférés kontrollált delegálását. Új fejezet szól arról, mi történik az adattal a kiadás után, és arról, milyen adatkör vihető egyáltalán tovább külső szolgáltatóhoz. A pedagógusi rész szakpolitikai érvre épül, nem az MI-rendeletből levezetett jogi érvre. A hatásbecslés szűkebb pedagóguskörrel, két külön paraméterrel és példaszámításként szerepel, forintosítás nélkül, és a javaslat pilot-mérést ír elő.
+**2.2 változat.** A javaslat nem adatnyitást kér, hanem a ma is meglévő hozzáférés kontrollált delegálását, és a kiinduló problémát sem MI-integrációs hiányként írja le, hanem a mindennapi digitális élet széttöredezettségeként — a szülő és a pedagógus oldalán egyaránt. Külön fejezet szól arról, mi történik az adattal a kiadás után, és arról, milyen adatkör vihető egyáltalán tovább külső szolgáltatóhoz. A pedagógusi rész szakpolitikai érvre épül, nem az MI-rendeletből levezetett jogi érvre. A hatásbecslés szűkebb pedagóguskörrel, két külön paraméterrel és példaszámításként szerepel, forintosítás nélkül, és a javaslat pilot-mérést ír elő.
 
 ---
 
 ## Vezetői összefoglaló
+
+**A probléma nem az, hogy nincs elég iskolai alkalmazás. Az, hogy túl sok van — és egyik sem tud együttműködni azzal az eszközzel, amit a felhasználó már használ.** A szülőnek ma külön alkalmazása van a munkahelyéhez, a bankjához, a parkoláshoz, az egészségügyi időpontokhoz, a háztartási gépeihez; ezek mellé jön az iskolai, két gyerek esetén nem is egy. A pedagógusnak külön rendszerben van a napló, a kommunikáció, az órarend, a tananyag és az értékelés. Mindkettőjüknél ugyanaz történik: **az ember az integrációs réteg** a rendszerek között, ő hordja fejben az információt egyikből a másikba.
+
+**Nem még egy oktatási appra van szükség.** Arra van szükség, hogy a felhasználó a saját digitális eszközén keresztül használhassa azt az adatot, amihez amúgy is hozzáfér.
 
 **A jogosultsági kör nem bővül.** A szülő, a tanuló és a hallgató pontosan ugyanahhoz az adathoz fér hozzá, mint ma — csak nem kizárólag a hivatalos kliensen keresztül. Amit javaslunk, az nem az oktatási adatok megnyitása, hanem az, hogy a felhasználó a saját, már meglévő hozzáférését **biztonságosan, láthatóan és bármikor visszavonhatóan delegálhassa** az általa választott szoftvernek, a jelszava átadása nélkül.
 
@@ -35,19 +39,37 @@ Ezt a listát azért tesszük az előterjesztés elejére, mert az 1.0 változat
 
 ## 1. Mit javasolunk — és mit nem
 
-### 1.1 A hozzáférés ma is megvan, csak egyetlen csatornán
+### 1.1 A probléma nem az appok hiánya, hanem a széttöredezettség
+
+Az előterjesztést könnyű félreérteni úgy, hogy „hiányzik az MI-integráció az oktatásból”. A hiány valódi, de nem ez a probléma gyökere. A gyökér az, hogy a felhasználó digitális élete rendszerekre van szabdalva, és a rendszerek közti átjárást neki magának kell elvégeznie.
+
+**A szülő oldalán** ez így néz ki. Külön alkalmazás a munkahelyi levelezéshez, külön a bankhoz, a parkoláshoz, az egészségügyi időpontokhoz, a közműszámlákhoz, a háztartási gépekhez, a tévéhez, az okosotthonhoz. Ezek mellé jön az iskolai alkalmazás — és ha két gyerek van, akkor több fiók, több felület, több értesítés és több napi rutin. A szülő nem még egy alkalmazást akar használni. Azt szeretné, hogy a már használt eszközében feltehessen egy kérdést:
+
+> „Mi van ezen a héten a két gyerekkel? Mi a házi, mik a számonkérések, van-e valami, amire figyelnem kell?”
+
+**A pedagógus oldalán** ugyanez a probléma, más szerepben. A napló az egyik rendszerben van, a kommunikáció a másikban, az órarend a harmadikban, a tananyag és a beadandók egy tanulásszervezési rendszerben, emellett e-mail, megosztott dokumentumok és belső intézményi felületek. A pedagógus ugyanúgy az integrációs réteg: megnézi az egyikben, mit lát, és átviszi a másikba. Az ő kérdése ez volna:
+
+> „Kik maradtak le, kinek kell írnom, és mit kell ma adminisztrálnom?”
+
+**Miért nem a jobb KRÉTA-app a válasz.** Egy szebb, gyorsabb, okosabb hivatalos alkalmazás ezt nem oldja meg. Akármilyen jó, továbbra is **egy újabb felület**, amelyet meg kell nyitni, amelyben külön kell keresni, és amely nem tud mit kezdeni azzal, hogy a szülőnek két gyereke van két iskolában, vagy hogy a pedagógus a leveleit máshol olvassa. A „még egy app” logika minden újabb körrel súlyosbítja azt a problémát, amelyet enyhíteni akar.
+
+A cél tehát nem az, hogy legyen egy jobb KRÉTA-app, hanem hogy **a KRÉTA-adat ne legyen egyetlen felületbe bezárva**.
+
+**Az elv egy mondatban:** ne az ember legyen az integrációs réteg a rendszerek között.
+
+### 1.2 A hozzáférés ma is megvan, csak egyetlen csatornán
 
 A szülő ma belép a KRÉTA-ba, és látja a gyermeke jegyeit, hiányzásait, órarendjét, számonkéréseit. A tanuló ugyanezt a sajátjára. A hallgató a Neptunban a vizsgáit és határidőit. Ez a hozzáférés **létezik, jogszerű és megszokott**. Egyetlen korlátja van: kizárólag azon az alkalmazáson keresztül gyakorolható, amelyet az üzemeltető ad ki.
 
 Ez a korlát nem az adatvédelemből következik. Nem azért van, mert a szülő nem láthatná az adatot — hiszen látja. Azért van, mert a belépési rendszer nem teszi lehetővé, hogy harmadik fél szoftvere a felhasználó engedélyével kapcsolódjon.
 
-### 1.2 Ami nem változik: a jogosultsági kör
+### 1.3 Ami nem változik: a jogosultsági kör
 
 A javaslat **egyetlen adatmezőt sem tesz elérhetővé olyan személy számára, aki ma nem látja**. A delegált hozzáférés a felhasználó meglévő jogosultságára épül, és annál szűkebb is lehet, mert a felhasználó szűkítheti.
 
 Ezt azért hangsúlyozzuk, mert a javaslat leggyakoribb félreértése az, hogy „megnyitjuk a KRÉTA-t”. Nem nyitunk meg semmit. A KRÉTA ma is nyitva van — a jogosult felhasználó felé, egyetlen csatornán. A javaslat a csatornát teszi választhatóvá, és cserébe **láthatóvá és visszavonhatóvá** teszi azt, ami ma jelszóátadással, láthatatlanul történik.
 
-### 1.3 Ami valóban új: az adat további útja
+### 1.4 Ami valóban új: az adat további útja
 
 Ha a szülő a saját asszisztensével nézi meg a gyermeke jegyeit, akkor az adat elhagyja a KRÉTA-t, és egy másik rendszerbe kerül. Ez a különbség a mai állapothoz képest — nem a hozzáférés, hanem a **továbbhaladás**.
 
@@ -154,9 +176,11 @@ A köznevelésben és a szakképzésben főállásban foglalkoztatott pedagógus
 
 Rajtuk kívül érintettek a köznevelési és felsőoktatási intézmények mint adatkezelők és fenntartóik, a rendszerüzemeltetők (az eKRÉTA Zrt. és a tanulmányi rendszerek szállítói, köztük az SDA Informatika Zrt.), valamint a hazai fejlesztők.
 
-### 4.3 A szülői oldalon a hiány megkerülő megoldásokat szül
+### 4.3 A szülői oldalon a széttöredezettség megkerülő megoldásokat szül
 
-A szülő egy mondatban szeretné megkérdezni, mi vár a gyermekére a héten, melyik tantárgyból romlottak a jegyei, mikor kell igazolást beadni. Hivatalos út nélkül erre csak kockázatos módok vannak.
+A szülő napi valósága nem az, hogy hiányzik neki egy MI-asszisztens. Az, hogy túl sok felületet kell végigkattintania, és az iskolai a sokadik a sorban. Két gyerek esetén nem is egy: külön fiók, külön belépés, külön értesítési sor — az összefésülés pedig a szülő fejében történik.
+
+Amit szeretne, az egyetlen kérdés a már használt eszközében: mi vár a gyerekekre a héten, melyik tantárgyból romlottak a jegyek, mikor kell igazolást beadni. Hivatalos út nélkül erre csak kockázatos módok vannak.
 
 Konkrét példa az **Üzenőfüzet** nyílt forráskódú szolgáltatás, amelyet az előterjesztés készítője üzemeltet, és amely a szülők MI-asszisztensét köti össze a KRÉTA-val. Ehhez ma kénytelen:
 
@@ -170,9 +194,11 @@ A szülő a kiadott hozzáférést a KRÉTA-ban nem látja és ott nem tudja vis
 
 Figyeljük meg, hogy az utolsó pont már nem hozzáférési, hanem **felhasználási** kérdés. Ma ezt minden szolgáltató a saját tájékoztatójában, saját belátása szerint kezeli. A 8. fejezet erre ad szabályt.
 
-### 4.4 A tanári oldalon a hiány szabálytalan használatot szül
+### 4.4 A tanári oldalon a széttöredezettség szabálytalan használatot szül
 
-A pedagógusok adminisztratív terhe mérhető: az OECD TALIS 2024 felmérése szerint a magyar főállású pedagógusok heti **3,2 órát** fordítanak általános adminisztratív munkára (OECD-átlag: 3 óra), és ez az érték 2018 óta nem csökkent. A stressz leggyakoribb forrásaként a megkérdezettek **55%-a** a túl sok adminisztrációt jelölte meg.
+A pedagógus ugyanezt éli meg, más szerepben. A napló, a kommunikáció, az órarend, a tananyag, az értékelés, adott esetben egy tanulásszervezési rendszer, emellett e-mail, megosztott dokumentumok és belső intézményi felületek — mind külön. Az információ átvitele egyikből a másikba kézi munka, és éppen ez a kézi munka jelenik meg az adminisztrációs időben.
+
+A teher mérhető: az OECD TALIS 2024 felmérése szerint a magyar főállású pedagógusok heti **3,2 órát** fordítanak általános adminisztratív munkára (OECD-átlag: 3 óra), és ez az érték 2018 óta nem csökkent. A stressz leggyakoribb forrásaként a megkérdezettek **55%-a** a túl sok adminisztrációt jelölte meg.
 
 Hivatalos kapcsolódás hiányában a pedagógus egyetlen módon tud MI-t használni ehhez a munkához: a tanulói adatokat kézzel bemásolja a saját, magáncélú MI-fiókjába. Egy másolással egy vagy több osztály adatai mozognak, az iskola nevében kezelt adatokként, adatfeldolgozói szerződés nélkül. Az adatkezelő iskola ezt nem látja, nem tudja korlátozni, és semmilyen naplóban nem jelenik meg.
 
@@ -435,6 +461,8 @@ Ez a javaslat szakpolitikai magja, ezért nem jogi levezetéssel indokoljuk.
 
 **Az MI-jártasság nem képzési kérdés.** Tanfolyamon meg lehet tanulni, mi az a nyelvi modell. Azt, hogy egy konkrét kimenetben hol lehet megbízni és hol nem, csak a saját munkán lehet megtanulni. Egy pedagógus akkor tud az MI-vel szakmailag és kritikusan bánni, ha az a **tényleges munkafolyamataiban** jogszerűen használható. Amíg nem az, addig vagy nem használja, vagy szabálytalanul használja — és mindkét esetben megmarad kívülállónak azzal az eszközzel szemben, amelyről később szakmai döntéseket kellene hoznia.
 
+**Ne még egy felület legyen.** Ha az MI külön alkalmazásként érkezik, amelyet meg kell nyitni és amelybe kézzel kell bemásolni az adatot, akkor csak eggyel több rendszer lesz abban a sorban, amely már most is túl hosszú. Akkor lesz használható, ha **hozzáfér a pedagógus által amúgy is használt rendszerekhez**, és természetes nyelvű munkafelületet ad föléjük. Nem az embernek kell a rendszerekhez járnia; a rendszerek adata jön az emberhez.
+
 **Nem csak gyorsítás.** Az adminisztráció rövidítése a legkönnyebben mérhető haszon, de nem a legfontosabb. Egy tanulmányi rendszerhez kapcsolt, felügyelt MI segíthet:
 
 - **lemaradó tanulókat időben azonosítani** — a jegyek, hiányzások és határidők együttes mintázatából, mielőtt a probléma félévi bukássá érik;
@@ -458,7 +486,7 @@ Hogy az eszköz állami fejlesztésű, központilag beszerzett vagy fenntartói 
 
 ## 11. Mi lenne a várható haszon?
 
-**Szülők és gondviselők.** Rövid táv (2027–2028): jelszóátadás nélkül, a KRÉTA-ban látható és visszavonható módon kapcsolhatják a választott asszisztensüket a gyermekük iskolai adataihoz — és a döntés pillanatában megtudják, hová kerül az adat. Középtáv: a kevésbé gyakorlott digitális felhasználók és a nem magyar anyanyelvű családok is könnyebben követik gyermekük iskolai ügyeit; ez a 6.4 pont szerint feltételezés, amelyet a hatásmérésnek igazolnia kell.
+**Szülők és gondviselők.** Rövid táv (2027–2028): jelszóátadás nélkül, a KRÉTA-ban látható és visszavonható módon kapcsolhatják a választott asszisztensüket a gyermekük iskolai adataihoz — és a döntés pillanatában megtudják, hová kerül az adat. Nem kell újabb alkalmazást telepíteniük, és több gyerek esetén sem kell külön felületeket végigjárniuk: egy kérdés a már használt eszközükben mindkét gyerekre válaszol. Középtáv: a kevésbé gyakorlott digitális felhasználók és a nem magyar anyanyelvű családok is könnyebben követik gyermekük iskolai ügyeit; ez a 6.4 pont szerint feltételezés, amelyet a hatásmérésnek igazolnia kell.
 
 **Tanulók.** Rövid táv: a saját órarendjüket, feladataikat és határidőiket az általuk használt eszközökben kezelhetik. Középtáv: tanulástámogató alkalmazások építhetnek naprakész iskolai adatokra.
 

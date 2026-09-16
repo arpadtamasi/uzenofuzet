@@ -26,7 +26,7 @@ idézetblokkok, valamint a félkövér, dőlt és kódjelölés jön át.
 
 ## A dokumentum állapota
 
-A 2.1 változat a 12 pontos szakmai bírálat átvezetésével, majd egy második kör
+A 2.2 változat a 12 pontos szakmai bírálat átvezetésével, majd két további kör
 súlypont-áthelyezésével készült. A szövegben
 `[ELLENŐRIZENDŐ: …]` jelöli azt a néhány tényadatot, amelyet publikálás előtt
 elsődleges forrásból pótolni kell; a nyitott szakmai kérdéseket a dokumentum

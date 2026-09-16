@@ -2,7 +2,7 @@
 
 A 12 pontos bírálat pontonkénti feldolgozása. Minden pont ugyanazt az öt kérdést
 járja végig: mit állít a kifogás, megáll-e, mi volt az 1.0 szövegében, mi lett
-belőle, és mi maradt nyitva. A fejezethivatkozások a 2.1 változat számozását
+belőle, és mi maradt nyitva. A fejezethivatkozások a 2.2 változat számozását
 követik; a dokumentum végén külön szakasz szól a második körben kért
 súlypont-áthelyezésről.
 
@@ -696,3 +696,68 @@ nem adatnyitás → a meglévő hozzáférés kontrollált delegálása → ért
 tájékoztatás az adat további útjáról → külön szabály arra, mi vihető tovább →
 intézményileg megszervezhető pedagógusi MI-használat → pilotból mérhető tényleges
 hatás.
+
+
+---
+
+# Harmadik kör: a széttöredezettség mint kiindulópont (2.2 változat)
+
+A harmadik kör egyetlen dolgot kért: a probléma felvezetése ne „MI-integrációs
+hiány” legyen, hanem a mindennapi digitális élet széttöredezettsége, a szülő és a
+pedagógus oldalán egyaránt.
+
+**Miért erős ez az átkeretezés.** Az „MI-integrációs hiány” megfogalmazás
+technológiai igényt ír le, és ezért támadható azzal, hogy technológiai divatot
+kever a szabályozási szükséglettel — pontosan ez volt az eredeti bírálat 8. pontja.
+A széttöredezettség viszont nem divat, hanem a felhasználó napi tapasztalata, és
+független attól, milyen eszközt választ. Ugyanaz a javaslat, de olyan alapról,
+amelyet nehezebb elavultnak vagy trendkövetőnek nevezni.
+
+**Ami a szövegbe került.**
+
+A vezetői összefoglaló új első bekezdése a széttöredezettséggel indul, és kimondja,
+hogy mindkét szerepben ugyanaz történik: az ember az integrációs réteg a rendszerek
+között. Ezt követi a tömör állítás: nem még egy oktatási appra van szükség.
+
+Új 1.1 alfejezet fejti ki a keretet, a két oldalt egymás mellé téve. A szülőnél a
+felsorolás a valós élményt írja le: munkahely, bank, parkolás, egészségügy,
+közműszámlák, háztartási gépek, okosotthon — és ezek mellé jön az iskolai, két
+gyerek esetén nem is egy. A pedagógusnál ugyanez más rendszerekkel: napló,
+kommunikáció, órarend, tananyag, értékelés, tanulásszervezési rendszer, e-mail,
+dokumentumok, intézményi felületek.
+
+A két használati eset szó szerint egymás mellett áll:
+
+> Szülő: „Mi van ezen a héten a két gyerekkel? Mi a házi, mik a számonkérések,
+> van-e valami, amire figyelnem kell?”
+>
+> Pedagógus: „Kik maradtak le, kinek kell írnom, és mit kell ma adminisztrálnom?”
+
+**Az explicit szembeállítás.** Az 1.1 pontban külön bekezdés szól arról, miért nem
+a jobb KRÉTA-app a válasz: akármilyen jó, továbbra is egy újabb felület, amelyet
+meg kell nyitni, és amely nem tud mit kezdeni azzal, hogy a szülőnek két gyereke
+van két iskolában. A „még egy app” logika minden újabb körrel súlyosbítja azt a
+problémát, amelyet enyhíteni akar. A cél nem egy jobb KRÉTA-app, hanem hogy a
+KRÉTA-adat ne legyen egyetlen felületbe bezárva.
+
+**A problémafejezet felütése is átfordult.** A 4.3 és a 4.4 pont már nem a hiányzó
+integrációval kezd, hanem a széttöredezettséggel, és mindkét cím is ezt mondja. A
+tanári oldalon ez egy okozati mondattal zárul: az információ átvitele egyik
+rendszerből a másikba kézi munka, és éppen ez a kézi munka jelenik meg az
+adminisztrációs időben. A TALIS-adat így már nem önálló panasz, hanem a
+széttöredezettség mérhető következménye.
+
+**A pedagógusi célnál** új bekezdés mondja ki, hogy az MI ne még egy felület
+legyen. Ha külön alkalmazásként érkezik, amelybe kézzel kell bemásolni az adatot,
+akkor csak eggyel több rendszer lesz a sorban. Akkor lesz használható, ha
+hozzáfér a pedagógus által amúgy is használt rendszerekhez, és természetes nyelvű
+munkafelületet ad föléjük.
+
+**Amit ez a kör megerősít a korábbiakból.** A 2.1 alapállítása — nem adatnyitás,
+hanem a meglévő hozzáférés delegálása — és ez az átkeretezés ugyanabba az irányba
+mutat. Ha a probléma a széttöredezettség, akkor a megoldás nyilvánvalóan nem új
+adatkör megnyitása, hanem a meglévő adat elérhetővé tétele azon az eszközön,
+amelyet a felhasználó már használ. A két kör tehát nem két külön javítás, hanem
+ugyanannak az állításnak a két fele.
+
+**A vezérmondat:** ne az ember legyen az integrációs réteg a rendszerek között.
