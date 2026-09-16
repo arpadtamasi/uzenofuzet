@@ -608,16 +608,16 @@ fegyelmi, egészségügyi vagy más személyeket is érintő adat. Nem kell telj
 szabályozni, de a szabályozási réteget meg kell nevezni.
 
 **Mi történt.** A 8.3 pont három adatkört különböztet meg, mindegyikhez más
-alapszabállyal: alapadatkör (továbbítható a tájékoztatás után), fokozottan védett
-adatkör (a delegált csatornán külső szolgáltatóhoz nem továbbítható), és más
-személyt is érintő adat (csak szűkítve vagy sehogy).
+alapszabállyal: alapadatkör (továbbítható a tájékoztatás után), korlátozott
+továbbítású adatkör (a delegált csatornán külső szolgáltatóhoz nem továbbítható),
+és más személyt is érintő adat (csak szűkítve vagy sehogy).
 
-A legfontosabb mondat az, hogy a fokozottan védett adatkörnél a szabály **nem a
+A legfontosabb mondat az, hogy a korlátozott továbbítású adatkörnél a szabály **nem a
 szülő látási jogát korlátozza** — azt nem érinti. Azt korlátozza, hogy ez az adat
 a delegált csatornán automatikusan egy külső MI-szolgáltatóhoz kerüljön.
 
 A 8.4 pont pontosan megnevezi, mit vállal és mit nem: megnevezi a réteget, rögzíti
-az alapértelmezést (fokozottan védett = nem továbbítható, amíg külön szabály mást
+az alapértelmezést (korlátozott továbbítású = nem továbbítható, amíg külön szabály mást
 nem mond), megadja a helyét (kormányrendeleti funkciókatalógus, tehát a törvény
 nyitása nélkül felülvizsgálható), és előírja a tájékoztatást. Nem vállalja a
 mezőszintű besorolást, és nem szabályozza, mit tehet az MI-szolgáltató a kapott
@@ -634,12 +634,12 @@ integrált MI nem csak adminisztrációt gyorsít.
 érdemi indokolás nem jogi, hanem szakpolitikai. A 10.3 pont lett a javaslat
 szakpolitikai magja, négy állítással.
 
-Az MI-jártasság nem képzési kérdés. Tanfolyamon meg lehet tanulni, mi az a nyelvi
+Az MI-jártasság nem pusztán képzési kérdés. Tanfolyamon meg lehet tanulni, mi az a nyelvi
 modell; azt, hogy egy konkrét kimenetben hol lehet megbízni, csak a saját munkán.
 
-Nem csak gyorsítás: lemaradó tanulók időben azonosítása a jegyek, hiányzások és
-határidők együttes mintázatából, szülői kommunikáció előkészítése, időszaki
-összesítés, szöveges értékelés támogatása. Mindegyikben a rögzítés és a szakmai
+Nem csak gyorsítás: a lemaradásra utaló, amúgy is rendelkezésre álló jelek
+áttekintése egy helyen, szülői kommunikáció előkészítése, időszaki összesítés,
+szöveges értékelés támogatása. Mindegyikben a rögzítés és a szakmai
 döntés a pedagógusnál marad.
 
 És a záró érv, amely a 4.4 pontban is megjelenik: **a zárt rendszer nem az
@@ -761,3 +761,57 @@ amelyet a felhasználó már használ. A két kör tehát nem két külön javí
 ugyanannak az állításnak a két fele.
 
 **A vezérmondat:** ne az ember legyen az integrációs réteg a rendszerek között.
+
+
+---
+
+# Negyedik kör: polírozás (2.2 változat, második menet)
+
+Ez a kör már nem a koncepciót érintette. Hét ponton pontosított, és mindegyik a
+támadhatóságot csökkenti.
+
+**1. A kockázat megfogalmazása.** A „valódi új kockázat nem a hozzáférés, hanem a
+felhasználás” túl kategorikus volt, és egy adatvédelmi jogász jogosan piszkálta
+volna: a hozzáférés igenis új annyiban, hogy egy új szereplő, a szoftver is
+hozzáfér. A pontos megfogalmazás most így szól, a vezetői összefoglalóban és a
+8.1 pontban egyaránt: a felhasználó jogosultsága nem változik, az új kockázat
+abból fakad, hogy a felhatalmazott szoftver is hozzáfér az adathoz, majd azt
+tovább kezeli.
+
+**2. „Nem pusztán képzési kérdés.”** Egyetlen szó, de megszünteti azt az
+olvasatot, hogy a képzést fölöslegesnek tartjuk.
+
+**3. A lemaradás-jelzés.** A „lemaradó tanulókat időben azonosítani” fordulat
+átlógott a profilalkotás és az automatizált következtetés világába, amit ez az
+anyag nem akar megnyitni. Az új szöveg: áttekinteni a lemaradásra utaló, a
+pedagógus számára amúgy is rendelkezésre álló jeleket, ahelyett hogy három
+felületen kellene összenéznie őket. Ez integrációs állítás, nem kockázati
+pontozás.
+
+**4. Kontrollcsoport a pilotban.** Az „előtte-utána” összevetés önmagában gyenge
+mérés. A 6.2 pont és a normaszöveg IV. pontja is kiegészült azzal, hogy ahol
+lehetséges, hasonló feladatot végző kontrollcsoporttal összevetve kell mérni.
+
+**5. „Nem kell újabb alkalmazást telepíteniük.”** Ezt nem lehet garantálni: a
+választott asszisztens maga is lehet új alkalmazás. A helyes állítás az, hogy nem
+kell **még egy külön iskolai** alkalmazást használniuk.
+
+**6. Az üzemeltetői ráfordítás.** A korábbi mondat úgy hangzott, mintha a
+bevezetés néhány sprint volna. Az új szöveg elismeri, hogy a meglévő
+infrastruktúrára építhet, de új kliensregisztrációs, felhatalmazás-kezelési,
+dokumentációs, biztonsági és üzemeltetési képességeket igényel, néven nevezve a
+kérésszám-korlátozást, a visszaélés-felismerést, a felügyeletet, a tesztkörnyezet
+fenntartását és a fejlesztői támogatást. Mivel a költségoldal amúgy is nyitott
+kérdés, ez a mondat most konzisztens a 14. fejezettel.
+
+**7. „Korlátozott továbbítású adatkör.”** A „fokozottan védett adatkör” úgy
+hangzott, mint egy hatályos jogi terminus, holott a javaslat saját kategóriája. Az
+új név egyértelművé teszi, mire vonatkozik: a továbbításra, nem az adat jogi
+minősítésére. A 8.3 pont ezt kifejezetten ki is mondja, és megadja a hosszú alakot
+is: a delegált továbbítás szempontjából fokozott védelem alá sorolt adatkör.
+
+**Egy bekezdés a dokumentum élére.** A cím alá bekerült a rövid összefoglaló, amely
+a teljes javaslatot három mondatban adja vissza: ma minden rendszer külön felületet
+követel, ezért az ember hordja közöttük az információt; a javaslat azt teszi
+lehetővé, hogy a felhasználó a már meglévő jogosultságát biztonságosan átadhassa a
+saját eszközének, miközben pontosan látja és kontrollálja, mi történik az adatával.

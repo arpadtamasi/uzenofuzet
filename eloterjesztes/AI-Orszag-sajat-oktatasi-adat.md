@@ -4,6 +4,8 @@
 
 **2.2 változat.** A javaslat nem adatnyitást kér, hanem a ma is meglévő hozzáférés kontrollált delegálását, és a kiinduló problémát sem MI-integrációs hiányként írja le, hanem a mindennapi digitális élet széttöredezettségeként — a szülő és a pedagógus oldalán egyaránt. Külön fejezet szól arról, mi történik az adattal a kiadás után, és arról, milyen adatkör vihető egyáltalán tovább külső szolgáltatóhoz. A pedagógusi rész szakpolitikai érvre épül, nem az MI-rendeletből levezetett jogi érvre. A hatásbecslés szűkebb pedagóguskörrel, két külön paraméterrel és példaszámításként szerepel, forintosítás nélkül, és a javaslat pilot-mérést ír elő.
 
+> **Egy bekezdésben.** Ma minden rendszer külön felületet követel, ezért az ember hordja közöttük az információt. A javaslat azt teszi lehetővé, hogy a már meglévő jogosultságát a felhasználó biztonságosan átadhassa a saját eszközének, miközben pontosan látja és kontrollálja, mi történik az adatával.
+
 ---
 
 ## Vezetői összefoglaló
@@ -14,7 +16,7 @@
 
 **A jogosultsági kör nem bővül.** A szülő, a tanuló és a hallgató pontosan ugyanahhoz az adathoz fér hozzá, mint ma — csak nem kizárólag a hivatalos kliensen keresztül. Amit javaslunk, az nem az oktatási adatok megnyitása, hanem az, hogy a felhasználó a saját, már meglévő hozzáférését **biztonságosan, láthatóan és bármikor visszavonhatóan delegálhassa** az általa választott szoftvernek, a jelszava átadása nélkül.
 
-**A valódi új kockázat nem a hozzáférés, hanem a felhasználás.** Aki ma a KRÉTA-ban látja a gyermeke jegyeit, holnap is ugyanazokat fogja látni. Ami új, az az, hogy egy program is megkapja őket, és azokkal kezd valamit: továbbküldheti egy MI-szolgáltatónak, tárolhatja, esetleg az Unión kívülre viheti. A javaslat súlypontja ezért a felhasználás szabályozásán van, nem a hozzáférésén.
+**A felhasználó jogosultsága nem változik; az új kockázat abból fakad, hogy a felhatalmazott szoftver is hozzáfér az adathoz, majd azt tovább kezeli.** Aki ma a KRÉTA-ban látja a gyermeke jegyeit, holnap is ugyanazokat fogja látni. Ami új, az az, hogy rajta kívül egy program is megkapja őket, és azokkal kezd valamit: továbbküldheti egy MI-szolgáltatónak, tárolhatja, esetleg az Unión kívülre viheti. A javaslat súlypontja ezért a felhasználás szabályozásán van.
 
 Négy dolgot javaslunk:
 
@@ -268,7 +270,7 @@ A pilot néhány száz pedagógussal, több intézménytípusban, a következők
 
 1. **Mire megy ma az adminisztrációs idő**, folyamatonként bontva: napló, jegyrögzítés, szöveges értékelés, mulasztáskövetés, szülői kommunikáció, időszaki összesítés.
 2. **Mely folyamatok igényelnek tanulmányi rendszerből adatot** — ez adja az „érinthető arány” tényleges értékét.
-3. **Ugyanaz a folyamat mennyi idő integrált MI-vel** — ez adja az időnyereséget.
+3. **Ugyanaz a folyamat mennyi idő integrált MI-vel** — ahol lehetséges, hasonló feladatot végző kontrollcsoporttal összevetve. Ez adja az időnyereséget.
 4. **Mekkora az utóellenőrzési idő**: mennyit tölt a pedagógus az MI kimenetének átnézésével és javításával. E nélkül a nyereség túlbecsült.
 5. **Változik-e a hibaarány** a rögzített adatokban és a kimenő kommunikációban — javul, romlik vagy marad.
 
@@ -348,7 +350,7 @@ Egy böngészőben futó nyilvános kliens, egy mobilalkalmazás és egy szerver
 
 ### 8.1 Miért ez a valódi új kockázat
 
-A hozzáférés nem új: a szülő ma is látja a gyermeke jegyeit. Ami új, az az, hogy egy **program** is megkapja őket, és azokkal kezd valamit — jellemzően továbbküldi egy MI-szolgáltatónak.
+A felhasználó jogosultsága nem változik: a szülő ma is látja a gyermeke jegyeit, és ezután is ugyanazokat fogja látni. Az új kockázat abból fakad, hogy rajta kívül **a felhatalmazott szoftver is hozzáfér** ehhez az adathoz, majd azt tovább kezeli — jellemzően továbbküldi egy MI-szolgáltatónak.
 
 Ezen a ponton a szabályozásnak nem az a kérdése, hogy a szülő láthatja-e az adatot, hanem hogy **tudja-e, mi történik vele**. A hatályos gyakorlat erre nem ad választ: minden szolgáltató a saját adatkezelési tájékoztatójában, saját nyelvezetével, saját belátása szerint rendezi. A szülő pedig egy jelölőnégyzetet pipál ki.
 
@@ -395,10 +397,12 @@ A javaslat ezért **három adatkört** különböztet meg, és mindegyikhez más
 | Adatkör | Példa | Alapszabály |
 |---|---|---|
 | **Alapadatkör** | jegy, órarend, házi feladat, számonkérés, saját hiányzás | delegálható és továbbítható, ha a 8.2 szerinti tájékoztatás megtörtént |
-| **Fokozottan védett adatkör** | gyermekvédelmi jelzés, fegyelmi ügy irata, egészségügyi adat, sajátos nevelési igény, szociális támogatás | a delegált hozzáférés keretében **külső szolgáltatóhoz nem továbbítható**; a hivatalos felületen továbbra is látható |
+| **Korlátozott továbbítású adatkör** | gyermekvédelmi jelzés, fegyelmi ügy irata, egészségügyi adat, sajátos nevelési igény, szociális támogatás | a delegált hozzáférés keretében **külső szolgáltatóhoz nem továbbítható**; a hivatalos felületen továbbra is látható |
 | **Más személyt is érintő adat** | pedagógusi üzenetváltás, csoportot érintő bejegyzés | csak szűkítve, a harmadik személyre vonatkozó rész elhagyásával, vagy nem delegálható |
 
-A fokozottan védett adatkörnél a szabály **nem a szülő látási jogát korlátozza** — azt nem érinti. Azt korlátozza, hogy ez az adat a delegált csatornán automatikusan egy külső MI-szolgáltatóhoz kerüljön.
+**A „korlátozott továbbítású adatkör” ennek a javaslatnak a saját szabályozási kategóriája**, nem a hatályos adatvédelmi jog terminusa. Teljes alakja: a delegált továbbítás szempontjából fokozott védelem alá sorolt adatkör. A besorolás nem az adat jogi minősítését változtatja meg, hanem azt mondja meg, mi mehet ki a delegált csatornán.
+
+Ebből következik a legfontosabb pontosítás: a szabály **nem a szülő látási jogát korlátozza** — azt nem érinti. Azt korlátozza, hogy ez az adat a delegált csatornán automatikusan egy külső MI-szolgáltatóhoz kerüljön.
 
 ### 8.4 Mit szabályoz ez az előterjesztés, és mit hagy külön rétegre
 
@@ -407,7 +411,7 @@ Nem állítjuk, hogy ez az előterjesztés kimerítően rendezi, milyen oktatás
 Amit ez az előterjesztés vállal:
 
 - **megnevezi a réteget**: a felhasználás szabályozása külön kérdés a hozzáférésétől, és nem hagyható a szolgáltatók belátására;
-- **rögzíti az alapértelmezést**: a fokozottan védett adatkör nem továbbítható, amíg külön szabály mást nem mond;
+- **rögzíti az alapértelmezést**: a korlátozott továbbítású adatkör nem továbbítható, amíg külön szabály mást nem mond;
 - **megadja a helyét**: a besorolás a kormányrendelet funkciókatalógusába kerül, tehát felülvizsgálható anélkül, hogy a törvényt kellene nyitni;
 - **előírja a tájékoztatást**: bármi is a besorolás, a felhasználó a döntés pillanatában, érthetően megtudja, mi történik az adatával.
 
@@ -459,13 +463,13 @@ A dokumentáció legyen nyilvános, verziózott, tesztkörnyezettel. A nyilváno
 
 Ez a javaslat szakpolitikai magja, ezért nem jogi levezetéssel indokoljuk.
 
-**Az MI-jártasság nem képzési kérdés.** Tanfolyamon meg lehet tanulni, mi az a nyelvi modell. Azt, hogy egy konkrét kimenetben hol lehet megbízni és hol nem, csak a saját munkán lehet megtanulni. Egy pedagógus akkor tud az MI-vel szakmailag és kritikusan bánni, ha az a **tényleges munkafolyamataiban** jogszerűen használható. Amíg nem az, addig vagy nem használja, vagy szabálytalanul használja — és mindkét esetben megmarad kívülállónak azzal az eszközzel szemben, amelyről később szakmai döntéseket kellene hoznia.
+**Az MI-jártasság nem pusztán képzési kérdés.** Tanfolyamon meg lehet tanulni, mi az a nyelvi modell. Azt, hogy egy konkrét kimenetben hol lehet megbízni és hol nem, csak a saját munkán lehet megtanulni. Egy pedagógus akkor tud az MI-vel szakmailag és kritikusan bánni, ha az a **tényleges munkafolyamataiban** jogszerűen használható. Amíg nem az, addig vagy nem használja, vagy szabálytalanul használja — és mindkét esetben megmarad kívülállónak azzal az eszközzel szemben, amelyről később szakmai döntéseket kellene hoznia.
 
 **Ne még egy felület legyen.** Ha az MI külön alkalmazásként érkezik, amelyet meg kell nyitni és amelybe kézzel kell bemásolni az adatot, akkor csak eggyel több rendszer lesz abban a sorban, amely már most is túl hosszú. Akkor lesz használható, ha **hozzáfér a pedagógus által amúgy is használt rendszerekhez**, és természetes nyelvű munkafelületet ad föléjük. Nem az embernek kell a rendszerekhez járnia; a rendszerek adata jön az emberhez.
 
 **Nem csak gyorsítás.** Az adminisztráció rövidítése a legkönnyebben mérhető haszon, de nem a legfontosabb. Egy tanulmányi rendszerhez kapcsolt, felügyelt MI segíthet:
 
-- **lemaradó tanulókat időben azonosítani** — a jegyek, hiányzások és határidők együttes mintázatából, mielőtt a probléma félévi bukássá érik;
+- **áttekinteni a lemaradásra utaló, a pedagógus számára amúgy is rendelkezésre álló jeleket** — a jegyeket, hiányzásokat és határidőket együtt, ahelyett hogy három felületen kellene összenéznie őket;
 - **szülői kommunikációt előkészíteni** — tényszerű összefoglalót adni arról, mi történt egy tanulóval az elmúlt hetekben;
 - **időszaki összesítéseket készíteni** félévi és év végi zárásra;
 - **szöveges értékelést támogatni** — a megfogalmazás első változatával, amelyet a pedagógus felülír.
@@ -486,7 +490,7 @@ Hogy az eszköz állami fejlesztésű, központilag beszerzett vagy fenntartói 
 
 ## 11. Mi lenne a várható haszon?
 
-**Szülők és gondviselők.** Rövid táv (2027–2028): jelszóátadás nélkül, a KRÉTA-ban látható és visszavonható módon kapcsolhatják a választott asszisztensüket a gyermekük iskolai adataihoz — és a döntés pillanatában megtudják, hová kerül az adat. Nem kell újabb alkalmazást telepíteniük, és több gyerek esetén sem kell külön felületeket végigjárniuk: egy kérdés a már használt eszközükben mindkét gyerekre válaszol. Középtáv: a kevésbé gyakorlott digitális felhasználók és a nem magyar anyanyelvű családok is könnyebben követik gyermekük iskolai ügyeit; ez a 6.4 pont szerint feltételezés, amelyet a hatásmérésnek igazolnia kell.
+**Szülők és gondviselők.** Rövid táv (2027–2028): jelszóátadás nélkül, a KRÉTA-ban látható és visszavonható módon kapcsolhatják a választott asszisztensüket a gyermekük iskolai adataihoz — és a döntés pillanatában megtudják, hová kerül az adat. Nem kell még egy külön iskolai alkalmazást használniuk, és több gyerek esetén sem kell külön felületeket végigjárniuk: egy kérdés a már használt eszközükben mindkét gyerekre válaszol. Középtáv: a kevésbé gyakorlott digitális felhasználók és a nem magyar anyanyelvű családok is könnyebben követik gyermekük iskolai ügyeit; ez a 6.4 pont szerint feltételezés, amelyet a hatásmérésnek igazolnia kell.
 
 **Tanulók.** Rövid táv: a saját órarendjüket, feladataikat és határidőiket az általuk használt eszközökben kezelhetik. Középtáv: tanulástámogató alkalmazások építhetnek naprakész iskolai adatokra.
 
@@ -498,7 +502,7 @@ Hogy az eszköz állami fejlesztésű, központilag beszerzett vagy fenntartói 
 
 **Hazai fejlesztők.** Középtáv: stabil, dokumentált felületre építhetnek, és a tisztább adatkezelés a jóváhagyó képernyőn versenyelőnnyé válik. Hosszú táv (2030-tól): a megoldások a hasonló nemzetközi szabványok mentén exportálhatók.
 
-**Rendszerüzemeltetők és az állam.** Rövid táv: a meglévő felület és a már OAuth-alapú belépési rendszer miatt a bevezetés a kliensregisztráció megnyitásából, egy felhatalmazáskezelő felületből, a nyilvántartás felállításából és a dokumentáció közzétételéből áll. A megkerülő megoldások okozta nem tervezett forgalom szabályozott, azonosítható forgalommá válik, és az üzemeltető felelőssége a 9. fejezet szerint egyértelművé válik. Középtáv: a pilot és a nyilvános hatásmérés alapján az oktatási digitalizáció eredménye mérhető.
+**Rendszerüzemeltetők és az állam.** Rövid táv: a bevezetés a meglévő felületekre és a már OAuth-alapú hitelesítési infrastruktúrára építhet, de új kliensregisztrációs, felhatalmazás-kezelési, dokumentációs, biztonsági és üzemeltetési képességeket igényel — köztük a kérésszám-korlátozást, a visszaélés-felismerést, a felügyeletet, a tesztkörnyezet fenntartását és a fejlesztői támogatást. Ezek ráfordítását a 14. fejezet nyitott kérdésként kezeli. A megkerülő megoldások okozta nem tervezett forgalom szabályozott, azonosítható forgalommá válik, és az üzemeltető felelőssége a 9. fejezet szerint egyértelművé válik. Középtáv: a pilot és a nyilvános hatásmérés alapján az oktatási digitalizáció eredménye mérhető.
 
 ---
 
@@ -521,7 +525,7 @@ c) a hivatalos elektronikus felületen bármikor megtekinthető és visszavonhat
 
 (4) Ha a felhasználó jogosultsága olyan adatra is kiterjed, amely más természetes személy személyes adata, a felhatalmazás erre az adatkörre csak annyiban terjed ki, amennyiben a funkciókatalógus az adott funkciót erre kifejezetten feljogosítja.
 
-(5) A funkciókatalógusban fokozottan védettként megjelölt adatkör felhatalmazott szoftver részére nem adható át. E rendelkezés nem érinti a felhasználó jogát arra, hogy az adatot a hivatalos elektronikus felületen megismerje.
+(5) A funkciókatalógusban korlátozott továbbításúként megjelölt adatkör felhatalmazott szoftver részére nem adható át. E rendelkezés nem érinti a felhasználó jogát arra, hogy az adatot a hivatalos elektronikus felületen megismerje.
 
 **B) § — Tájékoztatás az adat további kezeléséről**
 
@@ -588,7 +592,7 @@ Az Nftv. adatkezelési rendelkezéseit az I. pont szerinti szöveggel azonos tar
 - *2. szint:* azonosított kiadó, aláírt szoftvernyilatkozat, bizalmas kliens aszimmetrikus kulcsú hitelesítéssel, birtokláshoz kötött hozzáférési token; műveletvégzés az érintett saját adatkörében, valamint pedagógusi és oktatói olvasás.
 - *3. szint:* a 2. szint feltételei, valamint érvényes adatfeldolgozói szerződés és intézményi engedélyezés; emelt biztonsági profil (FAPI 2.0 Security Profile) vagy azzal egyenértékű megoldás és kliensattesztáció; műveletvégzés intézményi feladatkörben.
 
-**Funkciókatalógus és adatkör-besorolás.** A rendelet melléklete tételesen felsorolja a delegált hozzáféréssel elérhető funkciókat, és funkciónként megadja a szükséges bizalmi szintet, valamint az adatkör besorolását: alapadatkör, fokozottan védett adatkör, vagy más személyt is érintő adat. Új hivatalos funkció bevezetésekor az üzemeltető kilencven napon belül besorolási javaslatot tesz; a katalógust a miniszter évente felülvizsgálja.
+**Funkciókatalógus és adatkör-besorolás.** A rendelet melléklete tételesen felsorolja a delegált hozzáféréssel elérhető funkciókat, és funkciónként megadja a szükséges bizalmi szintet, valamint az adatkör besorolását: alapadatkör, korlátozott továbbítású adatkör, vagy más személyt is érintő adat. Új hivatalos funkció bevezetésekor az üzemeltető kilencven napon belül besorolási javaslatot tesz; a katalógust a miniszter évente felülvizsgálja.
 
 **A továbbítási nyilatkozat és a jóváhagyó képernyő.** A kiadó a nyilvántartásba vételkor nyilatkozik az Nkt. B) § (1) bekezdése szerinti adatokról. A jóváhagyó képernyő a hivatalos felületen jelenik meg, köznyelven, a nyilvántartás adatai alapján, a szoftver által nem módosítható módon. A rendelet a kötelező tartalmi elemeket írja elő, nem a szövegezést.
 
@@ -606,6 +610,7 @@ Javasoljuk, hogy a kormányrendelet írjon elő pilot-mérést, amelynek eredmé
 
 - **Kör:** legalább néhány száz pedagógus, több intézménytípusból (általános iskola, gimnázium, szakképző intézmény) és több fenntartótól.
 - **Mit mér:** a 6.2 pontban felsorolt öt kérdést — az adminisztrációs idő folyamatonkénti megoszlását, a tanulmányi rendszerből adatot igénylő folyamatok arányát, az azonos folyamat időigényét integrált MI-vel, az utóellenőrzésre fordított időt, valamint a hibaarány változását.
+- **Hogyan mér:** ahol lehetséges, hasonló feladatot végző kontrollcsoporttal összevetve, hogy az eredmény ne pusztán az előtte-utána különbségén múljon.
 - **Eredménye:** nyilvános, és a funkciókatalógus, valamint a 2028. szeptemberi szakasz megalapozását szolgálja.
 - **Ha a pilot nem igazolja az időnyereséget**, a javaslat olvasási része akkor is indokolt marad: az az érintett saját adatához való hozzáférésről szól, nem a pedagógusi hatékonyságról.
 
@@ -635,7 +640,7 @@ Ezeket a kérdéseket a javaslat nem dönti el. Azért soroljuk fel, mert a szak
 1. **Ki vezesse a kliensnyilvántartást**, milyen eljárásrenddel, jogorvoslattal és finanszírozással? Az előterjesztés csak annyit rögzít, hogy a szervet a Kormány rendeletben jelöli ki.
 2. **A nagykorúsághoz közeledő tanuló** saját felhatalmazása és a szülői felhatalmazás viszonya; melyik életkortól illeti meg a tanulót önálló jog, és mit lát ilyenkor a szülő.
 3. **Az adatkörök tételes, mezőszintű besorolása** a funkciókatalógusban. A 8.3 pont megadja a három kategóriát és az alapértelmezést, de a besorolás elvégzése önálló, jelentős szakmai munka.
-4. **Mit tehet az MI-szolgáltató a kapott adattal a saját rendszerén belül?** A javaslat előírja, hogy erről tájékoztatni kell, és megtiltja a fokozottan védett adatkör továbbítását, de nem szabályozza a szolgáltató belső adatkezelését. Ez önálló szabályozási réteg.
+4. **Mit tehet az MI-szolgáltató a kapott adattal a saját rendszerén belül?** A javaslat előírja, hogy erről tájékoztatni kell, és megtiltja a korlátozott továbbítású adatkör továbbítását, de nem szabályozza a szolgáltató belső adatkezelését. Ez önálló szabályozási réteg.
 5. **A költségoldal.** Az üzemeltetői ráfordítás, a nyilvántartás működtetése, a pilot és az intézményi felkészítés költsége még nincs becsülve.
 6. **A továbbítási nyilatkozat ellenőrzése.** A javaslat szankcionálja a valótlan nyilatkozatot, de nem mondja meg, ki és hogyan ellenőrzi. Bejelentésre, mintavétellel vagy rendszeresen?
 7. **Statisztikai pontosítások.** Az átlagos osztálylétszám, a KRÉTA-alkalmazások megjelenési éve és a KRÉTA-tudásbázis hivatkozásának pontos adatai még pótlandók (a szövegben [ELLENŐRIZENDŐ] jelöléssel).
