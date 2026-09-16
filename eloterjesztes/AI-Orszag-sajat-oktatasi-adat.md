@@ -372,6 +372,8 @@ A javaslat ezért **három adatkört** különböztet meg, és mindegyikhez más
 | **Korlátozott továbbítású adatkör** | gyermekvédelmi jelzés, fegyelmi ügy irata, egészségügyi adat, sajátos nevelési igény, szociális támogatás | a delegált hozzáférés keretében **külső szolgáltatóhoz nem továbbítható**; a hivatalos felületen továbbra is látható |
 | **Más személyt is érintő adat** | pedagógusi üzenetváltás, csoportot érintő bejegyzés | csak szűkítve, a harmadik személyre vonatkozó rész elhagyásával, vagy nem delegálható |
 
+A szülői és tanulói olvasási funkciókra a besorolás első vázlata elkészült (külön melléklet): húsz valós KRÉTA-végpontból tizenhárom tiszta alapadatkör, a többi vegyes vagy korlátozott. A vázlat egyben azt is megmutatja, hogy **három esetben egyetlen válaszon belül több adatkör van**, tehát a rendeletnek mezőszintű besorolást kell lehetővé tennie.
+
 **A „korlátozott továbbítású adatkör” ennek a javaslatnak a saját szabályozási kategóriája**, nem a hatályos adatvédelmi jog terminusa. Teljes alakja: a delegált továbbítás szempontjából fokozott védelem alá sorolt adatkör. A besorolás nem az adat jogi minősítését változtatja meg, hanem azt mondja meg, mi mehet ki a delegált csatornán.
 
 Ebből következik a legfontosabb pontosítás: a szabály **nem a szülő látási jogát korlátozza** — azt nem érinti. Azt korlátozza, hogy ez az adat a delegált csatornán automatikusan egy külső MI-szolgáltatóhoz kerüljön.
@@ -606,7 +608,7 @@ Ezeket a kérdéseket a javaslat nem dönti el. Azért soroljuk fel, mert a szak
 
 1. **Ki vezesse a kliensnyilvántartást**, milyen eljárásrenddel, jogorvoslattal és finanszírozással? Az előterjesztés csak annyit rögzít, hogy a szervet a Kormány rendeletben jelöli ki.
 2. **A nagykorúsághoz közeledő tanuló** saját felhatalmazása és a szülői felhatalmazás viszonya; melyik életkortól illeti meg a tanulót önálló jog, és mit lát ilyenkor a szülő.
-3. **Az adatkörök tételes, mezőszintű besorolása** a funkciókatalógusban. A 8.3 pont megadja a három kategóriát és az alapértelmezést, de a besorolás elvégzése önálló, jelentős szakmai munka.
+3. **Az adatkörök tételes, mezőszintű besorolása** a funkciókatalógusban. A 8.3 pont megadja a három kategóriát és az alapértelmezést; a besorolás elvégzése önálló, jelentős szakmai munka. A szülői és tanulói **olvasási** funkciókra készült egy első vázlat (külön melléklet), amely húsz valós KRÉTA-végpontot sorol be, és hat nehéz esetet nevez meg. A műveleti és a pedagógusi funkciók besorolása még hátravan, és az üzemeltető funkciólistáját igényli.
 4. **Mit tehet az MI-szolgáltató a kapott adattal a saját rendszerén belül?** A javaslat előírja, hogy erről tájékoztatni kell, és megtiltja a korlátozott továbbítású adatkör továbbítását, de nem szabályozza a szolgáltató belső adatkezelését. Ez önálló szabályozási réteg.
 5. **A költségoldal.** Az üzemeltetői ráfordítás, a nyilvántartás működtetése, a pilot és az intézményi felkészítés költsége még nincs becsülve.
 6. **A továbbítási nyilatkozat ellenőrzése.** A javaslat szankcionálja a valótlan nyilatkozatot, de nem mondja meg, ki és hogyan ellenőrzi. Bejelentésre, mintavétellel vagy rendszeresen?
