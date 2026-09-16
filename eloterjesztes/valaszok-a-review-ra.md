@@ -815,3 +815,54 @@ a teljes javaslatot három mondatban adja vissza: ma minden rendszer külön fel
 követel, ezért az ember hordja közöttük az információt; a javaslat azt teszi
 lehetővé, hogy a felhasználó a már meglévő jogosultságát biztonságosan átadhassa a
 saját eszközének, miközben pontosan látja és kontrollálja, mi történik az adatával.
+
+---
+
+# Ötödik kör: jogi finomhangolás, rövidítés, döntéshozói verzió
+
+**Három jogilag túl kategorikus mondat.**
+
+Az 1.2 pontban a „ez a korlát nem az adatvédelemből következik” motivációt és jogi
+okságot állított, amit nem lehet bizonyítani. Helyette: a jogosult felhasználó
+hozzáférésének ténye önmagában nem indokolja a kizárólagosságot, a korlát oka
+technikai.
+
+A 3.5 pontból kikerült az a levezetés, hogy az MI-jártassági kötelezettségből
+jogszerű technikai csatorna szükségessége következik. A pont most egyetlen mondat:
+az MI-rendelet önmagában nem alapoz meg API-nyitási kötelezettséget, a pedagógusi
+oldal indoka szakpolitikai.
+
+A 9. fejezet felelősségi mondata volt a leggyengébb. Az „üzemeltető felelőssége a
+felületig terjed” cím jogilag pontatlanabb volt, mint alatta a normaszöveg. Az új
+cím: az üzemeltető felelőssége és a felhatalmazott szoftver önálló adatkezelői
+felelőssége elválik. A magyarázat és a normaszöveg egyaránt így szól: az
+üzemeltető nem felel a felhatalmazott szoftvernek szabályszerűen átadott adat ezt
+követő, önálló adatkezelőként végzett kezeléséért.
+
+**Rövidítés.** A szöveg saját verziótörténetét kivettük: egy beadandó
+előterjesztésnek nem dolga elmesélni, mit írt rosszul a korábbi vázlata — az a
+válaszjegyzék dolga. Emellett összevontuk az 1.2 és 1.3 pontot, tömörítettük a
+„Mit nem állítunk” listát, a 11. fejezetet táblázattá alakítottuk, és megszüntettük
+a két valódi duplikációt: a bizalmi szintek felsorolását a kormányrendeleti részben
+(most a 7.1-re hivatkozik) és a tájékoztatás nyolc tartalmi elemét a 8.2-ben (most
+a normaszövegre hivatkozik).
+
+Az eredmény nagyjából 5% rövidülés, nem a felvetett 20–25%. Ez vállalt: a maradék
+hossz nagyobb részt a normaszöveg, a bizalmi szintek, a jóváhagyó képernyő, a
+pilot és a hatásbecslés levezetése teszi ki, és ezekből nem lehet úgy húzni, hogy
+ne vesszen el az, amit az előző körök éppen hozzátettek. Az ismétlés, amely
+valóban kivehető volt, kikerült.
+
+**Döntéshozói összefoglaló.** A rövidítés helyett a valódi válasz egy külön,
+1–2 oldalas anyag: `donteshozoi-osszefoglalo.md`. Nyolc szakasza van: a javaslat
+egy bekezdésben, a probléma, a négy javaslati elem, az „amit kifejezetten nem
+javaslunk” lista, a példaszámítás a pilottal, az ütemezés, a **most eldöntendő
+négy kérdés**, és a vállalt hiányok az érdekütközéssel együtt.
+
+A hetedik szakasz a legfontosabb, mert ez hiányzott eddig mindenhonnan: mit kell
+most eldönteni. Elindul-e a jogalkotás; mely szerv vezeti a kliensnyilvántartást;
+ki végzi el az adatkörök tételes besorolását; ki finanszírozza a pilotot és az
+üzemeltetői ráfordítást.
+
+Ettől kezdve a hosszú anyag háttéranyag, és az összefoglaló az, ami a döntéshozó
+asztalára kerül.

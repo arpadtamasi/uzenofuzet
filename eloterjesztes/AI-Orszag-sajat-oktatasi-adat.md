@@ -2,15 +2,13 @@
 
 ## Előterjesztés a meglévő oktatási adathozzáférés biztonságos és visszavonható delegálásáról
 
-**2.2 változat.** A javaslat nem adatnyitást kér, hanem a ma is meglévő hozzáférés kontrollált delegálását, és a kiinduló problémát sem MI-integrációs hiányként írja le, hanem a mindennapi digitális élet széttöredezettségeként — a szülő és a pedagógus oldalán egyaránt. Külön fejezet szól arról, mi történik az adattal a kiadás után, és arról, milyen adatkör vihető egyáltalán tovább külső szolgáltatóhoz. A pedagógusi rész szakpolitikai érvre épül, nem az MI-rendeletből levezetett jogi érvre. A hatásbecslés szűkebb pedagóguskörrel, két külön paraméterrel és példaszámításként szerepel, forintosítás nélkül, és a javaslat pilot-mérést ír elő.
-
 > **Egy bekezdésben.** Ma minden rendszer külön felületet követel, ezért az ember hordja közöttük az információt. A javaslat azt teszi lehetővé, hogy a már meglévő jogosultságát a felhasználó biztonságosan átadhassa a saját eszközének, miközben pontosan látja és kontrollálja, mi történik az adatával.
 
 ---
 
 ## Vezetői összefoglaló
 
-**A probléma nem az, hogy nincs elég iskolai alkalmazás. Az, hogy túl sok van — és egyik sem tud együttműködni azzal az eszközzel, amit a felhasználó már használ.** A szülőnek ma külön alkalmazása van a munkahelyéhez, a bankjához, a parkoláshoz, az egészségügyi időpontokhoz, a háztartási gépeihez; ezek mellé jön az iskolai, két gyerek esetén nem is egy. A pedagógusnak külön rendszerben van a napló, a kommunikáció, az órarend, a tananyag és az értékelés. Mindkettőjüknél ugyanaz történik: **az ember az integrációs réteg** a rendszerek között, ő hordja fejben az információt egyikből a másikba.
+**A probléma nem az, hogy nincs elég iskolai alkalmazás. Az, hogy túl sok van — és egyik sem tud együttműködni azzal az eszközzel, amit a felhasználó már használ.** A szülőnél és a pedagógusnál egyaránt ugyanaz történik: **az ember az integrációs réteg** a rendszerek között, ő hordja fejben az információt egyikből a másikba (1.1).
 
 **Nem még egy oktatási appra van szükség.** Arra van szükség, hogy a felhasználó a saját digitális eszközén keresztül használhassa azt az adatot, amihez amúgy is hozzáfér.
 
@@ -27,14 +25,12 @@ Négy dolgot javaslunk:
 
 ### Mit nem állítunk
 
-Ezt a listát azért tesszük az előterjesztés elejére, mert az 1.0 változat ellenérveinek többsége nem a javaslatot, hanem a javaslat túlfogalmazását támadta.
+Ezt a listát azért tesszük az előterjesztés elejére, mert a javaslattal szembeni ellenérvek többsége nem magát a javaslatot, hanem annak túlfogalmazását szokta célozni.
 
-- **Nem javasoljuk a jogosultsági kör bővítését.** Senki nem lát többet, mint ma. A csatorna változik, nem a jogosultság.
-- **Nem állítjuk, hogy az érintettnek tulajdonjoga van a róla kezelt adatokon.** Az uniós adatvédelmi jog nem ismer adat-tulajdonjogot. A „saját oktatási adat” a címben köznyelvi fordulat, nem jogi minősítés.
-- **Nem állítjuk, hogy a javasolt jogosultság a hatályos jogból levezethető.** A GDPR 20. cikke szerinti adathordozhatóság a közérdekű feladat végrehajtásához szükséges adatkezelésre — így az oktatási nyilvántartásokra — a 20. cikk (3) bekezdése alapján nem alkalmazandó. A 15. cikk szerinti hozzáférési jog egyszeri másolatra szól, nem folyamatos gépi hozzáférésre. Amit javaslunk, **új ágazati jogosultság**. Ezt vállaljuk, nem álcázzuk meglévő jog technikai megvalósításának.
-- **Nem állítjuk, hogy az MI-rendelet vagy az adatrendelet kötelezné az üzemeltetőt felület nyitására.** Ezeket irányjelzőként hívjuk fel, nem jogalapként.
-- **Nem javasoljuk, hogy ellenőrzés nélkül regisztrált szoftver írási műveletet végezhessen az oktatási nyilvántartásban.**
-- **Nem javasoljuk, hogy a pedagógus saját elhatározásából szoftvernek engedhesse át a munkaköri jogosultságát.** A tanári oldalon a felhatalmazás az adatkezelő intézmény döntése.
+- **Nem javasoljuk a jogosultsági kör bővítését.** Senki nem lát többet, mint ma; a csatorna változik, nem a jogosultság.
+- **Nem állítjuk, hogy az érintettnek tulajdonjoga van a róla kezelt adatokon.** Az uniós adatvédelmi jog nem ismer adat-tulajdonjogot; a „saját oktatási adat” a címben köznyelvi fordulat.
+- **Nem állítjuk, hogy a javasolt jogosultság a hatályos jogból levezethető.** Amit javaslunk, **új ágazati jogosultság** (3.1–3.2). Ezt vállaljuk, nem álcázzuk meglévő jog technikai megvalósításának. Az MI-rendelet és az adatrendelet irányjelző, nem jogalap (3.4–3.5).
+- **Nem javasoljuk, hogy ellenőrzés nélkül regisztrált szoftver írási műveletet végezhessen**, sem azt, hogy a pedagógus saját elhatározásából engedhesse át szoftvernek a munkaköri jogosultságát.
 - **Nem állítjuk, hogy bármilyen oktatási adat szabadon továbbítható külső MI-szolgáltatóhoz.** A 8. fejezet ennek az ellenkezőjét javasolja.
 
 ---
@@ -59,19 +55,13 @@ A cél tehát nem az, hogy legyen egy jobb KRÉTA-app, hanem hogy **a KRÉTA-ada
 
 **Az elv egy mondatban:** ne az ember legyen az integrációs réteg a rendszerek között.
 
-### 1.2 A hozzáférés ma is megvan, csak egyetlen csatornán
+### 1.2 A hozzáférés megvan; a csatorna hiányzik
 
-A szülő ma belép a KRÉTA-ba, és látja a gyermeke jegyeit, hiányzásait, órarendjét, számonkéréseit. A tanuló ugyanezt a sajátjára. A hallgató a Neptunban a vizsgáit és határidőit. Ez a hozzáférés **létezik, jogszerű és megszokott**. Egyetlen korlátja van: kizárólag azon az alkalmazáson keresztül gyakorolható, amelyet az üzemeltető ad ki.
+A szülő ma belép a KRÉTA-ba, és látja a gyermeke jegyeit, hiányzásait, órarendjét, számonkéréseit. A tanuló ugyanezt a sajátjára, a hallgató a Neptunban a vizsgáit. Ez a hozzáférés **létezik, jogszerű és megszokott**; egyetlen korlátja, hogy kizárólag az üzemeltető által kiadott alkalmazáson keresztül gyakorolható. A jogosult felhasználó hozzáférésének ténye önmagában nem indokolja ezt a kizárólagosságot. A korlát oka technikai: a belépési rendszer nem teszi lehetővé, hogy harmadik fél szoftvere a felhasználó engedélyével kapcsolódjon.
 
-Ez a korlát nem az adatvédelemből következik. Nem azért van, mert a szülő nem láthatná az adatot — hiszen látja. Azért van, mert a belépési rendszer nem teszi lehetővé, hogy harmadik fél szoftvere a felhasználó engedélyével kapcsolódjon.
+Ebből következik, hogy a javaslat **egyetlen adatmezőt sem tesz elérhetővé olyan személy számára, aki ma nem látja**. A delegált hozzáférés a felhasználó meglévő jogosultságára épül, és annál szűkebb is lehet, mert a felhasználó szűkítheti. A leggyakoribb félreértés az, hogy „megnyitjuk a KRÉTA-t”. A KRÉTA ma is nyitva van a jogosult felhasználó felé, egyetlen csatornán; a javaslat a csatornát teszi választhatóvá, és cserébe **láthatóvá és visszavonhatóvá** azt, ami ma jelszóátadással, láthatatlanul történik.
 
-### 1.3 Ami nem változik: a jogosultsági kör
-
-A javaslat **egyetlen adatmezőt sem tesz elérhetővé olyan személy számára, aki ma nem látja**. A delegált hozzáférés a felhasználó meglévő jogosultságára épül, és annál szűkebb is lehet, mert a felhasználó szűkítheti.
-
-Ezt azért hangsúlyozzuk, mert a javaslat leggyakoribb félreértése az, hogy „megnyitjuk a KRÉTA-t”. Nem nyitunk meg semmit. A KRÉTA ma is nyitva van — a jogosult felhasználó felé, egyetlen csatornán. A javaslat a csatornát teszi választhatóvá, és cserébe **láthatóvá és visszavonhatóvá** teszi azt, ami ma jelszóátadással, láthatatlanul történik.
-
-### 1.4 Ami valóban új: az adat további útja
+### 1.3 Ami valóban új: az adat további útja
 
 Ha a szülő a saját asszisztensével nézi meg a gyermeke jegyeit, akkor az adat elhagyja a KRÉTA-t, és egy másik rendszerbe kerül. Ez a különbség a mai állapothoz képest — nem a hozzáférés, hanem a **továbbhaladás**.
 
@@ -90,7 +80,7 @@ Az 1.0 és a 2.0 változat csak az első réteget kezelte. A második réteg né
 
 ## 2. Három külön kérdés — három külön szabály
 
-A javaslat három, egymástól élesen elváló helyzetet érint. Az 1.0 változat ezeket egyetlen elvként vezette fel — „aki hozzáfér, ugyanazt tehesse a saját eszközével is” —, és ez volt a szöveg legsúlyosabb szerkezeti hibája: a legvédhetőbb esetre szabott indokolás a legkockázatosabb esetet is igazolni látszott.
+A javaslat három, egymástól élesen elváló helyzetet érint. Egyetlen elvként összefoglalni őket — „aki hozzáfér, ugyanazt tehesse a saját eszközével is” — azért hibás, mert a legvédhetőbb esetre szabott indokolás így a legkockázatosabbat is igazolni látszik. A három esetet ezért végig külön kezeljük, a normaszövegben is.
 
 | | **A) Saját adat olvasása** | **B) Saját adatkörben műveletvégzés** | **C) Intézményi feladatkörben gyakorolt jogosultság** |
 |---|---|---|---|
@@ -102,9 +92,7 @@ A javaslat három, egymástól élesen elváló helyzetet érint. Az 1.0 változ
 | Szükséges bizalmi szint | 1. szint | 2. szint | 3. szint |
 | Éles indulás | 2027. szeptember 1. | 2028. szeptember 1. | 2028. szeptember 1. |
 
-Az **A)** eset a legerősebb: az érintett a saját adatát nézi, más jogát nem érinti, és a hozzáférés ma is megvan.
-
-A **B)** eset már nyilatkozatot hoz létre az érintett nevében, ezért azonosított kiadó kell mögé, de továbbra is az érintett saját ügye.
+Az **A)** eset a legerősebb: az érintett a saját adatát nézi, más jogát nem érinti. A **B)** eset már nyilatkozatot hoz létre az érintett nevében, ezért azonosított kiadó kell mögé, de továbbra is az érintett saját ügye.
 
 A **C)** eset **nem az érintett joga**. A pedagógus nem a saját adatát kezeli, hanem tanulókét, az intézmény utasítására, az intézmény adatkezelői felelőssége mellett. Itt tehát nem „a pedagógus delegálja a jogosultságát”, hanem **az adatkezelő intézmény rendszeresít egy eszközt**, amelyet a pedagógus a saját munkamenetéhez köt.
 
@@ -132,23 +120,19 @@ Az **(EU) 2025/327 rendelet** (európai egészségügyi adattér, EHDS) pontosan
 
 Ez az analógia két okból erős: azonos a jogi szerkezet (közfeladaton alapuló nyilvántartás és ágazati hozzáférési jog), és azonos az érzékenységi szint (egészségügyi adat, illetve kiskorúak oktatási adata).
 
-### 3.4 Az adatrendelet — helyesbítés a korábbi változathoz képest
+### 3.4 Az adatrendelet — irányjelző, nem jogalap
 
-Az 1.0 változat az **(EU) 2023/2854 rendeletet** (adatrendelet) a jogfejlődés láncszemeként mutatta be. Ez pontatlan volt. A rendelet II. fejezete az **összekapcsolt termékek és a kapcsolódó szolgáltatások** használata során keletkező adatokra vonatkozik; tipikus tárgya a dologi, érzékelőalapú termékadat. A KRÉTA vagy a Neptun tanulmányi nyilvántartása nem ilyen. Az adatrendeletet ezért **jogpolitikai irányjelzőként** hívjuk fel, **jogalapként nem**.
+Az **(EU) 2023/2854 rendelet** (adatrendelet) kézenfekvő hivatkozásnak tűnik, de jogalapként nem állja meg a helyét. A rendelet II. fejezete az **összekapcsolt termékek és a kapcsolódó szolgáltatások** használata során keletkező adatokra vonatkozik; tipikus tárgya a dologi, érzékelőalapú termékadat. A KRÉTA vagy a Neptun tanulmányi nyilvántartása nem ilyen. Az adatrendeletet ezért **jogpolitikai irányjelzőként** hívjuk fel, **jogalapként nem**.
 
 ### 3.5 Az MI-rendelet — szűkített jogi következtetés
 
-Az **(EU) 2024/1689 rendelet** 4. cikke 2025. február 2-tól előírja, hogy az MI-rendszereket alkalmazó szervezetek gondoskodjanak munkatársaik MI-jártasságáról. Ebből **nem következik**, hogy bármely oktatási rendszernek programozói felületet kellene nyitnia.
-
-Egyetlen, szűk következtetést vonunk le: ha az iskoláknak jogszabályi kötelességük felkészülten megszervezni az MI-használatot, akkor ehhez jogszerű technikai csatornának is léteznie kell. A pedagógusi oldal érdemi indokolása azonban **nem jogi, hanem szakpolitikai** — lásd a 10.3 pontot.
+Az **(EU) 2024/1689 rendelet** 4. cikke 2025. február 2-tól előírja, hogy az MI-rendszereket alkalmazó szervezetek gondoskodjanak munkatársaik MI-jártasságáról. **Az MI-rendelet önmagában nem alapoz meg API-nyitási kötelezettséget; a pedagógusi oldal indoka szakpolitikai** — lásd a 10.3 pontot.
 
 ### 3.6 A PSD2-analógia — vállalva mindkét élét
 
-**Mellette szól:** az (EU) 2015/2366 irányelv (PSD2) és az (EU) 2018/389 felhatalmazáson alapuló rendelet 2019. szeptember 14-től **dedikált, biztonságos felületet**, nyilvános technikai specifikációt és tesztelési lehetőséget követel meg. A brit versenyhatóság (CMA) 2018-tól egységes nyílt banki API-szabványt tett kötelezővé a legnagyobb bankoknak. Az az állítás tehát, hogy egy monopolizált ügyfélfelület jogszabállyal megnyitható, és ettől a szektor nem omlik össze, empirikusan igazolt.
+**Mellette szól:** az (EU) 2015/2366 irányelv (PSD2) és az (EU) 2018/389 felhatalmazáson alapuló rendelet 2019. szeptember 14-től **dedikált, biztonságos felületet**, nyilvános technikai specifikációt és tesztelési lehetőséget követel meg; a brit versenyhatóság (CMA) 2018-tól egységes nyílt banki API-szabványt tett kötelezővé. Az az állítás tehát, hogy egy monopolizált ügyfélfelület jogszabállyal megnyitható, és ettől a szektor nem omlik össze, empirikusan igazolt.
 
-**Ellene szól:** a PSD2 világában a harmadik fél szolgáltatók **engedélyezett, felügyelt szereplők**, és a rendszer minősített tanúsítványokra épít. Aki ismeri az Open Bankinget, joggal mondhatja, hogy egy „egyedi engedélyezési eljárás nélküli” kliensregisztráció éppen a példa legfontosabb elemét hagyná ki: a **bizalmi keretet**.
-
-Ezt az ellenérvet elfogadjuk. A 7. fejezet pótolja a hiányt.
+**Ellene szól:** a PSD2-ben a harmadik fél szolgáltatók **engedélyezett, felügyelt szereplők**, és a rendszer minősített tanúsítványokra épít. Egy „egyedi engedélyezési eljárás nélküli” kliensregisztráció tehát éppen a példa legfontosabb elemét hagyná ki: a **bizalmi keretet**. Ezt az ellenérvet elfogadjuk; a 7. fejezet pótolja a hiányt.
 
 ---
 
@@ -186,11 +170,10 @@ Amit szeretne, az egyetlen kérdés a már használt eszközében: mi vár a gye
 
 Konkrét példa az **Üzenőfüzet** nyílt forráskódú szolgáltatás, amelyet az előterjesztés készítője üzemeltet, és amely a szülők MI-asszisztensét köti össze a KRÉTA-val. Ehhez ma kénytelen:
 
-- a szülőtől átvenni a KRÉTA-jelszót, és a nevében belépni;
+- a szülőtől átvenni a KRÉTA-jelszót, a nevében belépni, és a belépési tokeneket maga tárolni;
 - a hivatalos tanulói mobilalkalmazás kliensazonosítóját és nem dokumentált végpontjait használni, így bármely rendszerfrissítés után működésképtelenné válhat;
-- a belépési tokeneket saját maga tárolni és frissen tartani;
-- a KRÉTA-hívásokat lakossági hálózaton keresztül továbbítani, mert a rendszer az adatközponti hálózatokból érkező kéréseket elutasítja;
-- saját tájékoztatóban kezelni, hogy a lekért adatok — köztük kiskorúak adatai — a szülő által választott, akár az Európai Unión kívüli MI-szolgáltatóhoz kerülnek.
+- a hívásokat lakossági hálózaton továbbítani, mert a rendszer az adatközponti hálózatokból érkező kéréseket elutasítja;
+- saját tájékoztatóban kezelni, hogy a lekért adatok — köztük kiskorúak adatai — a szülő által választott, akár az Unión kívüli MI-szolgáltatóhoz kerülnek.
 
 A szülő a kiadott hozzáférést a KRÉTA-ban nem látja és ott nem tudja visszavonni. **Az Üzenőfüzet célja, hogy ez a közvetítő szerep ebben a formában feleslegessé váljon.** Az előterjesztő érdekeltségét itt jelezzük: a javaslat elfogadása a saját szolgáltatásunk jelenlegi működési modelljét szünteti meg.
 
@@ -204,9 +187,7 @@ A teher mérhető: az OECD TALIS 2024 felmérése szerint a magyar főállású 
 
 Hivatalos kapcsolódás hiányában a pedagógus egyetlen módon tud MI-t használni ehhez a munkához: a tanulói adatokat kézzel bemásolja a saját, magáncélú MI-fiókjába. Egy másolással egy vagy több osztály adatai mozognak, az iskola nevében kezelt adatokként, adatfeldolgozói szerződés nélkül. Az adatkezelő iskola ezt nem látja, nem tudja korlátozni, és semmilyen naplóban nem jelenik meg.
 
-Itt érdemes kimondani a legfontosabb következményt: **a zárt rendszer nem az ellenőrizetlen használatot akadályozza, hanem az ellenőrzöttet.** A kimásolást senki nem tudja megállítani. Amit a zártság megakadályoz, az a szabályos, naplózott, intézményileg engedélyezett út.
-
-Ez a leírás **feltételezést is tartalmaz**: arról, hogy ez a gyakorlat milyen gyakori, nincs hazai mérés. Éppen ez a kár egyik formája — a jelenség szerkezeti okból mérhetetlen.
+**A zártság tehát nem az ellenőrizetlen használatot akadályozza, hanem az ellenőrzöttet** (bővebben 10.3). Arról viszont, hogy ez a gyakorlat milyen gyakori, nincs hazai mérés — és éppen ez a kár egyik formája: a jelenség szerkezeti okból mérhetetlen.
 
 ---
 
@@ -242,11 +223,11 @@ Ebben a fejezetben külön jelöljük, mi **dokumentált tény**, mi **példasz�
 
 Heti 3,2 óra általános adminisztráció és 36 tanítási hét mellett ez évente **mintegy 13,5 millió pedagógusi munkaóra**.
 
-**Miért nem elég egyetlen százalék.** A TALIS „általános adminisztratív munka” kategóriája nem azonos azzal, amit egy tanulmányi rendszerhez kapcsolt MI érinteni tud. Sok adminisztráció papíralapú, szervezési, vagy nem a naplóhoz kötődik. Ezért **két külön paraméterrel** számolunk:
+**Miért nem elég egyetlen százalék.** A TALIS „általános adminisztratív munka” kategóriája nem azonos azzal, amit egy tanulmányi rendszerhez kapcsolt MI érinteni tud: sok adminisztráció papíralapú, szervezési, vagy nem a naplóhoz kötődik. Ezért **két külön paraméterrel** számolunk:
 
 > eredő megtakarítás = **érinthető arány** × **időnyereség az érintett részen**
 
-Az **érinthető arány** azt mondja meg, az adminisztrációnak mekkora része kötődik egyáltalán tanulmányi rendszerből származó adathoz. Az **időnyereség** azt, hogy ezen belül mennyit rövidít az integrált MI — beleszámítva azt is, hogy a pedagógusnak utólag ellenőriznie kell a kimenetet.
+Az **érinthető arány** az adminisztrációnak azt a részét jelöli, amely egyáltalán kötődik tanulmányi rendszerből származó adathoz; az **időnyereség** azt, hogy ezen belül mennyit rövidít az integrált MI — beleszámítva az utólagos ellenőrzés idejét is.
 
 | Érinthető arány ↓ / Időnyereség → | 30% | 40% | 50% |
 |---|---|---|---|
@@ -258,7 +239,7 @@ Az **érinthető arány** azt mondja meg, az adminisztrációnak mekkora része 
 
 Ez **nem előrejelzés és nem vállalás**. Egyik paraméterre sincs hazai mérés; a két szám azt mutatja meg, milyen nagyságrendről beszélünk, és hogy a végeredmény melyik feltevésre érzékeny. A valódi értéket a 6.2 pont szerinti pilotnak kell megadnia.
 
-**Miért nem forintosítjuk.** A korábbi változat bérértéken is kifejezte ezt az időt. Ezt kivettük. A pedagógusok létszáma nem csökken, a bérük nem lesz kevesebb, tehát **költségvetési megtakarítás nem keletkezik**; ami keletkezik, az felszabaduló szakmai kapacitás. Az „évi 1,9 millió óra” és a „pedagógusonként évi 16 óra” tisztább és védhetőbb állítás, mint bármely forintösszeg, és nem téveszti meg azt sem, aki a költségvetési oldalt olvassa.
+**Miért nem forintosítunk.** A felszabaduló időt szándékosan nem fejezzük ki bérértéken. A pedagógusok létszáma nem csökken, a bérük nem lesz kevesebb, tehát **költségvetési megtakarítás nem keletkezik**; ami keletkezik, az felszabaduló szakmai kapacitás. Az „évi 1,9 millió óra” és a „pedagógusonként évi 16 óra” védhetőbb állítás bármely forintösszegnél, és nem téveszti meg azt sem, aki a költségvetési oldalt olvassa.
 
 **A költségoldal** — az üzemeltetői ráfordítás, a nyilvántartás működtetése, az intézményi felkészítés — még nem készült el. Ezt a 14. fejezet nyitott kérdésként rögzíti.
 
@@ -340,9 +321,9 @@ Egy böngészőben futó nyilvános kliens, egy mobilalkalmazás és egy szerver
 
 ### 7.5 Amit ez a keret nem old meg
 
-- Nem akadályozza meg, hogy a felhasználó rossz döntést hozzon és megbízhatatlan szoftvernek adjon felhatalmazást. Csökkenti a kárt, nem szünteti meg. A 8.2 pont szerinti tájékoztatás azért fontos, mert a döntést jobbá teszi, de nem veszi el.
-- Nem szabályozza, mi történik az adattal a klienshez érkezése után; erről a 8. fejezet szól, és annak is vannak korlátai (8.4).
-- Az 1. bizalmi szinten átvilágítatlan kiadó is kaphat olvasási hozzáférést kiskorú adataihoz, szülői jóváhagyással. Ezt vállaltan tartjuk így: e nélkül a javaslat lényege veszne el, és a szülő ma ugyanennek a körnek ad jelszót, csak láthatatlanul. A jóváhagyó képernyő ezért kifejezetten jelzi, ha a kiadó nincs átvilágítva.
+A bizalmi szint azt szabályozza, ki kapcsolódhat, nem azt, hogy a felhasználó jól dönt-e. A 8.2 szerinti tájékoztatás a döntést jobbá teszi, de nem veszi el.
+
+Az 1. bizalmi szinten átvilágítatlan kiadó is kaphat olvasási hozzáférést kiskorú adataihoz, szülői jóváhagyással. Ezt vállaltan tartjuk így: e nélkül a javaslat lényege veszne el, és a szülő ma ugyanennek a körnek ad jelszót, csak láthatatlanul. A jóváhagyó képernyő ezért kifejezetten jelzi, ha a kiadó nincs átvilágítva.
 
 ---
 
@@ -375,16 +356,7 @@ A javaslat ezért két dolgot ír elő: **érthető tájékoztatást a döntés 
 > **Bármikor visszavonhatod:** KRÉTA → Engedélyeim.
 > [Részletes tájékoztató] [Nem engedélyezem] [Engedélyezem]
 
-**A kötelező tartalmi elemek**, amelyeket a kormányrendeletnek elő kell írnia:
-
-1. milyen adatkört kap meg a szoftver, és mit **nem** kap meg;
-2. továbbítja-e az adatot más szolgáltatónak, és ha igen, kinek, néven nevezve;
-3. elhagyja-e az adat az Európai Gazdasági Térséget, és ha igen, melyik országba;
-4. tárolják-e, és meddig;
-5. használják-e a szoftver vagy a mesterséges intelligencia fejlesztésére, tanítására;
-6. mi történik a visszavonáskor: mikor szűnik meg a hozzáférés, és mi lesz a már átadott adattal;
-7. meddig szól a felhatalmazás, és hol vonható vissza;
-8. szülői felhatalmazásnál a gyermek megnevezése, akinek az adatairól szó van.
+**A kötelező tartalmi elemeket** — az átadott és az át nem adott adatkörtől a továbbítás címzettjén, az Unión kívülre kerülésen, a tárolási időn és a modellfejlesztési felhasználáson át a visszavonás következményéig — a normaszöveg tételesen felsorolja (12./I. B) § (1) bekezdés a)–h) pont). A rendeletnek a tartalmat kell előírnia, nem a szövegezést.
 
 **Ha a kiadó nem tud válaszolni**, azt is ki kell írni. A „nem ismert, hogy az MI-szolgáltató meddig tárolja” önmagában is információ a szülőnek, és versenyhátrány annak, aki így nyilatkozik. Ez a rendelkezés a piacra is hat: aki tisztább adatkezelést tud vállalni, azt a jóváhagyó képernyőn láthatóvá teszi.
 
@@ -415,7 +387,7 @@ Amit ez az előterjesztés vállal:
 - **megadja a helyét**: a besorolás a kormányrendelet funkciókatalógusába kerül, tehát felülvizsgálható anélkül, hogy a törvényt kellene nyitni;
 - **előírja a tájékoztatást**: bármi is a besorolás, a felhasználó a döntés pillanatában, érthetően megtudja, mi történik az adatával.
 
-Amit **nem** vállal, és amit a 14. fejezet nyitott kérdésként rögzít: az adatkörök tételes, mezőszintű besorolását, és annak eldöntését, hogy egy MI-szolgáltató mit tehet a kapott adattal a saját rendszerén belül.
+Amit **nem** vállal: az adatkörök tételes, mezőszintű besorolását, és annak eldöntését, hogy egy MI-szolgáltató mit tehet a kapott adattal a saját rendszerén belül. Mindkettő a 14. fejezet nyitott kérdése.
 
 ---
 
@@ -433,7 +405,7 @@ Három rendelkezést ehhez ki kell mondani a normaszövegben:
 
 **A pedagógusi felhatalmazás nem személyes jog.** A pedagógus nem „kiadja” a munkaköri jogosultságát egy szoftvernek; az intézmény rendszeresít eszközt, amelyet a pedagógus a saját munkamenetéhez köt. Ha a pedagógus jogviszonya megszűnik vagy jogosultsága változik, a felhatalmazás automatikusan követi.
 
-**Az üzemeltető felelőssége a felületig terjed.** Azért, amit a felhatalmazott szoftver az adattal a kiadás után tesz, az üzemeltető nem felel. Ennek kimondása nélkül az üzemeltetőnek közvetlen érdeke fűződik ahhoz, hogy a nyitást ellehetetlenítse — a gyakorlatban ez a rendelkezés dönti el, hogy a jogszabály működni fog-e.
+**Az üzemeltető felelőssége és a felhatalmazott szoftver önálló adatkezelői felelőssége elválik.** Az üzemeltető nem felel a felhatalmazott szoftvernek szabályszerűen átadott adat ezt követő, önálló adatkezelőként végzett kezeléséért. Ennek kimondása nélkül az üzemeltetőnek közvetlen érdeke fűződik ahhoz, hogy a nyitást ellehetetlenítse — a gyakorlatban ez a rendelkezés dönti el, hogy a jogszabály működni fog-e.
 
 **A kiadó felel a nyilatkozatáért.** Ha a továbbítási nyilatkozat valótlan, az a nyilvántartásból való törlést vonja maga után, és minden hozzá tartozó felhatalmazás megszűnik. Ez a szankció teszi a 8.2 pontot érvényesíthetővé.
 
@@ -445,7 +417,7 @@ Három rendelkezést ehhez ki kell mondani a normaszövegben:
 
 A hozzáférés **körét** nem kell újraszabályozni: azt a rendszerek meglévő jogosultságkezelése eldönti. Amit szabályozni kell, az a **csatorna** és a **felhasználás**.
 
-A korábbi változat „a hivatalos alkalmazásokban elérhető funkciók 100%-át” ígérte. Ezt visszavonjuk: a felületi és a programozói funkciók nem képezhetők le mindig egy az egyben, és egy jövőbeli, különösen érzékeny új funkció automatikus megnyílása nem vállalható. Helyette **funkciókatalógust** javaslunk, a PSD2 mintájára.
+Teljes funkcióparitást nem ígérünk: a felületi és a programozói funkciók nem képezhetők le mindig egy az egyben, és egy jövőbeli, különösen érzékeny új funkció automatikus megnyílása nem vállalható. Helyette **funkciókatalógust** javaslunk, a PSD2 mintájára.
 
 A kormányrendelet melléklete tételesen felsorolja a delegált hozzáféréssel elérhető funkciókat, és mindegyikhez hozzárendeli a szükséges bizalmi szintet és a 8.3 szerinti adatkör-besorolást. Új hivatalos funkció megjelenésekor az üzemeltető 90 napon belül besorolási javaslatot tesz; a katalógust a miniszter évente felülvizsgálja.
 
@@ -490,19 +462,17 @@ Hogy az eszköz állami fejlesztésű, központilag beszerzett vagy fenntartói 
 
 ## 11. Mi lenne a várható haszon?
 
-**Szülők és gondviselők.** Rövid táv (2027–2028): jelszóátadás nélkül, a KRÉTA-ban látható és visszavonható módon kapcsolhatják a választott asszisztensüket a gyermekük iskolai adataihoz — és a döntés pillanatában megtudják, hová kerül az adat. Nem kell még egy külön iskolai alkalmazást használniuk, és több gyerek esetén sem kell külön felületeket végigjárniuk: egy kérdés a már használt eszközükben mindkét gyerekre válaszol. Középtáv: a kevésbé gyakorlott digitális felhasználók és a nem magyar anyanyelvű családok is könnyebben követik gyermekük iskolai ügyeit; ez a 6.4 pont szerint feltételezés, amelyet a hatásmérésnek igazolnia kell.
+| Szereplő | Rövid táv (2027–2028) | Közép- és hosszú táv |
+|---|---|---|
+| **Szülők, gondviselők** | jelszóátadás nélkül, láthatóan és visszavonhatóan kapcsolják a választott asszisztensüket; a döntés pillanatában megtudják, hová kerül az adat; nem kell még egy külön iskolai alkalmazás, több gyerekhez sem külön felület | a kevésbé gyakorlott digitális felhasználók és a nem magyar anyanyelvű családok is könnyebben követik az iskolai ügyeket (6.4 szerint feltételezés) |
+| **Tanulók** | órarend, feladatok, határidők a saját eszközeikben | tanulástámogató alkalmazások naprakész iskolai adatra építhetnek |
+| **Pedagógusok** | 2028-tól az intézmény által engedélyezett eszköz szabályosan kapcsolódik; a kézi másolás helyére ellenőrizhető folyamat lép, és a kockázatot nem a pedagógus viseli személyesen | a 10.3 pontban felsorolt munkafolyamatok támogatása, a pilot által mért tényleges időnyereséggel |
+| **Intézmények, fenntartók** | először látják és korlátozhatják, milyen szoftverek férnek hozzá az általuk kezelt adathoz | az MI-eszközök beszerzése szállítófüggetlenné válik |
+| **Hallgatók, oktatók** | — | 2028-tól a tanulmányi rendszerek adatai intézménytől függetlenül, egységesen kezelhetők |
+| **Hazai fejlesztők** | dokumentált, stabil felület; a tisztább adatkezelés a jóváhagyó képernyőn versenyelőny | 2030-tól a megoldások a nemzetközi szabványok mentén exportálhatók |
+| **Üzemeltetők, állam** | a megkerülő megoldások nem tervezett forgalma szabályozott, azonosítható forgalommá válik; az üzemeltetői felelősség a 9. fejezet szerint egyértelművé válik | a pilot és a nyilvános hatásmérés alapján az oktatási digitalizáció eredménye mérhető |
 
-**Tanulók.** Rövid táv: a saját órarendjüket, feladataikat és határidőiket az általuk használt eszközökben kezelhetik. Középtáv: tanulástámogató alkalmazások építhetnek naprakész iskolai adatokra.
-
-**Pedagógusok.** Rövid táv (2028-tól): az intézmény által engedélyezett eszköz szabályosan kapcsolódhat; a kézi másolás helyére ellenőrizhető folyamat lép, és a pedagógus nem viseli személyesen a szabálytalan használat kockázatát. Középtáv: a 10.3 pontban felsorolt munkafolyamatok támogatása, a pilot által mért tényleges időnyereséggel.
-
-**Intézmények és fenntartók.** Rövid táv: először látják, milyen szoftverek férnek hozzá az általuk kezelt adatokhoz, és korlátozhatják azokat. Középtáv: az MI-eszközök beszerzése szállítófüggetlenné válik.
-
-**Hallgatók és oktatók.** Középtáv (2028-tól): a tanulmányi rendszerek adatai intézménytől függetlenül, egységes módon kezelhetők.
-
-**Hazai fejlesztők.** Középtáv: stabil, dokumentált felületre építhetnek, és a tisztább adatkezelés a jóváhagyó képernyőn versenyelőnnyé válik. Hosszú táv (2030-tól): a megoldások a hasonló nemzetközi szabványok mentén exportálhatók.
-
-**Rendszerüzemeltetők és az állam.** Rövid táv: a bevezetés a meglévő felületekre és a már OAuth-alapú hitelesítési infrastruktúrára építhet, de új kliensregisztrációs, felhatalmazás-kezelési, dokumentációs, biztonsági és üzemeltetési képességeket igényel — köztük a kérésszám-korlátozást, a visszaélés-felismerést, a felügyeletet, a tesztkörnyezet fenntartását és a fejlesztői támogatást. Ezek ráfordítását a 14. fejezet nyitott kérdésként kezeli. A megkerülő megoldások okozta nem tervezett forgalom szabályozott, azonosítható forgalommá válik, és az üzemeltető felelőssége a 9. fejezet szerint egyértelművé válik. Középtáv: a pilot és a nyilvános hatásmérés alapján az oktatási digitalizáció eredménye mérhető.
+Az üzemeltetői oldalon a bevezetés a meglévő felületekre és a már OAuth-alapú hitelesítési infrastruktúrára építhet, de új kliensregisztrációs, felhatalmazás-kezelési, dokumentációs, biztonsági és üzemeltetési képességeket igényel — köztük kérésszám-korlátozást, visszaélés-felismerést, felügyeletet, tesztkörnyezet-fenntartást és fejlesztői támogatást. Ezek ráfordítását a 14. fejezet nyitott kérdésként kezeli.
 
 ---
 
@@ -569,7 +539,7 @@ h) szülő által adott felhatalmazás esetén annak a gyermeknek a neve, akinek
 
 (4) A felhatalmazható szoftverekről a Kormány által rendeletben kijelölt szerv nyilvántartást vezet, amely a szoftvereket bizalmi szint szerint sorolja be, és nyilvántartja a B) § szerinti nyilatkozatot. A nyilvántartásból való törlés a szoftverhez tartozó valamennyi felhatalmazást megszünteti; erről az üzemeltető az érintett felhasználókat értesíti.
 
-(5) Az üzemeltető nem felel azért az adatkezelésért, amelyet a felhatalmazott szoftver kiadója az adat átadását követően, saját adatkezelőként végez.”
+(5) Az üzemeltető nem felel a felhatalmazott szoftvernek szabályszerűen átadott adat ezt követő, a szoftver kiadója által önálló adatkezelőként végzett kezeléséért.”
 
 **Felhatalmazó rendelkezés:**
 
@@ -587,10 +557,7 @@ Az Nftv. adatkezelési rendelkezéseit az I. pont szerinti szöveggel azonos tar
 
 **Hitelesítés és felhatalmazás.** A felhatalmazás az OAuth 2.0 engedélyezési keretrendszer (RFC 6749) szerint, kötelezően PKCE-vel (RFC 7636), az RFC 9700 (BCP 240) biztonsági ajánlásaival összhangban valósul meg; implicit és jelszó alapú folyamat nem alkalmazható. Az engedélyező szerver metaadatait az RFC 8414 szerint teszi közzé.
 
-**Bizalmi szintek és kliensregisztráció.**
-- *1. szint:* önkiszolgáló, dinamikus kliensregisztráció (RFC 7591), egyedi engedélyezési eljárás nélkül; kizárólag olvasás az érintett saját adatkörében, az alapadatkörben; kérésszám-korlát és rövid tokenélettartam; a jóváhagyó képernyő jelzi, hogy a kiadó nincs átvilágítva.
-- *2. szint:* azonosított kiadó, aláírt szoftvernyilatkozat, bizalmas kliens aszimmetrikus kulcsú hitelesítéssel, birtokláshoz kötött hozzáférési token; műveletvégzés az érintett saját adatkörében, valamint pedagógusi és oktatói olvasás.
-- *3. szint:* a 2. szint feltételei, valamint érvényes adatfeldolgozói szerződés és intézményi engedélyezés; emelt biztonsági profil (FAPI 2.0 Security Profile) vagy azzal egyenértékű megoldás és kliensattesztáció; műveletvégzés intézményi feladatkörben.
+**Bizalmi szintek és kliensregisztráció.** A rendelet a 7.1 pont szerinti három bizalmi szintet állapítja meg, szintenként meghatározva a regisztráció módját, a kliens hitelesítésének követelményeit és az elérhető funkciókört. Az 1. szintre a dinamikus kliensregisztráció (RFC 7591) egyedi engedélyezési eljárás nélkül érvényes; a 3. szinthez emelt biztonsági profil (FAPI 2.0 Security Profile) vagy azzal egyenértékű megoldás és kliensattesztáció szükséges.
 
 **Funkciókatalógus és adatkör-besorolás.** A rendelet melléklete tételesen felsorolja a delegált hozzáféréssel elérhető funkciókat, és funkciónként megadja a szükséges bizalmi szintet, valamint az adatkör besorolását: alapadatkör, korlátozott továbbítású adatkör, vagy más személyt is érintő adat. Új hivatalos funkció bevezetésekor az üzemeltető kilencven napon belül besorolási javaslatot tesz; a katalógust a miniszter évente felülvizsgálja.
 
@@ -629,7 +596,7 @@ Javasoljuk, hogy a kormányrendelet írjon elő pilot-mérést, amelynek eredmé
 | 2029. március 31. | Felsőoktatás: műveletvégzés és oktatói hozzáférés |
 | 2029. december 31., majd évente | Első nyilvános hatásjelentés és a funkciókatalógus felülvizsgálata |
 
-A szakaszolás lényege: **az olvasás előbb megy élesbe, mint az írás**, a pedagógusi hozzáférés csak az intézményi engedélyezéssel együtt indul, és **a pedagógusi szakaszt magyar mérés előzi meg**, nem feltételezés.
+A szakaszolás lényege: **az olvasás előbb megy élesbe, mint az írás**, a pedagógusi hozzáférés csak az intézményi engedélyezéssel együtt indul, és **a pedagógusi szakaszt magyar mérés előzi meg**.
 
 ---
 
