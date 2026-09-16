@@ -2,7 +2,9 @@
 
 A 12 pontos bírálat pontonkénti feldolgozása. Minden pont ugyanazt az öt kérdést
 járja végig: mit állít a kifogás, megáll-e, mi volt az 1.0 szövegében, mi lett
-belőle a 2.0-ban, és mi maradt nyitva.
+belőle, és mi maradt nyitva. A fejezethivatkozások a 2.1 változat számozását
+követik; a dokumentum végén külön szakasz szól a második körben kért
+súlypont-áthelyezésről.
 
 A bírálat záró diagnózisa a legpontosabb mondat az egészben:
 
@@ -18,18 +20,18 @@ bizalmi, adatvédelmi és felelősségi modell.
 
 | # | Kifogás | Verdikt | Hol a javítás |
 |---|---|---|---|
-| 1 | „saját oktatási adat” mint jogi állítás | megáll, de nem jogi, hanem retorikai hiba | Mit nem állítunk; 2.1–2.2 |
-| 2 | az „ugyanezt” olvasásból tranzakciót csinál | megáll, ez a legsúlyosabb | 1.; 6.1; 10./I; 11. |
-| 3 | tanuló/szülő és pedagógus egy dobozban | megáll | 1.; 7.; 10./I. A) és B) § |
-| 4 | a biztonsági szabály túl merev | megáll, de a szándéka védhető volt | 6.2; 10./I. C) § |
-| 5 | regisztráció egyedi engedély nélkül | megáll, a 2. ponttal együtt végzetes | 6.1; 10./III |
-| 6 | a PSD2-analógia visszafelé is elsül | megáll | 2.6; 6.1 |
-| 7 | a Data Act retorika, nem jogalap | megáll, elhelyezési hiba | 2.3; 2.4 |
-| 8 | az MI-rendelet és az MCP túl sokat bizonyít | megáll | 2.5; 4. |
-| 9 | hipotézisek tényként | megáll | 5.1–5.4 |
-| 10 | a hatásbecslés nincs kész | megáll, de a valódi baj nem a hiányzó szám | 5.1 |
-| 11 | a 100% funkcióparitás túl nagy fogás | megáll | 8.1; 10./III |
-| 12 | szülői autonómia és vegyes adatkörök | megáll | 6.5; 10./I. A) § (3) |
+| 1 | „saját oktatási adat” mint jogi állítás | megáll, de nem jogi, hanem retorikai hiba | Mit nem állítunk; 3.1–3.2 |
+| 2 | az „ugyanezt” olvasásból tranzakciót csinál | megáll, ez a legsúlyosabb | 2.; 7.1; 12./I; 13. |
+| 3 | tanuló/szülő és pedagógus egy dobozban | megáll | 2.; 9.; 12./I. A) és C) § |
+| 4 | a biztonsági szabály túl merev | megáll, de a szándéka védhető volt | 7.2; 12./I. D) § |
+| 5 | regisztráció egyedi engedély nélkül | megáll, a 2. ponttal együtt végzetes | 7.1; 12./III |
+| 6 | a PSD2-analógia visszafelé is elsül | megáll | 3.6; 7.1 |
+| 7 | a Data Act retorika, nem jogalap | megáll, elhelyezési hiba | 3.3; 3.4 |
+| 8 | az MI-rendelet és az MCP túl sokat bizonyít | megáll | 3.5; 5. |
+| 9 | hipotézisek tényként | megáll | 6.1, 6.3–6.5 |
+| 10 | a hatásbecslés nincs kész | megáll, de a valódi baj nem a hiányzó szám | 6.1–6.2 |
+| 11 | a 100% funkcióparitás túl nagy fogás | megáll | 10.1; 12./III |
+| 12 | szülői autonómia és vegyes adatkörök | megáll | 8.3; 12./I. A) § (4) |
 
 ---
 
@@ -62,7 +64,7 @@ szakasz, még a javaslat kifejtése előtt:
 > Amit javaslunk, új ágazati jogosultság. Ezt vállaljuk, nem álcázzuk meglévő jog
 > technikai megvalósításának.
 
-A 2.1 és 2.2 pont ezt szétszedi arra, amit a hatályos jog ad, és amit nem ad. A
+A 3.1 és 3.2 pont ezt szétszedi arra, amit a hatályos jog ad, és amit nem ad. A
 15. cikk és a (63) preambulumbekezdés **támogató érvként** marad benne, kifejezett
 megjegyzéssel arról, hogy a preambulumbekezdés nem kötelező szabály.
 
@@ -92,7 +94,7 @@ hogy ehhez külön indokolás és külön garanciák kellenek.
 > hozzáfér vagy műveletet végez (a továbbiakban: felhasználó), **ugyanezt** az általa
 > felhatalmazott szoftver útján is megtehesse.
 
-**Mi lett belőle.** Az „ugyanezt” eltűnt. Helyette három eset van, az 1. fejezet
+**Mi lett belőle.** Az „ugyanezt” eltűnt. Helyette három eset van, a 2. fejezet
 táblázatában szembeállítva, és a normaszövegben külön szakaszokban:
 
 - **A)** saját adat olvasása, 1. bizalmi szint, éles indulás 2027. szeptember 1.
@@ -137,9 +139,9 @@ szakaszt kapott. A kulcsmondat a normaszövegben:
 > (5) E § nem hoz létre a felhasználót önállóan megillető jogosultságot arra, hogy
 > az intézményi feladatköréből fakadó jogosultságát szoftver részére átengedje.
 
-A magyarázat az 1. fejezet végén áll: nem a pedagógus delegálja a jogosultságát,
+A magyarázat a 2. fejezet végén áll: nem a pedagógus delegálja a jogosultságát,
 hanem **az adatkezelő intézmény rendszeresít egy eszközt**, amelyet a pedagógus a
-saját munkamenetéhez köt. Ehhez jön a 7. fejezet felelősségi táblázata, amely
+saját munkamenetéhez köt. Ehhez jön a 9. fejezet felelősségi táblázata, amely
 esetenként megmondja, ki adatkezelő és ki adatfeldolgozó.
 
 **Mi maradt nyitva.** A B) és C) eset határa nem mindig éles. Egy nagykorú hallgató
@@ -185,7 +187,7 @@ app kiváltságot kapna. A kormányrendelet a 2. és 3. szinthez emelt profilt �
 és az egész hitelesítést az RFC 9700-hoz köti.
 
 **Mi maradt nyitva.** A negyedik elem jogorvoslati fóruma nincs megnevezve. Ez a
-nyilvántartást vezető szerv kijelölésével együtt dönthető el, ami a 12. fejezet
+nyilvántartást vezető szerv kijelölésével együtt dönthető el, ami a 14. fejezet
 nyitott kérdése.
 
 ---
@@ -220,9 +222,9 @@ hanem a **jogosultság kötődik a szinthez**:
 | 3. | intézményi adatfeldolgozó | műveletvégzés intézményi feladatkörben | a 2. szint, plusz GDPR 28. cikk szerinti szerződés, intézményi engedélyezőlista, FAPI 2.0 vagy egyenértékű, kliensattesztáció |
 
 A bírálat négy konkrét kérdésére adott válasz: a publisher-azonosítás a 2. szint
-belépője; a kliensattesztáció a 3. szinten kötelező; a kompromittált klienst a 6.3
+belépője; a kliensattesztáció a 3. szinten kötelező; a kompromittált klienst a 7.3
 pont kezeli, ahol a nyilvántartásból törlés minden kapcsolódó felhatalmazást
-megszüntet és az érintetteket értesíteni kell; az adathalász app ellen a 6.4 pont
+megszüntet és az érintetteket értesíteni kell; az adathalász app ellen a 7.4 pont
 véd, ahol a kliens nevét a hivatalos felület a nyilvántartásból veszi, és a kliens
 nem írhatja felül.
 
@@ -251,10 +253,9 @@ szolgáltatói kör említés nélkül maradt.
 **Mi lett belőle.** A 2.6 pont most maga vezeti le mindkét élét, „Mellette szól” és
 „Ellene szól” alcímekkel, és a záró mondata elfogadja az ellenérvet:
 
-> Ezt az ellenérvet elfogadjuk. A 6. fejezet pótolja a hiányt, és a bizalmi szintet
-> ahhoz köti, amit a kliens tehet.
+> Ezt az ellenérvet elfogadjuk. A 7. fejezet pótolja a hiányt.
 
-A 6.1 pont háromszintű nyilvántartása szerkezetileg ugyanaz, mint amit a PSD2 a
+A 7.1 pont háromszintű nyilvántartása szerkezetileg ugyanaz, mint amit a PSD2 a
 szolgáltatói engedéllyel megold, csak arányosítva: a legkisebb kockázatú
 művelethez nem kell engedély, a legnagyobbhoz szerződés és attesztáció kell.
 
@@ -349,17 +350,17 @@ hanem a megjelölésük: egy vállalt feltételezés erősebb, mint egy leleplez
 
 **Mi lett belőle.** Az 5. fejezet minden alfejezete a címében jelzi a státuszt:
 
-- 5.1 Elvesztegetett pedagógusi kapacitás — **levezetett becslés**
-- 5.2 Biztonsági és adatvédelmi kockázat — **feltételezés, szerkezeti okból mérhetetlen**
-- 5.3 Esélyegyenlőségi kár — **feltételezés**
-- 5.4 Innovációs kár — **részben dokumentált**
+- 6.1 Elvesztegetett pedagógusi kapacitás — **példaszámítás**
+- 6.3 Biztonsági és adatvédelmi kockázat — **feltételezés, szerkezeti okból mérhetetlen**
+- 6.4 Esélyegyenlőségi kár — **feltételezés**
+- 6.5 Innovációs kár — **részben dokumentált**
 
 Az esélyegyenlőségi érv például most így zárul:
 
 > Ezt az állítást hazai adat nem támasztja alá; a javaslat szerinti hatásmérés
 > egyik kérdése éppen ez legyen.
 
-A 3.1 pont ezzel szemben „Dokumentált tények” címmel gyűjti össze azt a hármat,
+A 4.1 pont ezzel szemben „Dokumentált tények” címmel gyűjti össze azt a hármat,
 ami valóban áll: a hivatalos appok kizárólagosságát, az üzemeltető saját
 állásfoglalását a nem hivatalos kliensről, és a Neptun-app megszűnését. A bírálat
 maga is ezt nevezte a szöveg legerősebb részének, ezért kapott külön címet.
@@ -412,7 +413,7 @@ amiről szó van, az visszanyert szakmai kapacitás, és a forintérték csak a 
 pedagógusokra reprezentatív, tehát az egész köznevelési létszámra vetítés
 nagyságrendi, nem pontos.
 
-**Mi maradt nyitva.** Kettő, és mindkettő szerepel a 12. fejezetben.
+**Mi maradt nyitva.** Kettő, és mindkettő szerepel a 14. fejezetben.
 
 A **költségoldal** hiányzik: az üzemeltetői ráfordítás, a nyilvántartás működtetése
 és az intézményi felkészítés költsége nincs becsülve, így a hatásvizsgálat nem teljes.
@@ -491,17 +492,17 @@ került, tételes besorolásként. A normaszövegben:
 > személy személyes adata, a felhatalmazás erre az adatkörre csak annyiban terjed ki,
 > amennyiben a funkciókatalógus az adott funkciót erre kifejezetten feljogosítja.
 
-A 6.5 pont indokolja, miért katalógusban és nem törvényben: a besorolás vitatható és
+A 8.3 pont indokolja, miért katalógusban és nem törvényben: a besorolás vitatható és
 felülvizsgálandó, tehát rendeleti mellékletbe való. Ahol a funkció más személy adatát
 is elérhetővé tenné, ott a funkció vagy nem delegálható, vagy csak szűkített, a
 harmadik személyre vonatkozó részt elhagyó formában.
 
-**Mi maradt nyitva.** Maga a besorolás. Ez a 12. fejezet 3. nyitott kérdése, és
+**Mi maradt nyitva.** Maga a besorolás. Ez a 14. fejezet 3. nyitott kérdése, és
 őszintén szólva ez a javaslat legmunkaigényesebb része: végig kell menni a KRÉTA
 minden adatmezőjén, és eldönteni, kinek az adata. E nélkül a normaszöveg (3)
 bekezdése üres keret.
 
-Ide tartozik a 2. nyitott kérdés is: a nagykorúsághoz közeledő tanuló saját
+Ide tartozik a 14. fejezet 2. nyitott kérdése is: a nagykorúsághoz közeledő tanuló saját
 felhatalmazása és a szülői felhatalmazás viszonya. Melyik életkortól illeti meg a
 tanulót önálló jog, és mit lát ilyenkor a szülő.
 
@@ -510,9 +511,9 @@ tanulót önálló jog, és mit lát ilyenkor a szülő.
 ## Amit a bírálat nem kért, de hiányzott
 
 A bírálat záró mondata szerint hiányzik körülbelül egy fél fejezetnyi biztonsági,
-adatvédelmi és felelősségi modell. A biztonsági és adatvédelmi részt a 6. fejezet
-pótolja, a 12 pont mentén. A **felelősségi** rész azonban egyik pontban sem szerepelt
-kifejezetten, pedig e nélkül a konstrukció nem működik. A 7. fejezet ezért új.
+adatvédelmi és felelősségi modell. A biztonsági részt a 7. fejezet pótolja, az
+adatvédelmit a 8. A **felelősségi** rész azonban egyik pontban sem szerepelt
+kifejezetten, pedig e nélkül a konstrukció nem működik. A 9. fejezet ezért új.
 
 **Ki adatkezelő és ki adatfeldolgozó.** Táblázat, amely esetenként megmondja. A
 felhatalmazott szoftver kiadója az A) és B) esetben önálló adatkezelő a felhasználó
@@ -527,11 +528,171 @@ legpraktikusabb mondat az egész javaslatban: e nélkül az eKRÉTA-nak közvetl
 érdeke fűződik ahhoz, hogy a nyitást ellehetetlenítse, és a jogszabály papíron marad.
 
 Ezen kívül bekerült három elem, amelyre a bírálat 5. pontja kérdezett rá, de amelyre
-külön pont nem jutott: a kompromittált kliens kezelése (6.3), az adathalászat elleni
-alapvédelem (6.4), és egy „Amit ez a keret nem old meg” szakasz (6.6), amely
-felsorolja a maradék kockázatot. A 12. fejezet pedig a nyitott kérdéseket nevezi
+külön pont nem jutott: a kompromittált kliens kezelése (7.3), az adathalászat elleni
+alapvédelem (7.4), és egy „Amit ez a keret nem old meg” szakasz (7.5), amely
+felsorolja a maradék kockázatot. A 14. fejezet pedig a nyitott kérdéseket nevezi
 meg, köztük az előterjesztő saját érdekütközését.
 
 Ennek a két utolsó szakasznak nem az őszinteség a célja, hanem a tárgyalási pozíció:
 amit az előterjesztő maga nevez meg gyengeségként, azt a bíráló már nem tudja
 leleplezésként felmutatni.
+
+
+---
+
+# Második kör: a súlypont áthelyezése (2.1 változat)
+
+A 12 pont átvezetése után érkezett második kör nem hibákat javított, hanem az
+érvelés súlypontját mozdította el. Hat változást kért, mind a hatot átvezettük.
+
+## 1. Nem adatnyitás, hanem a meglévő hozzáférés delegálása
+
+**A kérés.** Az alapállítás ne az legyen, hogy megnyitjuk az oktatási adatokat,
+hanem hogy a ma is elérhető adatok használatát tesszük biztonságosan és
+visszavonhatóan delegálhatóvá. A jogosultsági kör nem bővül.
+
+**Mi történt.** A 2.0 alcíme a „felhatalmazáson alapuló szoftveres hozzáférésről”
+szólt, ami nyitásként olvasható. Az új alcím: „a meglévő oktatási adathozzáférés
+biztonságos és visszavonható delegálásáról”. A vezetői összefoglaló első mondata
+most így kezdődik: **a jogosultsági kör nem bővül**. A „Mit nem állítunk” lista
+első eleme is ez lett. Új első fejezet vezeti fel a keretet, benne azzal, hogy a
+korlát nem az adatvédelemből következik: a szülő ma is látja az adatot, csak
+egyetlen csatornán.
+
+A normaszövegbe is bekerült, hogy félreolvasható se legyen:
+
+> (2) A felhatalmazás nem hoz létre és nem bővít jogosultságot: legfeljebb a
+> felhasználónak a hivatalos elektronikus felületen gyakorolható jogosultságai
+> körére terjed ki, amelyet a felhasználó szűkíthet.
+
+## 2. A valódi kockázat a felhasználás, nem a hozzáférés
+
+**A kérés.** A bizalmi modell mellé kell egy külön, felhasználásra vonatkozó réteg.
+
+**Mi történt.** A javaslat most kimondottan két rétegből áll, és az 1.3 pont
+táblázata szembeállítja őket: a hozzáférési réteg azt szabályozza, ki kapcsolódhat
+és milyen műveletre (7. fejezet), a felhasználási réteg azt, mi történik az
+adattal azután (8. fejezet). Az 1.0 és a 2.0 csak az elsőt kezelte.
+
+## 3. Érthető tájékoztatás a döntés pillanatában
+
+**A kérés.** A felhasználót emberi nyelven kell tájékoztatni: a program megkapja a
+gyermek jegyeit és hiányzásait, továbbíthatja egy MI-szolgáltatónak, az adat
+elhagyhatja az EU-t; meg kell mondani, tárolják-e, meddig, használják-e
+modellfejlesztésre, és mi történik visszavonáskor. A jogi tájékoztató lehet mögötte.
+
+**Mi történt.** Ez lett a 8.2 pont, három elemmel.
+
+Egy: **továbbítási nyilatkozat**. A kliens kiadója a regisztrációkor nyilatkozik
+arról, kinek továbbítja az adatot, hová, meddig tárolja, és használja-e
+modellfejlesztésre. A nyilatkozat a nyilvántartásba kerül, a hivatalos felület
+onnan veszi, és a kliens nem írhatja felül.
+
+Kettő: **mintaszöveg**. A dokumentum megmutatja, hogyan néz ki a képernyő a
+gyakorlatban, névvel nevezve az MI-szolgáltatót és az országot, ahová az adat kerül.
+
+Három: **nyolc kötelező tartalmi elem**, amelyeket a kormányrendeletnek elő kell
+írnia. A rendelet a tartalmat írja elő, nem a szövegezést.
+
+Ehhez jött egy negyedik, a kérésen túl: **ha a kiadó nem tud nyilatkozni, azt is
+ki kell írni.** A „nem ismert, meddig tárolják” önmagában is információ, és
+versenyhátrány annak, aki így nyilatkozik. Ez a rendelkezés a piacra is hat.
+
+A normaszövegben ez az új B) §, nyolc pontban, a részletes tájékoztatóra vonatkozó
+kifejezett kikötéssel, hogy az a köznyelvi megjelenítést nem helyettesíti.
+
+## 4. Külön szabály arra, mi vihető tovább
+
+**A kérés.** Jegy és órarend nem kezelendő ugyanúgy, mint gyermekvédelmi,
+fegyelmi, egészségügyi vagy más személyeket is érintő adat. Nem kell teljesen
+szabályozni, de a szabályozási réteget meg kell nevezni.
+
+**Mi történt.** A 8.3 pont három adatkört különböztet meg, mindegyikhez más
+alapszabállyal: alapadatkör (továbbítható a tájékoztatás után), fokozottan védett
+adatkör (a delegált csatornán külső szolgáltatóhoz nem továbbítható), és más
+személyt is érintő adat (csak szűkítve vagy sehogy).
+
+A legfontosabb mondat az, hogy a fokozottan védett adatkörnél a szabály **nem a
+szülő látási jogát korlátozza** — azt nem érinti. Azt korlátozza, hogy ez az adat
+a delegált csatornán automatikusan egy külső MI-szolgáltatóhoz kerüljön.
+
+A 8.4 pont pontosan megnevezi, mit vállal és mit nem: megnevezi a réteget, rögzíti
+az alapértelmezést (fokozottan védett = nem továbbítható, amíg külön szabály mást
+nem mond), megadja a helyét (kormányrendeleti funkciókatalógus, tehát a törvény
+nyitása nélkül felülvizsgálható), és előírja a tájékoztatást. Nem vállalja a
+mezőszintű besorolást, és nem szabályozza, mit tehet az MI-szolgáltató a kapott
+adattal a saját rendszerén belül. Ez utóbbi a 14. fejezet 4. nyitott kérdése.
+
+## 5. A pedagógusi rész szakpolitikai érvre épül
+
+**A kérés.** Kevésbé támaszkodni az MI-rendeletből levezetett jogi érvre. Az
+MI-jártasság nem pusztán képzési kérdés: a pedagógus akkor tud kritikusan bánni az
+MI-vel, ha az a tényleges munkafolyamataiban jogszerűen használható. A jól
+integrált MI nem csak adminisztrációt gyorsít.
+
+**Mi történt.** A 3.5 pont egy bekezdésre zsugorodott, és a végén átirányít: az
+érdemi indokolás nem jogi, hanem szakpolitikai. A 10.3 pont lett a javaslat
+szakpolitikai magja, négy állítással.
+
+Az MI-jártasság nem képzési kérdés. Tanfolyamon meg lehet tanulni, mi az a nyelvi
+modell; azt, hogy egy konkrét kimenetben hol lehet megbízni, csak a saját munkán.
+
+Nem csak gyorsítás: lemaradó tanulók időben azonosítása a jegyek, hiányzások és
+határidők együttes mintázatából, szülői kommunikáció előkészítése, időszaki
+összesítés, szöveges értékelés támogatása. Mindegyikben a rögzítés és a szakmai
+döntés a pedagógusnál marad.
+
+És a záró érv, amely a 4.4 pontban is megjelenik: **a zárt rendszer nem az
+ellenőrizetlen MI-használatot akadályozza, hanem az ellenőrzöttet.** A kimásolást
+semmi nem állítja meg. Amit a zártság kizár, az éppen a naplózott, intézményileg
+engedélyezett út.
+
+## 6. Újraszámolt hatásbecslés, pilottal, forintosítás nélkül
+
+**A kérés.** Szűkebb pedagóguskör, két külön paraméter, példaszámításként
+bemutatva. Pilot előírása. A forintosítást kivenni vagy háttérbe tenni.
+
+**Mi történt.** Négy változás.
+
+**Szűkebb kör.** 148 ezer helyett 117 ezer: 74 ezer általános iskolai és 43 ezer
+középfokú pedagógus, a KSH bontása szerint. Az óvodapedagógusokat (31 ezer fő) és
+a tanulmányi rendszerhez nem kötődő feladatköröket kihagytuk. Így az éves bázis
+13,5 millió óra, nem 17,0 millió.
+
+**Két paraméter egy helyett.** Az eredő megtakarítás az érinthető arány és az
+érintett részen elérhető időnyereség szorzata. A dokumentum 3×3-as rácsot mutat,
+és megnevezi, melyik feltevésre érzékeny az eredmény.
+
+**Példaszámítás, nem ígéret.** 35% érinthető munkafolyamat és azon belül 40%
+időnyereség 14%-os eredőt ad: évi 1,9 millió óra, pedagógusonként körülbelül 16
+óra. A szöveg kimondja, hogy ez nem előrejelzés és nem vállalás.
+
+**A forint kikerült.** A 2.0 bérértéken is kifejezte az időt. A 2.1-ben ez nincs
+benne, és a szöveg megmondja, miért: a létszám nem csökken, a bér nem lesz
+kevesebb, tehát költségvetési megtakarítás nem keletkezik. Az „évi 1,9 millió óra”
+és a „pedagógusonként évi 16 óra” tisztább és védhetőbb állítás.
+
+**A pilot.** Ez a legfontosabb hozzáadás. A 6.2 pont és a normaszöveg IV. pontja
+kötelező pilot-mérést ír elő: néhány száz pedagógus, több intézménytípusból, öt
+mérendő kérdéssel. Mire megy ma az adminisztrációs idő folyamatonként, mely
+folyamatok igényelnek tanulmányi rendszerből adatot, ugyanaz mennyi idő integrált
+MI-vel, mekkora az utóellenőrzési idő, és változik-e a hibaarány.
+
+A negyedik és ötödik kérdés a saját becslésünk ellen dolgozik, szándékosan. Az
+utóellenőrzési idő nélkül a nyereség túlbecsült, egy gyorsabb de hibásabb
+adminisztráció pedig nem nyereség.
+
+Az időzítés is ezt szolgálja: a pilot a 2027. szeptemberi olvasási szakasszal
+indul, eredménye 2028 márciusában nyilvános, tehát **a pedagógusi szakaszról már
+magyar mérés alapján lehet dönteni**, nem feltételezésre.
+
+Egy mondat maradt biztosítéknak arra az esetre, ha a pilot nem igazolja a
+nyereséget: a javaslat olvasási része akkor is indokolt, mert az az érintett saját
+adatához való hozzáférésről szól, nem a pedagógusi hatékonyságról.
+
+## A logika, amit ez a kör helyreállított
+
+nem adatnyitás → a meglévő hozzáférés kontrollált delegálása → érthető
+tájékoztatás az adat további útjáról → külön szabály arra, mi vihető tovább →
+intézményileg megszervezhető pedagógusi MI-használat → pilotból mérhető tényleges
+hatás.

@@ -96,10 +96,10 @@ while (i < lines.length) {
 
   if (t.startsWith('> ')) { // idézet / kiemelt képlet
     children.push(new Paragraph({
-      spacing: { before: 120, after: 120 },
+      spacing: { before: 60, after: 60 },
       indent: { left: 360 },
       border: { left: { style: BorderStyle.SINGLE, size: 12, color: '6B7A8F', space: 12 } },
-      children: runs(t.slice(2), { italics: true }),
+      children: runs(t.slice(2)),
     }));
     i++; continue;
   }
