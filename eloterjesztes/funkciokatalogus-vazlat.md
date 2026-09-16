@@ -29,7 +29,7 @@
 | # | Funkció | KRÉTA-végpont | Adatkör | Szint | Megjegyzés |
 |---|---|---|---|---|---|
 | 1 | Kapcsolat ellenőrzése | `sajat/TanuloAdatlap` (metaadat) | A | 1 | csak a kapcsolat élő voltát igazolja |
-| 2 | Tanulói adatlap | `sajat/TanuloAdatlap` | A + **M** | 1 | a saját azonosító adatok A; a beágyazott gondviselői blokk M — lásd 4.1 |
+| 2 | Tanulói adatlap | `sajat/TanuloAdatlap` | A, **a más gondviselőre vonatkozó rész elhagyásával** | 1 | lásd 4.1 |
 | 3 | Gondviselői adatlap | `sajat/GondviseloAdatlap` | A | 1 | a felhatalmazó szülő saját adata; tanulói munkamenetből M |
 | 4 | Osztályok és csoportok | `sajat/OsztalyCsoportok` | A | 1 | a pedagógusnevek szakmai minőségben szerepelnek |
 | 5 | Értékelések, jegyek | `sajat/Ertekelesek` | A | 1 | a szöveges értékelés szabad szöveg; lásd 4.5 |
@@ -43,13 +43,15 @@
 | 13 | Házi feladatok | `sajat/HaziFeladatok` | A | 1 | |
 | 14 | Házi feladat részletei | `sajat/HaziFeladatok/{uid}` | A | 1 | |
 | 15 | Bejelentett számonkérések | `sajat/BejelentettSzamonkeresek` | A | 1 | |
-| 16 | Fogadóórák | `sajat/Fogadoorak` | A, **foglalásnál M** | 1 | ha más szülő foglalása is látszik, az M |
-| 17 | Fogadóóra részletei | `sajat/Fogadoorak/{uid}` | A, **foglalásnál M** | 1 | mint a 16. |
+| 16 | Fogadóórák | `sajat/Fogadoorak` | A, **más szülő foglalásának elhagyásával** | 1 | lásd 4.7 |
+| 17 | Fogadóóra részletei | `sajat/Fogadoorak/{uid}` | A, **más szülő foglalásának elhagyásával** | 1 | mint a 16. |
 | 18 | Heti intézményi beosztás | `sajat/Intezmenyek/Hetirendek/Orarendi` | A | 1 | intézményi adat |
-| 19 | Osztályátlagok | `sajat/Ertekelesek/Atlagok/OsztalyAtlagok` | **M**, aggregálva A | 1 | kis csoportnál visszafejthető — lásd 4.4 |
+| 19 | Osztályátlagok | `sajat/Ertekelesek/Atlagok/OsztalyAtlagok` | **M** | — | **nem delegálható**: nem a tanuló adata — lásd 4.4 |
 | 20 | Tárgyi eszköz státusza | `TargyiEszkoz/IsEszkozKiosztva`, `IsRegisztralt` | **K** | 1 | szociális támogatásra enged következtetni — lásd 4.6 |
 
-Húsz funkcióból **tizenhárom tiszta alapadatkör**, kettő korlátozott továbbítású, három vegyes, kettő pedig más személyt is érintő elemet hordoz. A bizalmi szint mindenhol 1, mert kizárólag olvasásról van szó az érintett saját adatkörében.
+Húsz funkcióból **tizenhárom tiszta alapadatkör**, kettő korlátozott továbbítású, három részleges elhagyást igényel, egy pedig egyáltalán nem delegálható. A bizalmi szint a delegálható funkcióknál mindenhol 1, mert kizárólag olvasásról van szó.
+
+**A vezérelv, amely a besorolásból kirajzolódott:** ahol a válasz más természetes személy adatát is tartalmazza, az alapértelmezés a **rész elhagyása**, nem a funkció tiltása; ahol viszont a funkció teljes értéke más személyek adatából áll, ott a funkció **nem delegálható**. Ez nem új szabály, hanem az előterjesztés A) § (4) bekezdésének alkalmazása: más személy adatára a felhatalmazás csak akkor terjed ki, ha a katalógus kifejezetten feljogosít.
 
 ## 4. A nehéz esetek
 
@@ -59,7 +61,7 @@ Ez a fejezet a katalógus lényege. A tiszta eseteknél a besorolás mechanikus;
 
 A tanuló adatlapja jellemzően nem csak a tanuló adataiból áll: tartalmazza a gondviselők nevét és elérhetőségét. Egy szülő számára ez részben **a másik szülő adata**.
 
-*Javasolt megoldás:* a funkció delegálható, de a válaszból a felhatalmazást adó gondviselőn kívüli gondviselők elérhetőségi adatait el kell hagyni. Ehhez az üzemeltetőnek mezőszintű szűrést kell tudnia a válaszban — ez műszaki követelmény, nem jogi.
+*Javasolt megoldás:* a funkció delegálható, de a válaszból a felhatalmazást adó gondviselőn kívüli gondviselők elérhetőségi adatait el kell hagyni. Ez a 4.4-ben megfogalmazott vezérelv első fele: a rész elhagyása, nem a funkció tiltása. Ehhez az üzemeltetőnek mezőszintű szűrést kell tudnia a válaszban — ez műszaki követelmény, nem jogi.
 
 ### 4.2 A mulasztás igazolási indoka egészségügyi adat lehet
 
@@ -77,11 +79,17 @@ A `Feljegyzesek` egyaránt tartalmazhat dicséretet, szaktanári figyelmeztetés
 
 **Ez konkrét kérés az üzemeltető felé**, és a katalógus egyik legfontosabb hozadéka: kiderül, hogy a szabályozás finomsága a mögöttes adatszerkezeten múlik.
 
-### 4.4 Az osztályátlag más gyerekek jegyeiből származik
+### 4.4 Az osztályátlag nem a tanuló adata
 
-Az osztályátlag nem nevesít senkit, de más tanulók értékeléseiből képzett adat. Nagy osztálynál ez ártalmatlan. Egy négyfős fakultációs csoportnál viszont az átlag és a saját jegy ismeretében **a többiek jegye visszafejthető**.
+Ez a sor a katalógus legtanulságosabb esete, mert egy fogalmi csúszást leplez le.
 
-*Javasolt megoldás:* az átlag akkor tartozik alapadatkörbe, ha a csoport létszáma egy küszöbértéket elér. A küszöb megállapítása statisztikai, nem jogi kérdés; a rendelet a küszöb létét írja elő, az értékét a melléklet adja meg. [ELDÖNTENDŐ: a minimális csoportlétszám]
+Az A) eset köznyelvi neve „a saját adat olvasása”, a normaszöveg viszont nem ezt mondja: a felhatalmazás a felhasználó **meglévő jogosultságának** körére terjed ki. A legtöbb végpontnál a kettő egybeesik. Az osztályátlagnál szétválik: a szülő látja a KRÉTA-ban, tehát a jogosultsága kiterjed rá — **de az átlag nem a gyereke adata**, hanem az osztályé, más tanulók értékeléseiből képezve.
+
+*Javasolt megoldás:* **a funkció nem delegálható.** Nem küszöbérték kell hozzá, hanem az, hogy ne kerüljön be a delegálható körbe. Ez nem új szabály: az előterjesztés A) § (4) bekezdése szerint más természetes személy adatára a felhatalmazás csak akkor terjed ki, ha a katalógus kifejezetten feljogosít — és az átlagra ilyen indítvány nincs.
+
+**Mit veszítünk vele.** A szülő az asszisztensén keresztül nem tudja megkérdezni, hogyan áll a gyereke az osztályhoz képest. A hivatalos felületen továbbra is látja. Ez a szűkítés nem sérti a javaslat ígéretét, mert az ígéret az, hogy a jogosultság **nem bővül**; a más személyek adatára vonatkozó szűkítést maga a normaszöveg írja elő.
+
+**Amit nyerünk vele.** Elmarad egy egész védelmi gépezet. Küszöbérték nélkül nem kell csoportlétszámot kérni az üzemeltetőtől, és nem kell kezelni a következő problémát sem: ha egy asszisztens lekéri az átlagot hétfőn és pénteken, és közben egyetlen új jegy került be, akkor az a jegy a két átlag különbségéből kiszámítható — **akármekkora a csoport**. Az ismételt, automatizált lekérdezés éppen ezt a különbségi támadást hozza be, és küszöbértékkel nem védhető ki. A funkció kihagyása igen.
 
 ### 4.5 A szöveges értékelés szabad szöveg
 
@@ -95,14 +103,21 @@ A `TargyiEszkoz` végpontok azt mondják meg, kiosztottak-e a tanulónak eszköz
 
 *Javasolt megoldás:* korlátozott továbbítású. A szülő a hivatalos felületen látja; MI-szolgáltatóhoz nem megy ki. Ez a funkció amúgy is marginális haszonnal jár egy asszisztensben.
 
+### 4.7 A fogadóóra-foglalás más szülő adata
+
+Ha a fogadóórák listája megmutatja, hogy egy idősávot már lefoglaltak, az önmagában időpontkezelési információ. Ha viszont a foglaló nevét vagy a gyerek nevét is mutatja, az **más szülő és más tanuló adata**.
+
+*Javasolt megoldás:* a szabad és foglalt idősávok delegálhatók, a foglaló azonosítása nem. Ugyanaz a vezérelv, mint a 4.1-nél: rész elhagyása.
+
 ## 5. Amit az üzemeltetőtől kell kérni
 
 A katalógus lezárásához négy dolog kell, és mindegyik az üzemeltető oldalán van:
 
 1. **Mezőszintű válaszséma** minden végponthoz. E nélkül a besorolás végpontnévre épül, ami a 4.1 és 4.2 eset alapján nem elég.
 2. **Típuskód a feljegyzésekhez**, hogy a 4.3 eset feloldható legyen.
-3. **Csoportlétszám az átlagokhoz**, hogy a 4.4 küszöb alkalmazható legyen.
-4. **Mezőszintű szűrés képessége** a válaszban, mert három eset is részleges elhagyást igényel, nem a funkció tiltását.
+3. **Mezőszintű szűrés képessége** a válaszban, mert három eset is részleges elhagyást igényel, nem a funkció tiltását.
+
+A vázlat első menete után a csoportlétszámra vonatkozó kérés okafogyottá vált: az osztályátlag kikerült a delegálható körből (4.4), így küszöbértékre nincs szükség.
 
 ## 6. Mi hiányzik még
 
@@ -115,7 +130,9 @@ A katalógus lezárásához négy dolog kell, és mindegyik az üzemeltető olda
 
 Három dolgot, és mindhárom az előterjesztés érvelését erősíti.
 
-**A besorolás elvégezhető.** Nem elméleti feladat: húsz funkcióból tizenhárom egyértelmű, és a maradék hét is eldönthető, ha a mögöttes adatszerkezet ismert.
+**A besorolás elvégezhető.** Nem elméleti feladat: húsz funkcióból tizenhárom egyértelmű, hat a mögöttes adatszerkezet ismeretében eldönthető, egy pedig egyszerűen kimarad.
+
+**A „saját adat” és a „meglévő jogosultság” nem ugyanaz.** Az osztályátlag esete (4.4) megmutatta, hogy a kettő szétválhat, és hogy ilyenkor a normaszöveg helyesen dönt: más személy adatára a felhatalmazás alapértelmezésben nem terjed ki. A katalógus tehát nemcsak besorol, hanem **teszteli is a normaszöveget** — és ezen a ponton a teszt sikeres volt.
 
 **A végpontszintű szabályozás nem elég.** Három esetben — tanulói adatlap, mulasztás, fogadóóra — egyetlen válaszon belül több adatkör van. A rendeletnek ezért mezőszintű besorolást kell lehetővé tennie, és az üzemeltetőnek mezőszintű szűrést kell tudnia.
 
