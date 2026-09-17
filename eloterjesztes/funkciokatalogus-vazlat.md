@@ -87,6 +87,8 @@ Az A) eset köznyelvi neve „a saját adat olvasása”, a normaszöveg viszont
 
 *Javasolt megoldás:* **a funkció nem delegálható.** Nem küszöbérték kell hozzá, hanem az, hogy ne kerüljön be a delegálható körbe. Ez nem új szabály: az előterjesztés A) § (4) bekezdése szerint más természetes személy adatára a felhatalmazás csak akkor terjed ki, ha a katalógus kifejezetten feljogosít — és az átlagra ilyen indítvány nincs.
 
+**Amit ez nem jelent.** A kizárás **nem állítás arról, hogy a KRÉTA mai megjelenítése jogsértő volna.** Egy valódi aggregátum jellemzően nem személyes adat, és ahol mégis azzá válhat, ott sem következik automatikusan a jogellenesség. A kizárás indoka az, hogy **az automatizált, ismételt lekérdezés más kitettséget jelent, mint az alkalmi kézi megtekintés**: a hivatalos felületen a szülő alkalmanként ránéz, egy asszisztens naponta lekérdezheti és el is tárolhatja.
+
 **Mit veszítünk vele.** A szülő az asszisztensén keresztül nem tudja megkérdezni, hogyan áll a gyereke az osztályhoz képest. A hivatalos felületen továbbra is látja. Ez a szűkítés nem sérti a javaslat ígéretét, mert az ígéret az, hogy a jogosultság **nem bővül**; a más személyek adatára vonatkozó szűkítést maga a normaszöveg írja elő.
 
 **Amit nyerünk vele.** Elmarad egy egész védelmi gépezet. Küszöbérték nélkül nem kell csoportlétszámot kérni az üzemeltetőtől, és nem kell kezelni a következő problémát sem: ha egy asszisztens lekéri az átlagot hétfőn és pénteken, és közben egyetlen új jegy került be, akkor az a jegy a két átlag különbségéből kiszámítható — **akármekkora a csoport**. Az ismételt, automatizált lekérdezés éppen ezt a különbségi támadást hozza be, és küszöbértékkel nem védhető ki. A funkció kihagyása igen.
