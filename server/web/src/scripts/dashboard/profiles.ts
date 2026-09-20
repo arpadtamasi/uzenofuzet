@@ -76,9 +76,10 @@ function moment(value: string): string {
 export function kretaDetail(profile: Profile): string {
   if (!isOnline(profile)) {
     if (!profile.instituteCode) return "A KRÉTA-naplóhoz előbb válaszd ki az iskolát a gyerek adatainál.";
+    if (!profile.kretaUsername) return "A KRÉTA-naplóhoz add meg a KRÉTA-felhasználónevet a gyerek adatainál.";
     return profile.connection.status === "expired"
-      ? "A kapcsolat lejárt. Add meg újra a KRÉTA-felhasználónevet és a jelszót az online kapcsoláshoz."
-      : "Nincs élő kapcsolat. Add meg a KRÉTA-felhasználónevet és a jelszót az online kapcsoláshoz.";
+      ? "A kapcsolat lejárt. Add meg újra a KRÉTA-jelszót az online kapcsoláshoz."
+      : "Nincs élő kapcsolat. Add meg a KRÉTA-jelszót az online kapcsoláshoz.";
   }
   const parts = [profile.connection.keepAlive ? "kb. 25 percenként frissül" : "30 perces próba"];
   if (profile.connection.keepAlive && profile.connection.keepAliveUntil) {

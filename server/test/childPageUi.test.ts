@@ -58,8 +58,9 @@ test("the server accepts a child without KRÉTA credentials and connects only on
 });
 
 test("the KRÉTA tab asks for the login, and only for the login", () => {
-  assert.match(kretaForm, /id="kreta-username"/);
+  assert.match(kretaForm, /id="kreta-login-name"/);
   assert.match(kretaForm, /id="kreta-password"/);
+  assert.doesNotMatch(kretaForm, /id="kreta-username"/, "the KRÉTA username is profile data, not part of the login");
   assert.match(kretaForm, /id="child-kreta-connect"[^>]*type="submit"/);
   assert.ok(
     details.indexOf("<KretaForm />") > details.indexOf('id="panel-kreta"') &&
@@ -70,6 +71,30 @@ test("the KRÉTA tab asks for the login, and only for the login", () => {
   assert.match(pageModule, /passwordInput\.value = "";/, "the password never stays on the page");
   assert.match(pageModule, /kretaDetail\(profile\)/);
   assert.match(pageModule, /classroomDetail\(profile\)/);
+});
+
+test("the password manager keys the KRÉTA password by the child's name; KRÉTA gets its generated username", () => {
+  // The KRÉTA username is a long generated code. The field the password manager
+  // reads as the username therefore carries the child's name, and it is never
+  // what the login sends: the request takes the username stored on the profile.
+  assert.match(kretaForm, /id="kreta-login-name"[^>]*autocomplete="username"[^>]*readonly/);
+  assert.match(kretaForm, /name="password" type="password"/);
+  assert.ok(
+    kretaForm.indexOf('id="kreta-login-name"') < kretaForm.indexOf('id="kreta-password"'),
+    "the child's name stands right above the password, where password managers look",
+  );
+  assert.match(form, /id="kreta-username"[^>]*autocomplete="off"/, "the generated code lives with the profile");
+  assert.doesNotMatch(form, /autocomplete="username"/, "nothing on the profile form competes for the password manager");
+  assert.match(pageModule, /const usernameInput = document\.querySelector<HTMLInputElement>\("#kreta-username"\)!;/);
+  assert.match(pageModule, /const loginNameInput = document\.querySelector<HTMLInputElement>\("#kreta-login-name"\)!;/);
+  assert.match(pageModule, /loginNameInput\.value = profile\?\.childName \?\? "";/);
+  const connectStart = pageModule.indexOf("await connectKreta(user, {");
+  const connect = pageModule.slice(connectStart, pageModule.indexOf("passwordInput.value = \"\";", connectStart));
+  assert.match(connect, /kretaUsername: usernameInput\.value,/, "KRÉTA receives the stored generated username");
+  assert.doesNotMatch(connect, /loginNameInput/, "the password manager's label never reaches KRÉTA");
+  const save = pageModule.slice(pageModule.indexOf("await saveProfile(user, {"), pageModule.indexOf("adoptProfile(saved)"));
+  assert.match(save, /kretaUsername: usernameInput\.value,/, "the username is saved with the child's data");
+  assert.match(pageModule, /A kapcsolódáshoz add meg a KRÉTA-felhasználónevet a gyerek adatainál\./);
 });
 
 test("the connectors appear only once there is a child, and the KRÉTA tab needs a school", () => {

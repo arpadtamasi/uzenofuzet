@@ -56,11 +56,15 @@ export function startChildPage(): void {
   const form = document.querySelector<HTMLFormElement>("#profile-form")!;
   const nameInput = document.querySelector<HTMLInputElement>("#child-name")!;
   const instituteInput = document.querySelector<HTMLInputElement>("#institute-code")!;
+  // A KRÉTA generált azonosítója a gyerek adatai közt él: ezt kapja a KRÉTA.
+  const usernameInput = document.querySelector<HTMLInputElement>("#kreta-username")!;
   const saveButton = document.querySelector<HTMLButtonElement>("#save-profile")!;
   const cancelButton = document.querySelector<HTMLButtonElement>("#cancel-profile")!;
 
   const kretaForm = document.querySelector<HTMLFormElement>("#kreta-form")!;
-  const usernameInput = document.querySelector<HTMLInputElement>("#kreta-username")!;
+  // A jelszó fölötti, csak olvasható név a jelszókezelőnek szól: ezen a néven
+  // jegyzi meg a KRÉTA-jelszót. A KRÉTA-nak soha nem küldjük.
+  const loginNameInput = document.querySelector<HTMLInputElement>("#kreta-login-name")!;
   const passwordInput = document.querySelector<HTMLInputElement>("#kreta-password")!;
   const keepAliveNote = document.querySelector<HTMLElement>("#keep-alive-note")!;
   const kretaConnect = document.querySelector<HTMLButtonElement>("#child-kreta-connect")!;
@@ -233,6 +237,11 @@ export function startChildPage(): void {
   // Az iskola beírása azonnal kinyitja a KRÉTA-fület: a szülő lássa, mit oldott fel.
   instituteInput.addEventListener("input", renderTabs);
 
+  // A jelszókezelőnek szóló név a most beírt nevet követi: a kapcsolódás is ezt menti.
+  nameInput.addEventListener("input", () => {
+    loginNameInput.value = nameInput.value;
+  });
+
   /** A törzs csak akkor jelenik meg, ha már a helyes cím és tartalom van benne. */
   function reveal() {
     loading.hidden = true;
@@ -245,6 +254,7 @@ export function startChildPage(): void {
     nameInput.value = profile?.childName ?? "";
     instituteInput.value = profile?.instituteCode ?? "";
     usernameInput.value = profile?.kretaUsername ?? "";
+    loginNameInput.value = profile?.childName ?? "";
     passwordInput.value = "";
     selectKeepAlive(choiceFor(profile ?? undefined));
   }
@@ -420,7 +430,8 @@ export function startChildPage(): void {
     nameInput.focus();
   });
 
-  // A név és az iskola mentése önmagában is teljes művelet: a gyerek ettől létezik.
+  // A név, az iskola és a KRÉTA-felhasználónév mentése önmagában is teljes
+  // művelet: a gyerek ettől létezik.
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!form.reportValidity()) return;
@@ -435,15 +446,17 @@ export function startChildPage(): void {
         ...(profileId ? { id: profileId } : {}),
         childName: nameInput.value,
         instituteCode: school(),
+        kretaUsername: usernameInput.value,
       });
       adoptProfile(saved);
-      // Az iskola cseréje eldobja a régi naplóhoz szóló belépést; ezt ki kell mondani.
+      // Az iskola vagy a felhasználónév cseréje eldobja a régi naplóhoz szóló
+      // belépést; ezt ki kell mondani.
       const droppedConnection = wasOnline && !isOnline(saved);
       setStatus(
         created
           ? `${saved.childName} profilját elmentettük. Most kapcsolhatod a KRÉTA-naplót vagy a Classroomot.`
           : droppedConnection
-            ? "A gyerek adatait elmentettük. Az iskola megváltozott, ezért a KRÉTA-kapcsolat megszűnt: a jelszóval kapcsolhatod vissza."
+            ? "A gyerek adatait elmentettük. Az iskola vagy a KRÉTA-felhasználónév megváltozott, ezért a KRÉTA-kapcsolat megszűnt: a jelszóval kapcsolhatod vissza."
             : "A gyerek adatait elmentettük.",
         "success",
       );
@@ -461,9 +474,16 @@ export function startChildPage(): void {
     const user = auth.currentUser;
     if (!profile || !user) return;
     if (!form.reportValidity() || !kretaForm.reportValidity()) return;
+    if (!usernameInput.value.trim()) {
+      setStatus("A kapcsolódáshoz add meg a KRÉTA-felhasználónevet a gyerek adatainál.", "error");
+      usernameInput.focus();
+      return;
+    }
     kretaConnect.disabled = true;
     setStatus("Kapcsolódás a KRÉTA-naplóhoz…");
     try {
+      // A KRÉTA a gyerek adatainál tárolt generált azonosítót kapja; a jelszó
+      // fölötti név csak a jelszókezelőnek szól, a kérésben nem szerepel.
       const saved = await connectKreta(user, {
         id: profile.id,
         childName: nameInput.value,

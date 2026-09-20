@@ -1,6 +1,8 @@
 ---
-/** A gyerek azonossága: név és iskola. Ez a lap teteje, a két csatlakozó fölött.
- *  Ugyanez az űrlap fogadja az új gyereket és szerkeszti a meglévőt. */
+/** A gyerek azonossága: név, iskola és a KRÉTA generált felhasználóneve. Ez a
+ *  lap teteje, a két csatlakozó fölött. Ugyanez az űrlap fogadja az új gyereket
+ *  és szerkeszti a meglévőt. A KRÉTA-azonosító azért van itt és nem a belépésnél,
+ *  hogy a jelszókezelő ne ezt jegyezze meg felhasználónévként. */
 ---
 
 <section class="profile" id="child-profile" aria-labelledby="profile-form-title">
@@ -21,6 +23,12 @@
     </label>
     <datalist id="institute-options"></datalist>
     <p class="institute-status" id="institute-search-status" role="status" aria-live="polite"></p>
+
+    <label class="field" for="kreta-username">
+      <span class="field-label">KRÉTA-felhasználónév <em>nem kötelező</em></span>
+      <span class="field-help">Az eKRÉTA generált, hosszú belépési azonosítója. A naplóhoz kell; a Classroomhoz nem. Csak a te profilodban tároljuk.</span>
+      <input id="kreta-username" name="kretaUsername" type="text" maxlength="120" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="pl. 72123456789" />
+    </label>
 
     <div class="form-actions">
       <button class="save-profile" id="save-profile" type="submit">Gyerek mentése</button>

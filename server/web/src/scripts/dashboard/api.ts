@@ -32,17 +32,18 @@ export async function fetchProfiles(user: User): Promise<Profile[]> {
   return data.profiles;
 }
 
-/** A gyerek azonossága: ennyitől már létezik a profil. */
+/** A gyerek azonossága: ennyitől már létezik a profil. A KRÉTA-felhasználónév
+ *  is ide tartozik: generált kód, amit egyszer kell megadni, nem belépésenként. */
 export interface ProfileInput {
   id?: string;
   childName: string;
   instituteCode: string;
+  kretaUsername: string;
 }
 
 /** A KRÉTA-belépés: a jelszó jelenléte mondja meg a szervernek, hogy kapcsolódunk. */
 export interface KretaConnectInput extends ProfileInput {
   id: string;
-  kretaUsername: string;
   password: string;
   keepAlive: boolean;
   keepAliveUntil: string | null;
