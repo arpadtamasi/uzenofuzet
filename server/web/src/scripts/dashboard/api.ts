@@ -32,8 +32,9 @@ export async function fetchProfiles(user: User): Promise<Profile[]> {
   return data.profiles;
 }
 
-/** A gyerek azonossága: ennyitől már létezik a profil. A KRÉTA-felhasználónév
- *  is ide tartozik: generált kód, amit egyszer kell megadni, nem belépésenként. */
+/** A gyerek azonossága: ennyitől már létezik a profil. A KRÉTA-felhasználónév a
+ *  bekötésnél kap értéket; a puszta mentés a tároltat viszi tovább, hogy a név
+ *  vagy az iskola javítása ne törölje. */
 export interface ProfileInput {
   id?: string;
   childName: string;

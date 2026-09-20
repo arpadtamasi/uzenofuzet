@@ -56,12 +56,12 @@ export function startChildPage(): void {
   const form = document.querySelector<HTMLFormElement>("#profile-form")!;
   const nameInput = document.querySelector<HTMLInputElement>("#child-name")!;
   const instituteInput = document.querySelector<HTMLInputElement>("#institute-code")!;
-  // A KRÉTA generált azonosítója a gyerek adatai közt él: ezt kapja a KRÉTA.
-  const usernameInput = document.querySelector<HTMLInputElement>("#kreta-username")!;
   const saveButton = document.querySelector<HTMLButtonElement>("#save-profile")!;
   const cancelButton = document.querySelector<HTMLButtonElement>("#cancel-profile")!;
 
   const kretaForm = document.querySelector<HTMLFormElement>("#kreta-form")!;
+  // A KRÉTA generált azonosítója: ezt kapja a KRÉTA.
+  const usernameInput = document.querySelector<HTMLInputElement>("#kreta-username")!;
   // A jelszó fölötti, csak olvasható név a jelszókezelőnek szól: ezen a néven
   // jegyzi meg a KRÉTA-jelszót. A KRÉTA-nak soha nem küldjük.
   const loginNameInput = document.querySelector<HTMLInputElement>("#kreta-login-name")!;
@@ -430,8 +430,7 @@ export function startChildPage(): void {
     nameInput.focus();
   });
 
-  // A név, az iskola és a KRÉTA-felhasználónév mentése önmagában is teljes
-  // művelet: a gyerek ettől létezik.
+  // A név és az iskola mentése önmagában is teljes művelet: a gyerek ettől létezik.
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!form.reportValidity()) return;
@@ -446,17 +445,18 @@ export function startChildPage(): void {
         ...(profileId ? { id: profileId } : {}),
         childName: nameInput.value,
         instituteCode: school(),
-        kretaUsername: usernameInput.value,
+        // A tárolt KRÉTA-felhasználónév megy tovább: a KRÉTA-fülön félbehagyott
+        // gépelés vagy egy üres mező nem írhatja felül.
+        kretaUsername: profile?.kretaUsername ?? "",
       });
       adoptProfile(saved);
-      // Az iskola vagy a felhasználónév cseréje eldobja a régi naplóhoz szóló
-      // belépést; ezt ki kell mondani.
+      // Az iskola cseréje eldobja a régi naplóhoz szóló belépést; ezt ki kell mondani.
       const droppedConnection = wasOnline && !isOnline(saved);
       setStatus(
         created
           ? `${saved.childName} profilját elmentettük. Most kapcsolhatod a KRÉTA-naplót vagy a Classroomot.`
           : droppedConnection
-            ? "A gyerek adatait elmentettük. Az iskola vagy a KRÉTA-felhasználónév megváltozott, ezért a KRÉTA-kapcsolat megszűnt: a jelszóval kapcsolhatod vissza."
+            ? "A gyerek adatait elmentettük. Az iskola megváltozott, ezért a KRÉTA-kapcsolat megszűnt: a jelszóval kapcsolhatod vissza."
             : "A gyerek adatait elmentettük.",
         "success",
       );
@@ -474,15 +474,10 @@ export function startChildPage(): void {
     const user = auth.currentUser;
     if (!profile || !user) return;
     if (!form.reportValidity() || !kretaForm.reportValidity()) return;
-    if (!usernameInput.value.trim()) {
-      setStatus("A kapcsolódáshoz add meg a KRÉTA-felhasználónevet a gyerek adatainál.", "error");
-      usernameInput.focus();
-      return;
-    }
     kretaConnect.disabled = true;
     setStatus("Kapcsolódás a KRÉTA-naplóhoz…");
     try {
-      // A KRÉTA a gyerek adatainál tárolt generált azonosítót kapja; a jelszó
+      // A KRÉTA a felhasználónév-mező generált azonosítóját kapja; a jelszó
       // fölötti név csak a jelszókezelőnek szól, a kérésben nem szerepel.
       const saved = await connectKreta(user, {
         id: profile.id,
