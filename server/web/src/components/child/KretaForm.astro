@@ -1,6 +1,9 @@
 ---
-/** A KRÉTA-fül egyetlen dolga: belépés a naplóba. Felhasználónév, jelszó,
- *  meddig maradjon online — és a kapcsolódás gombja. */
+/** A KRÉTA-fül egyetlen dolga: belépés a naplóba. KRÉTA-felhasználónév, jelszó,
+ *  meddig maradjon online — és a kapcsolódás gombja. A jelszó fölött azonban a
+ *  gyerek neve áll, csak olvashatóan: a jelszókezelő ezen a néven jegyzi meg a
+ *  bejegyzést, mert a KRÉTA-azonosító egy generált, hosszú kód, amit senki nem
+ *  ismer fel. A KRÉTA-nak a felhasználónév-mezőt küldjük, a nevet nem. */
 import ArrowMark from "../ArrowMark.astro";
 ---
 
@@ -12,8 +15,14 @@ import ArrowMark from "../ArrowMark.astro";
 
   <label class="field" for="kreta-username">
     <span class="field-label">KRÉTA-felhasználónév</span>
-    <span class="field-help">Az eKRÉTA belépési azonosítója. Csak a te profilodban tároljuk.</span>
-    <input id="kreta-username" name="kretaUsername" type="text" maxlength="120" autocomplete="username" autocapitalize="none" spellcheck="false" required />
+    <span class="field-help">Az eKRÉTA generált belépési azonosítója; ezt küldjük a KRÉTA-nak. Csak a te profilodban tároljuk, újrakapcsoláskor már ki van töltve.</span>
+    <input id="kreta-username" name="kretaAccount" type="text" maxlength="120" autocomplete="off" autocapitalize="none" spellcheck="false" required />
+  </label>
+
+  <label class="field" for="kreta-login-name">
+    <span class="field-label">A gyerek neve</span>
+    <span class="field-help">A jelszókezelőd ezen a néven jegyzi meg a KRÉTA-jelszót, hogy felismerd. A KRÉTA-nak ezt nem küldjük.</span>
+    <input id="kreta-login-name" name="username" type="text" autocomplete="username" readonly tabindex="-1" />
   </label>
 
   <label class="field" for="kreta-password">
@@ -75,6 +84,7 @@ import ArrowMark from "../ArrowMark.astro";
   .field-label { grid-column: 1; align-self: start; }
   .field-help { grid-column: 1; margin-top: .3rem; color: var(--ink-muted); font-size: .74rem; font-weight: 450; line-height: 1.5; }
   .field input { grid-column: 2; grid-row: 1 / span 2; align-self: start; }
+  .field input[readonly] { color: var(--ink-muted); background: var(--paper); cursor: default; }
 
   input:not([type="checkbox"]):not([type="radio"]) {
     width: 100%;
