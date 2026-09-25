@@ -4,6 +4,10 @@
 
 > **Egy bekezdésben.** Ma minden rendszer külön felületet követel, ezért az ember hordja közöttük az információt. A javaslat azt teszi lehetővé, hogy a már meglévő jogosultságát a felhasználó biztonságosan átadhassa a saját eszközének, miközben pontosan látja és kontrollálja, mi történik az adatával.
 
+**Módszer.** Ez az előterjesztés nem jogforrásból, hanem **egy működő implementációból** indult. Az Üzenőfüzet nyílt forráskódú szolgáltatás ma ténylegesen összeköti a szülők MI-asszisztensét a KRÉTA-val, és a javaslat réseit ebből a működésből vezettük le: minden megkerülő megoldás, amelyre a szolgáltatás rákényszerül, egy-egy hiányzó szabályt nevez meg (4.3). A funkciókatalógus vázlata is így készült, a szolgáltatás valós végpontlistájából. A hiánylista tehát nem elméleti, és a javasolt besorolás húsz valós végponton kipróbálható.
+
+**Testvéranyag.** Az „AI-Ország: szabad tananyag" előterjesztés ugyanennek az oktatási pilotnak a másik felét írja le, és a két anyag tárgya nem fedi egymást. A tananyag azt adja meg, **mit tud** egy oktatási MI; ez az anyag azt, hogy **kiről és mire** használhatja. Amaz közpénzből előállított művek nyílt licencéről szól és kifejezetten kizárja a személyes adatokat; emez kizárólag személyes adatról, és annak felhatalmazáson alapuló eléréséről. Más törvényeket módosítanak, tehát egy csomagban is ütközés nélkül állnak egymás mellett.
+
 ---
 
 ## Vezetői összefoglaló

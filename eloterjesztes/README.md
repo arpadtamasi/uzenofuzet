@@ -12,6 +12,8 @@ felhatalmazáson alapuló szoftveres hozzáférésről.
 | `AI-Orszag-sajat-oktatasi-adat.docx` | ugyanaz Word-formátumban |
 | [`funkciokatalogus-vazlat.md`](funkciokatalogus-vazlat.md) | a szülői és tanulói olvasási funkciók adatkör-besorolása, az Üzenőfüzet valós KRÉTA-végpontjai alapján |
 | `funkciokatalogus-vazlat.docx` | ugyanaz Word-formátumban |
+| [`osszehasonlitas-szabad-tananyag.md`](osszehasonlitas-szabad-tananyag.md) | a testvéranyaggal („AI-Ország: szabad tananyag") való összevetés, közös váz és összehangolandó pontok |
+| `osszehasonlitas-szabad-tananyag.docx` | ugyanaz Word-formátumban |
 | [`valaszok-a-review-ra.md`](valaszok-a-review-ra.md) | a 12 pontos bírálat pontonkénti feldolgozása: mit állít, megáll-e, mi volt az 1.0-ban, mi lett a 2.0-ban, mi maradt nyitva |
 | [`build-docx.cjs`](build-docx.cjs) | a Markdown→docx konverter |
 
@@ -25,6 +27,7 @@ export NODE_PATH=/tmp/docxbuild/node_modules
 node build-docx.cjs AI-Orszag-sajat-oktatasi-adat.md AI-Orszag-sajat-oktatasi-adat.docx
 node build-docx.cjs donteshozoi-osszefoglalo.md donteshozoi-osszefoglalo.docx
 node build-docx.cjs funkciokatalogus-vazlat.md funkciokatalogus-vazlat.docx
+node build-docx.cjs osszehasonlitas-szabad-tananyag.md osszehasonlitas-szabad-tananyag.docx
 ```
 
 A Markdownból címsorok, bekezdések, felsorolások, számozott listák, táblázatok,
