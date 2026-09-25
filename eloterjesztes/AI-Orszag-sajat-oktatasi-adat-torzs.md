@@ -37,7 +37,7 @@ Ezt a listát azért tesszük az előterjesztés elejére, mert a javaslattal sz
 - **Nem állítjuk, hogy az érintettnek tulajdonjoga van a róla kezelt adatokon.** Az uniós adatvédelmi jog nem ismer adat-tulajdonjogot; a „saját oktatási adat” a címben köznyelvi fordulat.
 - **Nem állítjuk, hogy a javasolt jogosultság a hatályos jogból levezethető.** Amit javaslunk, **új ágazati jogosultság** (3.1–3.2). Ezt vállaljuk, nem álcázzuk meglévő jog technikai megvalósításának. Az MI-rendelet és az adatrendelet irányjelző, nem jogalap (3.4–3.5).
 - **Nem javasoljuk, hogy ellenőrzés nélkül regisztrált szoftver írási műveletet végezhessen**, sem azt, hogy a pedagógus saját elhatározásából engedhesse át szoftvernek a munkaköri jogosultságát.
-- **Nem állítjuk, hogy bármilyen oktatási adat szabadon továbbítható külső MI-szolgáltatóhoz.** A 8. fejezet ennek az ellenkezőjét javasolja.
+- **Nem állítjuk, hogy bármilyen oktatási adat szabadon továbbítható külső MI-szolgáltatóhoz.** A melléklet M4. fejezete ennek az ellenkezőjét javasolja.
 - **Nem állítjuk, hogy a rendszerek jelenlegi működése jogsértő.** A javaslat egy új csatornára vonatkozó szabályozást kér, nem a hatályos gyakorlat minősítését. Ahol a melléklet M4.3 pontja szerinti besorolás szűkebb annál, mint amit a hivatalos felület ma megjelenít, az azért van, mert **az automatizált, ismételt lekérdezés más kitettséget jelent, mint az alkalmi kézi megtekintés** — nem azért, mert a mai megjelenítést jogellenesnek tartanánk. Ennek megítélése az adatvédelmi hatóság és a bíróság hatásköre.
 
 ---
