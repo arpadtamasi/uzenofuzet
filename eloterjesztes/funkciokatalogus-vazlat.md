@@ -8,11 +8,11 @@
 
 ## 1. Mi ez, és mi nem
 
-**Mi ez.** Az Üzenőfüzet nyílt forráskódú szolgáltatás ma 17 KRÉTA-végpontot olvas a szülő nevében. Ez a lista nem elméleti: működő integrációból származik, tehát pontosan azt a funkciókört fedi le, amelyet egy delegált hozzáférés első szakasza érintene. A vázlat minden végponthoz hozzárendel egy adatkör-besorolást és egy bizalmi szintet.
+**Mi ez.** Az Üzenőfüzet nyílt forráskódú prototípus 17 KRÉTA-végpontot olvas a szülő nevében. A lista működő integrációból származik, tehát pontosan azt a funkciókört fedi le, amelyet egy delegált hozzáférés első szakasza érintene. A vázlat minden végponthoz hozzárendel egy adatkör-besorolást és egy bizalmi szintet.
 
 **Mi nem.**
 
-- **Nem teljes.** Kizárólag az előterjesztés **A) esetét** fedi le: az érintett saját adatának olvasását. A B) eset (műveletvégzés) és a C) eset (pedagógusi jogosultság) funkcióit ez a forrás nem tartalmazza, mert az Üzenőfüzet szülői oldalú és csak olvas. Azokhoz az üzemeltető saját funkciólistája kell.
+- **Nem teljes.** Kizárólag az előterjesztés **A) esetét** fedi le: az érintett saját adatának olvasását. A B) eset (műveletvégzés) és a C) eset (pedagógusi jogosultság) funkcióit ez a forrás nem tartalmazza, mert a prototípus szülői oldalú és csak olvas. Azokhoz az üzemeltető saját funkciólistája kell.
 - **Nem a Neptunra vonatkozik.** A felsőoktatási tanulmányi rendszerek külön katalógust igényelnek.
 - **Nem végleges, mert mezőszintű sémát nem láttunk.** A besorolás a végpontok szemantikáján alapul, nem a tényleges válaszmezőkön. **Minden sor validálandó a valódi válaszszerkezet ismeretében.** Ez önmagában is érv a javaslat mellett: a katalógus nem készíthető el addig, amíg az üzemeltető nem teszi közzé a felület leírását.
 

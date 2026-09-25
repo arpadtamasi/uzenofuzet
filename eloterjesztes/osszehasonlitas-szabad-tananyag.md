@@ -49,7 +49,7 @@ A mi többletfejezeteink: a keretezés (1–2.), a jogi helyzet tételes végigv
 
 **A „szabad tananyag" jogforrásból indul.** Végigveszi a hazai és uniós adatjogi fejlődést, és abból vezeti le, hol hiányzik a kötelező erejű szabály. Ez a klasszikus jogalkotás-előkészítő módszer, és erős: a hivatkozási háló sűrű és pontos.
 
-**A „saját oktatási adat" egy működő implementációból indul.** Az Üzenőfüzet nyílt forráskódú szolgáltatás ma ténylegesen összeköti a szülők MI-asszisztensét a KRÉTA-val, és a javaslat réseit ebből a működésből vezettük le: minden megkerülő megoldás, amelyre a szolgáltatás rákényszerül, egy-egy hiányzó szabályt nevez meg. A funkciókatalógus vázlata is így készült, a szolgáltatás valódi végpontlistájából.
+**A „saját oktatási adat" egy működő prototípusból indul.** Az Üzenőfüzet nyílt forráskódú prototípus a valódi KRÉTA-val működik, nyilvános szolgáltatásként viszont nem érhető el: a fejlesztés éppen a nyilvánossá tétel akadályain állt meg. A javaslat réseit ezekből az akadályokból vezettük le, és a funkciókatalógus vázlata is a prototípus valódi végpontlistájából készült.
 
 Ennek két haszna van a munkacsoport számára:
 

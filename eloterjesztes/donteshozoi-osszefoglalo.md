@@ -70,4 +70,4 @@ Az üzemeltetői ráfordítás költsége nincs becsülve, így a hatásvizsgál
 
 ## Érdekütközés
 
-Az előterjesztés készítője üzemelteti az Üzenőfüzet nevű nyílt forráskódú szolgáltatást, amely ma a leírt megkerülő módon köti össze a szülők MI-asszisztensét a KRÉTA-val. A javaslat elfogadása ezt a szolgáltatást a jelenlegi formájában feleslegessé teszi, de a jövőbeli piacon az előterjesztő is szereplő lehet.
+Az előterjesztés készítője fejlesztette az Üzenőfüzet nevű nyílt forráskódú prototípust, amely a leírt megkerülő módon köti össze a szülő MI-asszisztensét a KRÉTA-val. Nyilvános szolgáltatásként nem üzemel; a fejlesztés éppen a nyilvánossá tétel előtt állt meg, a leírt akadályok miatt. A javaslat elfogadása ezeket az akadályokat szüntetné meg, és a létrejövő piacon az előterjesztő is szereplő lehet.

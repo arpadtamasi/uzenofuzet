@@ -4,7 +4,7 @@
 
 > **Egy bekezdésben.** Ma minden rendszer külön felületet követel, ezért az ember hordja közöttük az információt. A javaslat azt teszi lehetővé, hogy a már meglévő jogosultságát a felhasználó biztonságosan átadhassa a saját eszközének, miközben pontosan látja és kontrollálja, mi történik az adatával.
 
-**Módszer.** Ez az előterjesztés nem jogforrásból, hanem **egy működő implementációból** indult. Az Üzenőfüzet nyílt forráskódú szolgáltatás ma ténylegesen összeköti a szülők MI-asszisztensét a KRÉTA-val, és a javaslat réseit ebből a működésből vezettük le: minden megkerülő megoldás, amelyre a szolgáltatás rákényszerül, egy-egy hiányzó szabályt nevez meg (4.3). A funkciókatalógus vázlata is így készült, a szolgáltatás valós végpontlistájából. A hiánylista tehát nem elméleti, és a javasolt besorolás húsz valós végponton kipróbálható.
+**Módszer.** Ez az előterjesztés **egy működő prototípus tapasztalataiból** indult. Az Üzenőfüzet nyílt forráskódú prototípus a valódi KRÉTA-val működik, nyilvános szolgáltatásként viszont nem érhető el: a fejlesztés éppen a nyilvánossá tétel akadályain állt meg (4.3). A javaslat réseit ezekből az akadályokból vezettük le, és a funkciókatalógus vázlata is a prototípus valós végpontlistájából készült.
 
 **Testvéranyag.** Az „AI-Ország: szabad tananyag" előterjesztés ugyanennek az oktatási pilotnak a másik felét írja le, és a két anyag tárgya nem fedi egymást. A tananyag azt adja meg, **mit tud** egy oktatási MI; ez az anyag azt, hogy **kiről és mire** használhatja. Amaz közpénzből előállított művek nyílt licencéről szól és kifejezetten kizárja a személyes adatokat; emez kizárólag személyes adatról, és annak felhatalmazáson alapuló eléréséről. Más törvényeket módosítanak, tehát egy csomagban is ütközés nélkül állnak egymás mellett.
 
@@ -173,14 +173,14 @@ A szülő napi valósága nem az, hogy hiányzik neki egy MI-asszisztens. Az, ho
 
 Amit szeretne, az egyetlen kérdés a már használt eszközében: mi vár a gyerekekre a héten, melyik tantárgyból romlottak a jegyek, mikor kell igazolást beadni. Hivatalos út nélkül erre csak kockázatos módok vannak.
 
-Konkrét példa az **Üzenőfüzet** nyílt forráskódú szolgáltatás, amelyet az előterjesztés készítője üzemeltet, és amely a szülők MI-asszisztensét köti össze a KRÉTA-val. Ehhez ma kénytelen:
+Konkrét példa az **Üzenőfüzet** nyílt forráskódú prototípus, amelyet az előterjesztés készítője fejlesztett, és amely a szülő MI-asszisztensét köti össze a KRÉTA-val. Ahhoz, hogy egyáltalán működjön, a következőkre kényszerül:
 
 - a szülőtől átvenni a KRÉTA-jelszót, a nevében belépni, és a belépési tokeneket maga tárolni;
 - a hivatalos tanulói mobilalkalmazás kliensazonosítóját és nem dokumentált végpontjait használni, így bármely rendszerfrissítés után működésképtelenné válhat;
 - a hívásokat lakossági hálózaton továbbítani, mert a rendszer az adatközponti hálózatokból érkező kéréseket elutasítja;
 - saját tájékoztatóban kezelni, hogy a lekért adatok — köztük kiskorúak adatai — a szülő által választott, akár az Unión kívüli MI-szolgáltatóhoz kerülnek.
 
-A szülő a kiadott hozzáférést a KRÉTA-ban nem látja és ott nem tudja visszavonni. **Az Üzenőfüzet célja, hogy ez a közvetítő szerep ebben a formában feleslegessé váljon.** Az előterjesztő érdekeltségét itt jelezzük: a javaslat elfogadása a saját szolgáltatásunk jelenlegi működési modelljét szünteti meg.
+A szülő a kiadott hozzáférést a KRÉTA-ban nem látja és ott nem tudja visszavonni. **Ezek a kényszerek együtt oda vezettek, hogy a prototípus nyilvános szolgáltatásként nem vállalható, és a fejlesztés ezen a ponton megállt.** Az előterjesztő érdekeltségét itt jelezzük: a javaslat elfogadása éppen ezeket a közvetítő megoldásokat tenné szükségtelenné.
 
 Figyeljük meg, hogy az utolsó pont már nem hozzáférési, hanem **felhasználási** kérdés. Ma ezt minden szolgáltató a saját tájékoztatójában, saját belátása szerint kezeli. A 8. fejezet erre ad szabályt.
 
@@ -618,7 +618,7 @@ Ezeket a kérdéseket a javaslat nem dönti el. Azért soroljuk fel, mert a szak
 5. **A költségoldal.** Az üzemeltetői ráfordítás, a nyilvántartás működtetése, a pilot és az intézményi felkészítés költsége még nincs becsülve.
 6. **A továbbítási nyilatkozat ellenőrzése.** A javaslat szankcionálja a valótlan nyilatkozatot, de nem mondja meg, ki és hogyan ellenőrzi. Bejelentésre, mintavétellel vagy rendszeresen?
 7. **Statisztikai pontosítások.** Az átlagos osztálylétszám, a KRÉTA-alkalmazások megjelenési éve és a KRÉTA-tudásbázis hivatkozásának pontos adatai még pótlandók (a szövegben [ELLENŐRIZENDŐ] jelöléssel).
-8. **Az érdekütközés kezelése.** Az előterjesztés készítője a 4.3 pontban leírt szolgáltatás üzemeltetője. A javaslat elfogadása ezt a szolgáltatást a jelenlegi formájában feleslegessé teszi, de a jövőbeli piacon az előterjesztő is szereplő lehet.
+8. **Az érdekütközés kezelése.** A 4.3 pontban leírt prototípust az előterjesztés készítője fejlesztette. A javaslat elfogadása a prototípus közvetítő megoldásait tenné szükségtelenné, és a létrejövő piacon az előterjesztő is szereplő lehet.
 
 ---
 
