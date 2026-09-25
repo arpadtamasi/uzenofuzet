@@ -10,8 +10,9 @@ felhatalmazáson alapuló szoftveres hozzáférésről.
 | [`munkacsoporti-osszefoglalo-szabad-tananyag.md`](munkacsoporti-osszefoglalo-szabad-tananyag.md) | ugyanez a testvéranyagból, szerkesztői javaslatként a szerzőnek |
 | [`donteshozoi-osszefoglalo.md`](donteshozoi-osszefoglalo.md) | 1–2 oldalas döntéshozói összefoglaló; ezt kapja, aki dönt |
 | `donteshozoi-osszefoglalo.docx` | ugyanaz Word-formátumban |
-| [`AI-Orszag-sajat-oktatasi-adat-torzs.md`](AI-Orszag-sajat-oktatasi-adat-torzs.md) | **törzsanyag** a munkacsoport közös sablonja szerint (Probléma, Előzmények, Okozott kár, Megoldási célok, Várható haszon, Pontos szakpolitikai változás) |
-| [`AI-Orszag-sajat-oktatasi-adat-melleklet.md`](AI-Orszag-sajat-oktatasi-adat-melleklet.md) | **melléklet**: a jogi, bizalmi, felhasználási és felelősségi modell — ami a törzset teljessé egészíti ki |
+| [`AI-Orszag-sajat-oktatasi-adat-teljes.md`](AI-Orszag-sajat-oktatasi-adat-teljes.md) | **a teljes előterjesztés egy fájlban**, kb. 20 oldal: indokolás, jogi helyzet, bizalmi és felhasználási modell, normaszöveg, ütemterv, funkciókatalógus |
+| [`AI-Orszag-sajat-oktatasi-adat-torzs.md`](AI-Orszag-sajat-oktatasi-adat-torzs.md) | a teljes anyag rövidebb változata, melléklet nélkül |
+| [`AI-Orszag-sajat-oktatasi-adat-melleklet.md`](AI-Orszag-sajat-oktatasi-adat-melleklet.md) | a törzshöz tartozó melléklet, a teljes változatban a 3. és 7. fejezetbe olvasztva |
 | [`kommentek-szabad-tananyag.md`](kommentek-szabad-tananyag.md) | kollegiális kommentek a testvéranyaghoz, 30 pontban |
 | [`AI-Orszag-sajat-oktatasi-adat.md`](AI-Orszag-sajat-oktatasi-adat.md) | az egybefüggő teljes változat, amelyből a törzs és a melléklet készült |
 | `*.docx` | mindegyikből a Word-változat |
@@ -38,6 +39,7 @@ node build-docx.cjs AI-Orszag-sajat-oktatasi-adat-melleklet.md AI-Orszag-sajat-o
 node build-docx.cjs kommentek-szabad-tananyag.md kommentek-szabad-tananyag.docx
 node build-docx.cjs munkacsoporti-osszefoglalo.md munkacsoporti-osszefoglalo.docx
 node build-docx.cjs munkacsoporti-osszefoglalo-szabad-tananyag.md munkacsoporti-osszefoglalo-szabad-tananyag.docx
+node build-docx.cjs AI-Orszag-sajat-oktatasi-adat-teljes.md AI-Orszag-sajat-oktatasi-adat-teljes.docx
 ```
 
 A Markdownból címsorok, bekezdések, felsorolások, számozott listák, táblázatok,
