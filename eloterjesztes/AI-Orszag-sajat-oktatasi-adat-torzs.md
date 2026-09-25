@@ -24,8 +24,6 @@ Négy elemet javaslunk. Új ágazati jogosultságot a köznevelési és a felső
 
 ### Mit nem állítunk
 
-A javaslattal szembeni ellenérvek jellemzően a túlfogalmazást szokták célozni, ezért néhány határt érdemes elöl tisztázni.
-
 A javaslat senkinek nem ad hozzáférést olyan adathoz, amit ma nem lát. A csatorna változik, a jogosultság nem. Azt sem állítjuk, hogy az érintettnek tulajdonjoga volna a róla kezelt adatokon, mert az uniós adatvédelmi jog ilyet nem ismer; a címben szereplő „saját oktatási adat" köznyelvi fordulat.
 
 A javasolt jogosultság a hatályos jogból nem vezethető le. Új ágazati jogosultságról van szó, amit vállalunk, és nem álcázunk meglévő jog technikai megvalósításának; a részletes levezetést a melléklet M2.1 és M2.2 pontja adja. Az MI-rendelet és az adatrendelet ebben az összefüggésben irányjelző, nem jogalap.
