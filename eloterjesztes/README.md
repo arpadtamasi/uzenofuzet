@@ -6,6 +6,8 @@ felhatalmazáson alapuló szoftveres hozzáférésről.
 
 | Fájl | Mi ez |
 | --- | --- |
+| [`munkacsoporti-osszefoglalo.md`](munkacsoporti-osszefoglalo.md) | **2 oldal a munkacsoportnak** — ezt érdemes kiküldeni |
+| [`munkacsoporti-osszefoglalo-szabad-tananyag.md`](munkacsoporti-osszefoglalo-szabad-tananyag.md) | ugyanez a testvéranyagból, szerkesztői javaslatként a szerzőnek |
 | [`donteshozoi-osszefoglalo.md`](donteshozoi-osszefoglalo.md) | 1–2 oldalas döntéshozói összefoglaló; ezt kapja, aki dönt |
 | `donteshozoi-osszefoglalo.docx` | ugyanaz Word-formátumban |
 | [`AI-Orszag-sajat-oktatasi-adat-torzs.md`](AI-Orszag-sajat-oktatasi-adat-torzs.md) | **törzsanyag** a munkacsoport közös sablonja szerint (Probléma, Előzmények, Okozott kár, Megoldási célok, Várható haszon, Pontos szakpolitikai változás) |
@@ -34,6 +36,8 @@ node build-docx.cjs osszehasonlitas-szabad-tananyag.md osszehasonlitas-szabad-ta
 node build-docx.cjs AI-Orszag-sajat-oktatasi-adat-torzs.md AI-Orszag-sajat-oktatasi-adat-torzs.docx
 node build-docx.cjs AI-Orszag-sajat-oktatasi-adat-melleklet.md AI-Orszag-sajat-oktatasi-adat-melleklet.docx
 node build-docx.cjs kommentek-szabad-tananyag.md kommentek-szabad-tananyag.docx
+node build-docx.cjs munkacsoporti-osszefoglalo.md munkacsoporti-osszefoglalo.docx
+node build-docx.cjs munkacsoporti-osszefoglalo-szabad-tananyag.md munkacsoporti-osszefoglalo-szabad-tananyag.docx
 ```
 
 A Markdownból címsorok, bekezdések, felsorolások, számozott listák, táblázatok,
