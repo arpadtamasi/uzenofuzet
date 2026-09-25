@@ -8,8 +8,11 @@ felhatalmazáson alapuló szoftveres hozzáférésről.
 | --- | --- |
 | [`donteshozoi-osszefoglalo.md`](donteshozoi-osszefoglalo.md) | 1–2 oldalas döntéshozói összefoglaló; ezt kapja, aki dönt |
 | `donteshozoi-osszefoglalo.docx` | ugyanaz Word-formátumban |
-| [`AI-Orszag-sajat-oktatasi-adat.md`](AI-Orszag-sajat-oktatasi-adat.md) | a teljes előterjesztés forrása, háttéranyag |
-| `AI-Orszag-sajat-oktatasi-adat.docx` | ugyanaz Word-formátumban |
+| [`AI-Orszag-sajat-oktatasi-adat-torzs.md`](AI-Orszag-sajat-oktatasi-adat-torzs.md) | **törzsanyag** a munkacsoport közös sablonja szerint (Probléma, Előzmények, Okozott kár, Megoldási célok, Várható haszon, Pontos szakpolitikai változás) |
+| [`AI-Orszag-sajat-oktatasi-adat-melleklet.md`](AI-Orszag-sajat-oktatasi-adat-melleklet.md) | **melléklet**: a jogi, bizalmi, felhasználási és felelősségi modell — ami a törzset teljessé egészíti ki |
+| [`kommentek-szabad-tananyag.md`](kommentek-szabad-tananyag.md) | kollegiális kommentek a testvéranyaghoz, 30 pontban |
+| [`AI-Orszag-sajat-oktatasi-adat.md`](AI-Orszag-sajat-oktatasi-adat.md) | az egybefüggő teljes változat, amelyből a törzs és a melléklet készült |
+| `*.docx` | mindegyikből a Word-változat |
 | [`funkciokatalogus-vazlat.md`](funkciokatalogus-vazlat.md) | a szülői és tanulói olvasási funkciók adatkör-besorolása, az Üzenőfüzet valós KRÉTA-végpontjai alapján |
 | `funkciokatalogus-vazlat.docx` | ugyanaz Word-formátumban |
 | [`osszehasonlitas-szabad-tananyag.md`](osszehasonlitas-szabad-tananyag.md) | a testvéranyaggal („AI-Ország: szabad tananyag") való összevetés, közös váz és összehangolandó pontok |
@@ -28,6 +31,9 @@ node build-docx.cjs AI-Orszag-sajat-oktatasi-adat.md AI-Orszag-sajat-oktatasi-ad
 node build-docx.cjs donteshozoi-osszefoglalo.md donteshozoi-osszefoglalo.docx
 node build-docx.cjs funkciokatalogus-vazlat.md funkciokatalogus-vazlat.docx
 node build-docx.cjs osszehasonlitas-szabad-tananyag.md osszehasonlitas-szabad-tananyag.docx
+node build-docx.cjs AI-Orszag-sajat-oktatasi-adat-torzs.md AI-Orszag-sajat-oktatasi-adat-torzs.docx
+node build-docx.cjs AI-Orszag-sajat-oktatasi-adat-melleklet.md AI-Orszag-sajat-oktatasi-adat-melleklet.docx
+node build-docx.cjs kommentek-szabad-tananyag.md kommentek-szabad-tananyag.docx
 ```
 
 A Markdownból címsorok, bekezdések, felsorolások, számozott listák, táblázatok,
