@@ -20,6 +20,7 @@ felhatalmazáson alapuló szoftveres hozzáférésről.
 | `funkciokatalogus-vazlat.docx` | ugyanaz Word-formátumban |
 | [`osszehasonlitas-szabad-tananyag.md`](osszehasonlitas-szabad-tananyag.md) | a testvéranyaggal („AI-Ország: szabad tananyag") való összevetés, közös váz és összehangolandó pontok |
 | `osszehasonlitas-szabad-tananyag.docx` | ugyanaz Word-formátumban |
+| [`hivatkozas-ellenorzes.md`](hivatkozas-ellenorzes.md) | minden jogi, műszaki és statisztikai hivatkozás ellenőrzése: mit igazolt vissza a forrás, mi javítandó, mi maradt nyitva |
 | [`valaszok-a-review-ra.md`](valaszok-a-review-ra.md) | a 12 pontos bírálat pontonkénti feldolgozása: mit állít, megáll-e, mi volt az 1.0-ban, mi lett a 2.0-ban, mi maradt nyitva |
 | [`build-docx.cjs`](build-docx.cjs) | a Markdown→docx konverter |
 

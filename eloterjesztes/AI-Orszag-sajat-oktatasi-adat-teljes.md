@@ -68,7 +68,7 @@ A javaslat ezért két rétegben gondolkodik. A hozzáférési réteg azt szabá
 
 Az adatot ma csak a hivatalos alkalmazás éri el. A KRÉTA a szülőnek, a tanulónak és a pedagógusnak külön mobilalkalmazást kínál, amelyekben órarend, számonkérések, házi feladatok, jegyek és mulasztások jelennek meg, a pedagógus pedig naplózási és értékelési műveleteket is végezhet. Az alkalmazások mögött tehát működő programozói felület áll, amelyet azonban kizárólag a hivatalos alkalmazás használhat: a belépési rendszer nem teszi lehetővé, hogy harmadik fél szoftvere a felhasználó engedélyével klienst regisztráljon, és a felület dokumentációja nem nyilvános.
 
-Az üzemeltető a nem hivatalos kliens használatát kifejezetten rendellenesnek minősíti. A KRÉTA saját tudásbázisa szerint rendellenes működésnek minősülhet, ha ugyanazt a profilt nem hivatalos alkalmazás használja. [ELLENŐRIZENDŐ: a tudásbázis-cikk pontos címe, URL-je és lekérdezési dátuma] Ennek az az önmagán túlmutató jelentősége, hogy a zártság szándékolt üzemeltetői álláspont, amely jogszabályi beavatkozás nélkül várhatóan fennmarad.
+Az üzemeltető a nem hivatalos kliens használatát kifejezetten rendellenesnek minősíti. A KRÉTA saját tudásbázisa szerint a mobilos belépés biztonsági okból ideiglenesen felfüggeszthető, mert a fiókhoz rendellenes működést észleltek, és ez akkor fordulhat elő, ha nem hivatalos KRÉTA-alkalmazás fut a készüléken vagy ugyanazzal a profillal egy másik készüléken. Ugyanez a lap kimondja, hogy a harmadik fél által fejlesztett alkalmazások használata nem javasolt és saját felelősségre történik, és hogy az üzemeltető ezek működéséért, biztonságáért és adatkezelési gyakorlatáért felelősséget nem vállal. Ennek az az önmagán túlmutató jelentősége, hogy a zártság szándékolt üzemeltetői álláspont, amely jogszabályi beavatkozás nélkül várhatóan fennmarad.
 
 A felsőoktatásban a hivatalos mobilcsatorna megszűnt. A Neptun hivatalos mobilalkalmazása 2023. október 19-én, a kétfaktoros belépés bevezetésekor szűnt meg. Egyes egyetemek saját alkalmazásai, például a Magyar Agrár- és Élettudományi Egyetem MyMATE és a Debreceni Egyetem UD Studyversity alkalmazása, továbbra is megjelenítik a hallgatók Neptun-adatait. A felület tehát létezik, és intézményi alkalmazások használják is, de a hallgató és az oktató saját eszköze nem kapcsolódhat hozzá.
 
@@ -77,14 +77,14 @@ A felsőoktatásban a hivatalos mobilcsatorna megszűnt. A Neptun hivatalos mobi
 | Érintett csoport | Létszám | Forrás |
 |---|---|---|
 | nappali rendszerű általános iskolai tanulók | kb. 710 000 fő | KSH, 2024/2025, előzetes |
-| általános iskolai pedagógusok | kb. 74 000 fő | KSH, 2024/2025, előzetes |
+| általános iskolai pedagógusok | kb. 73 000 fő | KSH, 2024/2025, előzetes |
 | középfokú iskolai pedagógusok, oktatók | kb. 43 000 fő | KSH, 2024/2025, előzetes |
 | óvodapedagógusok | kb. 31 000 fő | KSH, 2024/2025, előzetes |
 | felsőoktatási hallgatók | kb. 351 000 fő | KSH, 2025/2026, előzetes |
 | felsőoktatási oktatók | kb. 27 000 fő | KSH, 2023/2024 |
 | szülők, gondviselők | nagyságrendileg a tanulói létszámmal arányos | levezetés |
 
-A köznevelésben és a szakképzésben főállásban foglalkoztatott pedagógusok és oktatók száma összesen közel 148 ezer fő. A 4. fejezet hatásbecslése ennél szűkebb kört vesz alapul, az általános és középfokú iskolai pedagógusokat, összesen mintegy 117 ezer főt, mert tanulmányi rendszerhez kapcsolódó adminisztrációról az ő esetükben beszélhetünk értelmesen.
+A köznevelésben és a szakképzésben főállásban foglalkoztatott pedagógusok és oktatók száma összesen közel 148 ezer fő. A 4. fejezet hatásbecslése ennél szűkebb kört vesz alapul, az általános és középfokú iskolai pedagógusokat, összesen mintegy 116 ezer főt, mert tanulmányi rendszerhez kapcsolódó adminisztrációról az ő esetükben beszélhetünk értelmesen.
 
 Rajtuk kívül érintettek a köznevelési és felsőoktatási intézmények mint adatkezelők és fenntartóik, a rendszerüzemeltetők, köztük az eKRÉTA Zrt. és a tanulmányi rendszerek szállítói, valamint a hazai fejlesztők.
 
@@ -122,7 +122,7 @@ Hivatalos kapcsolódás hiányában a pedagógus egyetlen módon tud MI-t haszn�
 
 **2023.** Október 19-én megszűnik a Neptun hivatalos mobilalkalmazása. Ugyanebben az évben születik az adatrendelet, amely a 3.4 pontban írt korlátokkal a felhasználói adathozzáférés irányát jelzi.
 
-**2024–2025.** 2024 novemberében megjelenik a Model Context Protocol, amely OAuth-alapú delegált hozzáférésre építve ad szabványos módot MI-asszisztensek külső rendszerekhez kapcsolására. 2025 januárjában megjelenik az RFC 9700 (BCP 240), az OAuth 2.0 biztonsági legjobb gyakorlata, amely kötelezővé teszi a PKCE-t, elavulttá nyilvánítja az implicit és a jelszó alapú folyamatot, és kezeli az összekeverési támadásokat.
+**2024–2025.** 2024 novemberében megjelenik a Model Context Protocol, amely szabványos módot ad MI-asszisztensek külső rendszerekhez kapcsolására. A protokoll 2025. márciusi változata OAuth 2.1-re épülő felhatalmazási réteggel egészül ki, vagyis ugyanazt a megoldást írja elő, amelyet ez az előterjesztés javasol. 2025 januárjában megjelenik az RFC 9700 (BCP 240), az OAuth 2.0 biztonsági legjobb gyakorlata, amely kötelezővé teszi a PKCE-t, elavulttá nyilvánítja az implicit és a jelszó alapú folyamatot, és kezeli az összekeverési támadásokat.
 
 **2025.** Hatályba lép az (EU) 2025/327 rendelet az európai egészségügyi adattérről. Ágazati jogszabály hoz létre elektronikus hozzáférési jogot közfeladaton alapuló, különösen érzékeny nyilvántartásban; a párhuzamot a 3.3 pont fejti ki.
 
@@ -134,7 +134,7 @@ Az oktatási rendszerek felülete mindeközben változatlan maradt.
 
 ### 3.1 Amit a hatályos jog ad
 
-A GDPR 15. cikke hozzáférési jogot biztosít az érintettnek, egyszeri adatmásolat formájában. A (63) preambulumbekezdés ennél tovább megy, amikor azt ajánlja, hogy ahol lehetséges, az adatkezelő biztosítson távoli hozzáférést olyan biztonságos rendszerhez, amely az érintettnek közvetlen hozzáférést ad a saját adataihoz. Ez támogatja a javaslatot, azzal a korláttal, hogy a preambulumbekezdés ajánlás, és programozói felületet nem ír elő. A 12. cikk (2) bekezdése az adatkezelő általános kötelezettségeként rögzíti az érintetti jogok gyakorlásának elősegítését.
+A GDPR 15. cikke hozzáférési jogot biztosít az érintettnek, kérelemre adott adatmásolat formájában, amely eseti és nem folyamatos gépi hozzáférés. A (63) preambulumbekezdés ennél tovább megy, amikor lehetőségként rögzíti, hogy ahol lehetséges, az adatkezelő legyen képes távoli hozzáférést biztosítani olyan biztonságos rendszerhez, amely az érintettnek közvetlen hozzáférést ad a saját adataihoz. Ez támogatja a javaslatot, azzal a korláttal, hogy a preambulumbekezdés ajánlás, és programozói felületet nem ír elő. A 12. cikk (2) bekezdése az adatkezelő általános kötelezettségeként rögzíti az érintetti jogok gyakorlásának elősegítését.
 
 ### 3.2 Amit a hatályos jog nem ad
 
@@ -148,7 +148,7 @@ Ebből az következik, hogy a javasolt jogosultság új, és ágazati jogalkotá
 
 ### 3.3 Precedens: az európai egészségügyi adattér
 
-Az (EU) 2025/327 rendelet ugyanezt a szerkezetet valósítja meg: ágazati uniós jogszabály hoz létre elektronikus hozzáférési jogot olyan adatkörben, ahol maga az adatkezelés közfeladaton alapul, és ahol az érintett maga adhat hozzáférést az általa választott szereplőnek. A rendelet 3. cikke az érintett elektronikus egészségügyi adataihoz való azonnali, ingyenes elektronikus hozzáférést és letöltést biztosítja. Hatályba lépett 2025. március 25-én, alkalmazása jellemzően 2027. március 26-tól kezdődik. [ELLENŐRIZENDŐ: a 3. cikk bekezdéseinek pontos hivatkozása a Hivatalos Lap szövege alapján]
+Az (EU) 2025/327 rendelet ugyanezt a szerkezetet valósítja meg: ágazati uniós jogszabály hoz létre elektronikus hozzáférési jogot olyan adatkörben, ahol maga az adatkezelés közfeladaton alapul, és ahol az érintett maga adhat hozzáférést az általa választott szereplőnek. A rendelet 3. cikke az érintett elektronikus egészségügyi adataihoz való azonnali, ingyenes elektronikus hozzáférést és letöltést biztosítja. Hatályba lépett 2025. március 26-án. Az általános alkalmazás 2027. március 26-tól kezdődik, a 3–15. cikk alkalmazása azonban csak 2031. március 26-tól. Az Unió tehát ugyanerre a feladatra a hatálybalépéstől számítva hat évet szánt, és a 8. fejezet ütemterve ehhez mérve gyorsabb. [ELLENŐRIZENDŐ: a 3. cikk bekezdéseinek pontos hivatkozása a Hivatalos Lap szövege alapján]
 
 Az analógia két ponton erős. Azonos a jogi szerkezet, vagyis közfeladaton alapuló nyilvántartás mellé kerül ágazati hozzáférési jog, és azonos az érzékenységi szint, hiszen egészségügyi adatról, illetve kiskorúak oktatási adatáról van szó.
 
@@ -164,7 +164,7 @@ Az (EU) 2024/1689 rendelet 4. cikke 2025. február 2-tól előírja, hogy az MI-
 
 A pénzügyi szektor párhuzama a javaslat mellett és ellen egyaránt felhozható, ezért érdemes végigvezetni.
 
-A javaslat mellett szól, hogy az (EU) 2015/2366 irányelv és az (EU) 2018/389 felhatalmazáson alapuló rendelet 2019. szeptember 14-től dedikált, biztonságos felületet, nyilvános technikai specifikációt és tesztelési lehetőséget követel meg, a brit versenyhatóság pedig 2018-tól egységes nyílt banki API-szabványt tett kötelezővé. Az az állítás tehát, hogy egy monopolizált ügyfélfelület jogszabállyal megnyitható, és ettől a szektor nem omlik össze, empirikusan igazolt.
+A javaslat mellett szól, hogy az (EU) 2015/2366 irányelv és az (EU) 2018/389 felhatalmazáson alapuló rendelet 2019. szeptember 14-től dedikált, biztonságos felületet követel meg; a technikai specifikáció átadására és a tesztkörnyezet biztosítására a számlavezetők már fél évvel korábban, 2019. március 14-től kötelezettek voltak. A brit versenyhatóság pedig a Retail Banking Market Investigation Order 2017 alapján 2018. január 13-tól egységes nyílt banki API-szabványt tett kötelezővé a kilenc legnagyobb bank számára. Az az állítás tehát, hogy egy monopolizált ügyfélfelület jogszabállyal megnyitható, és ettől a szektor nem omlik össze, empirikusan igazolt.
 
 A javaslat ellen szól, hogy a PSD2-ben a harmadik fél szolgáltatók engedélyezett, felügyelt szereplők, és a rendszer minősített tanúsítványokra épít. Egy olyan kliensregisztráció, amely egyedi engedélyezési eljárás nélkül működik, éppen a példa legfontosabb elemét hagyná ki. Ezt az ellenérvet elfogadjuk, és a 7.2 pont bizalmi kerete válaszol rá.
 
@@ -177,7 +177,7 @@ A fejezet megkülönbözteti a dokumentált tényeket a példaszámításoktól 
 
 ### 4.1 Elvesztegetett pedagógusi kapacitás, példaszámítás
 
-Az általános és középfokú iskolai pedagógusok száma mintegy 117 ezer fő, ebből 74 ezer általános iskolai és 43 ezer középfokú (KSH 2024/2025, előzetes). Ez szűkebb kör a köznevelés és a szakképzés együttes 148 ezres létszámánál, mert az óvodapedagógusokat és a tanulmányi rendszerhez nem kapcsolódó feladatköröket kihagytuk. Heti 3,2 óra általános adminisztráció és 36 tanítási hét mellett ez évente mintegy 13,5 millió pedagógusi munkaóra.
+Az általános és középfokú iskolai pedagógusok száma mintegy 116 ezer fő, ebből 73 ezer általános iskolai és 43 ezer középfokú (KSH 2024/2025, előzetes). Ez szűkebb kör a köznevelés és a szakképzés együttes 148 ezres létszámánál, mert az óvodapedagógusokat és a tanulmányi rendszerhez nem kapcsolódó feladatköröket kihagytuk. Heti 3,2 óra általános adminisztráció és 36 tanítási hét mellett ez évente mintegy 13,4 millió pedagógusi munkaóra.
 
 Egyetlen százalékos érték ebből nem vezethető le megbízhatóan. A TALIS „általános adminisztratív munka" kategóriája tágabb annál, amit egy tanulmányi rendszerhez kapcsolt MI érinteni tud, hiszen sok adminisztráció papíralapú, szervezési jellegű, vagy nem a naplóhoz kötődik. Ezért két külön paraméterrel számolunk:
 
@@ -188,7 +188,7 @@ Az érinthető arány az adminisztrációnak azt a részét jelöli, amely egyá
 | Érinthető arány ↓ / Időnyereség → | 30% | 40% | 50% |
 |---|---|---|---|
 | **25%** | 7,5% — 1,0 millió óra | 10,0% — 1,3 millió óra | 12,5% — 1,7 millió óra |
-| **35%** | 10,5% — 1,4 millió óra | **14,0% — 1,9 millió óra** | 17,5% — 2,4 millió óra |
+| **35%** | 10,5% — 1,4 millió óra | **14,0% — 1,9 millió óra** | 17,5% — 2,3 millió óra |
 | **45%** | 13,5% — 1,8 millió óra | 18,0% — 2,4 millió óra | 22,5% — 3,0 millió óra |
 
 A kiemelt cella példaszámítás. Ha az adminisztráció 35%-a érinthető, és azon belül 40% időnyereség érhető el, az eredő 14%: évente mintegy 1,9 millió pedagógusi munkaóra, pedagógusonként körülbelül 16 óra. Egyik paraméterre sincs hazai mérés, ezért a táblázat inkább a nagyságrendet mutatja meg, és azt, melyik feltevésre érzékeny a végeredmény. A valódi értéket a 4.2 pont szerinti pilotnak kell megadnia.
@@ -207,7 +207,7 @@ Az utolsó kérdés érdemben is fontos, mert egy gyorsabb, de hibásabb adminis
 
 ### 4.3 Biztonsági és adatvédelmi kockázat, feltételezés
 
-Arról, hogy hány szülő adta át a KRÉTA-jelszavát harmadik félnek, és hány pedagógus másol tanulói adatot magáncélú MI-fiókba, nincs adat. Ez a probléma természetéből következik, hiszen az adatkezelő iskola sem tudja, mert a jelenség nem hagy nyomot a rendszerben. Egyetlen pedagógus egyetlen másolással egy teljes osztálynyi tanuló adatát viheti ki szerződés nélkül. [ELLENŐRIZENDŐ: átlagos osztálylétszám, KSH]
+Arról, hogy hány szülő adta át a KRÉTA-jelszavát harmadik félnek, és hány pedagógus másol tanulói adatot magáncélú MI-fiókba, nincs adat. Ez a probléma természetéből következik, hiszen az adatkezelő iskola sem tudja, mert a jelenség nem hagy nyomot a rendszerben. Egyetlen pedagógus egyetlen másolással egy teljes osztálynyi tanuló adatát viheti ki szerződés nélkül.
 
 A javaslat ezen a ponton önmagában is hoz eredményt, mert bevezetése után minden felhatalmazás naplózott, megtekinthető és megszámlálható lesz, akkor is, ha kiderül, hogy a jelenség a feltételezettnél ritkább.
 
@@ -502,7 +502,7 @@ Az alábbi kérdéseket a javaslat nem dönti el, de a szakmai vitában várhat�
 4. **Az MI-szolgáltató belső adatkezelése.** A javaslat előírja, hogy erről tájékoztatni kell, és megtiltja a korlátozott továbbítású adatkör továbbítását, de nem szabályozza, mit tehet a szolgáltató a kapott adattal a saját rendszerén belül. Ez önálló szabályozási réteg.
 5. **A költségoldal.** Az üzemeltetői ráfordítás, a nyilvántartás működtetése, a pilot és az intézményi felkészítés költsége még nincs becsülve.
 6. **A továbbítási nyilatkozat ellenőrzése.** A javaslat szankcionálja a valótlan nyilatkozatot, de nem mondja meg, ki és milyen rendszerességgel ellenőrzi.
-7. **Statisztikai pontosítások.** Az átlagos osztálylétszám, a KRÉTA-alkalmazások megjelenési éve és a KRÉTA-tudásbázis hivatkozásának pontos adatai még pótlandók; a szövegben [ELLENŐRIZENDŐ] jelöli őket.
+7. **Statisztikai pontosítások.** A KRÉTA-alkalmazások megjelenési éve és az egészségügyi adattérről szóló rendelet 3. cikkének bekezdésszintű hivatkozása még pótlandó; a szövegben [ELLENŐRIZENDŐ] jelöli őket.
 8. **Az érdekütközés kezelése.** Az 1.6 pontban leírt prototípust az előterjesztés készítője fejlesztette. A javaslat elfogadása a prototípus jelenlegi közvetítő megoldásait tenné szükségtelenné, és a létrejövő piacon az előterjesztő is szereplő lehet.
 
 ---
@@ -517,6 +517,7 @@ Az alábbi kérdéseket a javaslat nem dönti el, de a szakmai vitában várhat�
 - Az Európai Parlament és a Tanács (EU) 2024/1689 rendelete (MI-rendelet), 4. cikk
 - Az Európai Parlament és a Tanács (EU) 2025/327 rendelete (európai egészségügyi adattér), 3. cikk
 - 2011. évi CXC. törvény a nemzeti köznevelésről; 2011. évi CCIV. törvény a nemzeti felsőoktatásról
+- Competition and Markets Authority (Egyesült Királyság): Retail Banking Market Investigation Order 2017
 
 **Műszaki szabványok**
 
@@ -527,7 +528,11 @@ Az alábbi kérdéseket a javaslat nem dönti el, de a szakmai vitában várhat�
 - RFC 8414 — OAuth 2.0 Authorization Server Metadata (2018)
 - RFC 9700 (BCP 240) — Best Current Practice for OAuth 2.0 Security (2025. január) — https://datatracker.ietf.org/doc/rfc9700/
 - OpenID Foundation: FAPI 2.0 Security Profile
-- Model Context Protocol (2024. november)
+- Model Context Protocol (2024. november; OAuth 2.1-re épülő felhatalmazási réteg a 2025. márciusi változattól)
+
+**Egyéb források**
+
+- KRÉTA Tudásbázis: Gyakran Ismételt Kérdések — KRÉTA Mobil applikációk — https://tudasbazis.ekreta.hu/pages/viewpage.action?pageId=4065021 [ELLENŐRIZENDŐ: lekérdezési dátum és archivált példány]
 
 **Statisztikai források**
 
