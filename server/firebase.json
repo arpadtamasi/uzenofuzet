@@ -20,7 +20,7 @@
       {
         "source": "/authorize",
         "headers": [
-          { "key": "Content-Security-Policy", "value": "default-src 'none'; style-src 'self'; form-action 'self' https://claude.ai https://claude.com; base-uri 'none'; frame-ancestors 'none'" }
+          { "key": "Content-Security-Policy", "value": "default-src 'none'; style-src 'self'; form-action 'self' https://claude.ai https://claude.com http://127.0.0.1:8765; base-uri 'none'; frame-ancestors 'none'" }
         ]
       },
       {
