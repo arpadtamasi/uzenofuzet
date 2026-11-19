@@ -244,6 +244,16 @@ valamint tananyagok read-only Classroom scope-jai szerepelnek. Publikus
 használat előtt ezekhez Google-verifikációra lehet szükség; az iskola Workspace
 rendszergazdája külön is letilthat külső alkalmazásokat.
 
+A Classroom-kliensen jelöld be a **Use this client for an AI-powered agent**
+négyzetet (Google Auth Platform → Clients). A Classroom API-t ebben a
+szolgáltatásban csak az MCP-toolok hívják, az asszisztens kérésére, ezért a
+kliens a Google meghatározása szerint ügynökös. A szülői Google-belépés
+(Firebase) kliense maradjon jelöletlen: a Google külön klienst vár az emberi és
+az ügynökös használathoz. A jelölés nem ad több scope-ot, és a verifikációt sem
+váltja ki; azt viszont lehetővé teszi, hogy az iskola Workspace rendszergazdája
+külön szabályozza vagy tiltsa az ügynökös klienseket. Részletek a Google
+[OAuth-kliensekről szóló súgóoldalán](https://support.google.com/cloud/answer/15549257).
+
 A dashboard gyermekenként indít OAuth web-server folyamatot PKCE-vel és
 egyszer használható, tízperces lezárt state-tel. A kapcsolás után öt rögzített
 MCP-tool érhető el: `classroom_courses`, `classroom_coursework`,
