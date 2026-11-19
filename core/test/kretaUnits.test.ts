@@ -7,6 +7,7 @@ import { parseLoginForm } from "../src/kreta/loginForm.js";
 import { HttpSession } from "../src/kreta/session.js";
 import { dateRange, pack, studyTaskUids, validateLimit } from "../src/mcp/shape.js";
 import { ToolError } from "../src/mcp/errors.js";
+import { childArgFor, resolveChild } from "../src/mcp/kretaTools.js";
 
 test("institute codes are accepted in every shape a parent might copy", () => {
   for (const input of ["klik123456", "KLIK123456", " klik123456 ", "klik123456.e-kreta.hu", "https://klik123456.e-kreta.hu", "https://klik123456.e-kreta.hu/"]) {
@@ -155,4 +156,35 @@ test("study task uids are de-duplicated and stripped of trailing parts", () => {
     ["111", "222"],
   );
   assert.deepEqual(studyTaskUids(null), []);
+});
+
+test("an unnamed child is resolved when there is one, and means every child when there are several", () => {
+  const child = (label: string) => ({ label, instituteCode: "klik123456" });
+
+  assert.equal(resolveChild([child("Benedek")]).label, "Benedek");
+  assert.equal(resolveChild([child("Benedek"), child("Marci")], " marci ").label, "Marci");
+
+  // The message is what a voice assistant reads back to itself: it has to say
+  // what to do next, not just what went wrong.
+  assert.throws(
+    () => resolveChild([child("Benedek"), child("Marci")]),
+    (error) =>
+      error instanceof ToolError &&
+      error.message ===
+        "Több gyerek van csatlakoztatva: Benedek és Marci. A toolt gyerekenként kell hívni (child). " +
+          "Ha a felhasználó nem nevezett meg gyereket, hívd meg mindegyik névvel külön, és gyerekenként válaszolj.",
+  );
+  assert.throws(
+    () => resolveChild([child("Anna"), child("Benedek"), child("Marci")], "Marcsi"),
+    (error) => error instanceof ToolError && error.message.includes("kire gondol: Anna, Benedek vagy Marci?"),
+  );
+  assert.throws(() => resolveChild([]), ToolError);
+});
+
+test("the child argument says which case applies when the count is known", () => {
+  assert.match(childArgFor(1).description ?? "", /Egy gyerek van csatlakoztatva, ezért elhagyható/);
+  // A parent asking about "the kids" is answered for each of them, with the
+  // names taken from the list tool rather than from the tool list.
+  assert.match(childArgFor(2).description ?? "", /Több gyerek van csatlakoztatva.*kreta_list_children.*gyerekenként külön/);
+  assert.match(childArgFor().description ?? "", /Egy gyereknél elhagyható.*kreta_list_children.*gyerekenként külön/);
 });
