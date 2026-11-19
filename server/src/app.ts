@@ -21,6 +21,7 @@ import { createChildProfileRouter } from "./profiles/router.js";
 import { FirestoreChildProfileStore, type ChildProfileStore } from "./profiles/store.js";
 import { createConnectionRefreshRouter, type VerifyRefreshJob } from "./profiles/refreshRouter.js";
 import { createClassroomRouter } from "./classroom/router.js";
+import { FirestoreFeedbackStore, type FeedbackStore } from "./feedback/store.js";
 
 export interface AppDeps {
   config: Config;
@@ -29,6 +30,7 @@ export interface AppDeps {
   fetchImpl?: typeof fetch;
   pledgeStore?: PledgeStore;
   childProfileStore?: ChildProfileStore;
+  feedbackStore?: FeedbackStore;
   verifyFirebaseIdToken?: VerifyIdToken;
   createFirebaseSessionCookie?: CreateSessionCookie;
   verifyFirebaseSessionCookie?: VerifySessionCookie;
@@ -149,6 +151,7 @@ export function createApp(deps: AppDeps): Express {
 
   const mcpDeps = {
     childProfileStore,
+    feedbackStore: deps.feedbackStore ?? new FirestoreFeedbackStore(getFirestore(firebaseApp)),
     sealer: config.sealer,
     ...(config.classroomClientId ? { classroomClientId: config.classroomClientId } : {}),
     ...(config.classroomClientSecret ? { classroomClientSecret: config.classroomClientSecret } : {}),

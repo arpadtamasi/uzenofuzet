@@ -8,16 +8,26 @@ import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/
 import type { RequestHandler } from "express";
 import type { AuthInfo } from "@modelcontextprotocol/sdk/server/auth/types.js";
 import type { IncomingMessage } from "node:http";
+import type { FeedbackStore } from "../feedback/store.js";
 import type { ClientFactoryDeps } from "./context.js";
+import { FeedbackInbox } from "./feedback.js";
 import { buildMcpServer } from "./server.js";
 
-export function createMcpPostHandler(deps: ClientFactoryDeps): RequestHandler {
+export interface McpHandlerDeps extends ClientFactoryDeps {
+  feedbackStore: FeedbackStore;
+}
+
+export function createMcpPostHandler({ feedbackStore, ...deps }: McpHandlerDeps): RequestHandler {
+  // The server is rebuilt per request; the inbox is not, because its rate
+  // limit has to outlive a single call.
+  const feedback = new FeedbackInbox(feedbackStore);
+
   return (req, res, next) => {
     void (async () => {
       // requireSealedToken runs first and 401s anything without a valid
       // token, so req.session is always populated here.
       const session = req.session!;
-      const server = buildMcpServer({ session, ...deps });
+      const server = buildMcpServer({ session, feedback, ...deps });
       const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: undefined });
 
       res.on("close", () => {

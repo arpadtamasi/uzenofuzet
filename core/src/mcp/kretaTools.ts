@@ -48,20 +48,48 @@ export const KRETA_TOOL_INSTRUCTIONS =
   "kérésére kérj le adatot, és csak a válaszhoz szükséges mezőket jelenítsd meg. " +
   "A KRÉTA-adatokhoz nincs módosító vagy törlő művelet. Ha több gyerek van csatlakoztatva, minden tool " +
   "elfogad egy 'child' paramétert (a gyerek neve) — ha a felhasználó név szerint kérdez " +
-  "('Mi van Lillának?'), azt add át; ha egy tool 'child' nélkül hibát ad, a hibaüzenet " +
-  "felsorolja az elérhető neveket.";
+  "('Mi van Lillának?'), azt add át; ha nem derül ki, melyik gyerekről van szó, a tool " +
+  "hívása előtt kérdezd meg a felhasználót; ha mindegyikre kíváncsi, hívd a toolt gyerekenként külön.";
 
-export const childArg = z
-  .string()
-  .optional()
-  .describe("A gyerek neve, ahogy a csatlakoztatáskor megadtad. Egy gyereknél elhagyható.");
+const ASK_FIRST =
+  "Ha a kérdésből nem derül ki, melyik gyerekről van szó, a tool hívása előtt kérdezd meg a felhasználót. " +
+  "Ha mindegyik gyerekre kíváncsi, hívd a toolt gyerekenként külön; a neveket a 'child' nélküli hívás válasza felsorolja.";
+
+/**
+ * The `child` argument every tool takes.
+ *
+ * Some clients (voice assistants over a remote MCP connection) never show the
+ * model the server instructions, so the rule for several children has to be
+ * readable here, on the argument itself. A deployment whose child list is
+ * fixed for the session passes the count, and the description then says which
+ * case applies instead of leaving the model to guess. It carries the count
+ * only, never the names: those reach the model when a call actually needs
+ * them.
+ */
+export function childArgFor(childCount?: number) {
+  const description =
+    childCount === 1
+      ? "A gyerek neve. Egy gyerek van csatlakoztatva, ezért elhagyható."
+      : childCount !== undefined && childCount > 1
+        ? `A gyerek neve, ahogy a csatlakoztatáskor megadták. Több gyerek van csatlakoztatva, ezért meg kell adni. ${ASK_FIRST}`
+        : `A gyerek neve, ahogy a csatlakoztatáskor megadták. Egy gyereknél elhagyható. Több gyereknél meg kell adni. ${ASK_FIRST}`;
+  return z.string().optional().describe(description);
+}
 export const limitArg = (fallback: number) =>
   z.number().int().min(1).max(MAX_ITEMS).default(fallback).describe("Legfeljebb ennyi elem.");
 const dateArg = (what: string) => z.string().optional().describe(`${what} (YYYY-MM-DD).`);
 
-/** Picks the child a tool call is about, or explains which names exist. */
+const eitherOf = new Intl.ListFormat("hu", { type: "disjunction" });
+
+/**
+ * Picks the child a tool call is about.
+ *
+ * When it cannot, the message is an instruction rather than a diagnosis: the
+ * model reading it should ask the parent which child they mean, not report
+ * that the lookup failed.
+ */
 export function resolveChild<Child extends KretaChild>(children: Child[], requested?: string): Child {
-  const names = children.map((child) => child.label).join(", ");
+  const names = eitherOf.format(children.map((child) => child.label));
   const wanted = requested?.trim();
 
   if (children.length === 0) {
@@ -69,12 +97,18 @@ export function resolveChild<Child extends KretaChild>(children: Child[], reques
   }
   if (!wanted) {
     if (children.length === 1) return children[0]!;
-    throw new ToolError(`Több gyerek van csatlakoztatva, add meg, melyikről kérdezel (child): ${names}.`);
+    throw new ToolError(
+      `Nem derül ki, melyik gyerekről van szó: ${names}? Ha a felhasználó nem mondta meg, kérdezd meg tőle, ` +
+        "majd hívd újra a toolt a választott névvel (child). Ha mindegyikre kíváncsi, hívd a toolt mindegyik névvel külön.",
+    );
   }
 
   const match = children.find((child) => child.label.toLowerCase() === wanted.toLowerCase());
   if (!match) {
-    throw new ToolError(`Nincs "${wanted}" nevű csatlakoztatott gyerek. Elérhető: ${names}.`);
+    throw new ToolError(
+      `Nincs "${wanted}" nevű csatlakoztatott gyerek. Kérdezd meg a felhasználót, kire gondol: ${names}? ` +
+        "Utána hívd újra a toolt a pontos névvel (child).",
+    );
   }
   return match;
 }
@@ -84,11 +118,17 @@ export function resolveChild<Child extends KretaChild>(children: Child[], reques
  *
  * Deployments that serve more than KRÉTA (the hosted service also serves
  * Google Classroom) register their own extra tools on the same server.
+ *
+ * `childCount` is for deployments whose child list cannot change while the
+ * tool list is in use; see `childArgFor`.
  */
 export function registerKretaTools<Child extends KretaChild>(
   server: McpServer,
   backend: KretaBackend<Child>,
+  options: { childCount?: number } = {},
 ): void {
+  const childArg = childArgFor(options.childCount);
+
   /** Wraps a handler so every tool answers structured JSON and safe errors. */
   const tool = (
     name: string,

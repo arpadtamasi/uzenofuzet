@@ -14,6 +14,8 @@ import { loadConfig } from "../src/config.js";
 import { createConnection } from "../src/profiles/connection.js";
 import { createClassroomConnection } from "../src/classroom/connection.js";
 import type { ChildConnection, ChildProfile, ChildProfileInput, ChildProfileStore, ClassroomConnection } from "../src/profiles/store.js";
+import type { FeedbackEntry } from "../src/feedback/store.js";
+import { mentionsChild } from "../src/mcp/feedback.js";
 import type { Sealer } from "../src/seal.js";
 
 const REDIRECT_URI = "https://claude.ai/api/mcp/auth_callback";
@@ -199,11 +201,13 @@ const config = loadConfig({
   GOOGLE_CLASSROOM_CLIENT_SECRET: "classroom-secret",
 } as NodeJS.ProcessEnv);
 const profileStore = new MemoryChildProfileStore(config.sealer);
+const feedbackEntries: FeedbackEntry[] = [];
 
 const server = createApp({
   config,
   fetchImpl: stubFetch,
   childProfileStore: profileStore,
+  feedbackStore: { add: async (entry) => void feedbackEntries.push(entry) },
   verifyFirebaseSessionCookie: async (cookie) => {
     if (cookie === "parent-session") return { uid: "parent-uid", name: "Anna Példa" };
     if (cookie === "other-session") return { uid: "other-uid", name: "Másik Szülő" };
@@ -479,16 +483,39 @@ test("the connected session reaches the MCP tools and answers KRÉTA data", asyn
   const { accessToken } = await connect();
 
   const listed = (await callMcp(accessToken, { jsonrpc: "2.0", id: 1, method: "tools/list" })) as {
-    result: { tools: Array<{ name: string; annotations?: { readOnlyHint?: boolean } }> };
+    result: {
+      tools: Array<{
+        name: string;
+        description?: string;
+        annotations?: { readOnlyHint?: boolean };
+        inputSchema: { properties?: Record<string, { description?: string }> };
+      }>;
+    };
   };
   const names = listed.result.tools.map((entry) => entry.name);
+  assert.match(
+    listed.result.tools.find((entry) => entry.name === "send_feedback")?.description ?? "",
+    /csak akkor küldd el, ha beleegyezik/,
+    "feedback is sent with the parent's consent",
+  );
   assert.ok(names.includes("kreta_homework"));
   assert.ok(names.includes("kreta_login"));
-  assert.equal(names.length, 25);
-  assert.ok(
-    listed.result.tools.every((entry) => entry.annotations?.readOnlyHint === true),
-    "every tool must be annotated read-only",
+  assert.equal(names.length, 26);
+  assert.deepEqual(
+    listed.result.tools.filter((entry) => entry.annotations?.readOnlyHint !== true).map((entry) => entry.name),
+    ["send_feedback"],
+    "every school-data tool must be annotated read-only",
   );
+
+  // A client that never shows the model the server instructions still has to
+  // learn, from the argument itself, to ask which child is meant.
+  const schoolTools = listed.result.tools.filter((entry) => entry.name !== "send_feedback");
+  for (const entry of schoolTools) {
+    const description = entry.inputSchema.properties?.child?.description ?? "";
+    assert.match(description, /Több gyerek van csatlakoztatva/, entry.name);
+    assert.match(description, /kérdezd meg a felhasználót/, entry.name);
+    assert.doesNotMatch(description, /Lilla|Kata/, "the tool list must not carry the children's names");
+  }
 
   const called = (await callMcp(accessToken, {
     jsonrpc: "2.0",
@@ -594,7 +621,9 @@ test("several connected children are addressed by name", async () => {
     params: { name: "kreta_evaluations", arguments: {} },
   })) as { result: { isError?: boolean; content: Array<{ text: string }> } };
   assert.equal(ambiguous.result.isError, true);
-  assert.match(ambiguous.result.content[0]!.text, /Lilla, Kata/);
+  assert.match(ambiguous.result.content[0]!.text, /melyik gyerekről van szó: Lilla vagy Kata\?/);
+  assert.match(ambiguous.result.content[0]!.text, /kérdezd meg tőle, majd hívd újra/);
+  assert.match(ambiguous.result.content[0]!.text, /mindegyik névvel külön/);
 
   const named = (await callMcp(accessToken, {
     jsonrpc: "2.0",
@@ -622,4 +651,52 @@ test("several connected children are addressed by name", async () => {
   })) as { result: { isError?: boolean; content: Array<{ text: string }> } };
   assert.equal(unknown.result.isError, true);
   assert.match(unknown.result.content[0]!.text, /Nincs "Áron" nevű/);
+  assert.match(unknown.result.content[0]!.text, /Lilla vagy Kata\?/);
+});
+
+test("the assistant can send feedback, but not a child's name, and not without limit", async () => {
+  const { accessToken } = await connect();
+  const send = async (id: number, args: Record<string, unknown>) =>
+    (await callMcp(accessToken, {
+      jsonrpc: "2.0",
+      id,
+      method: "tools/call",
+      params: { name: "send_feedback", arguments: args },
+    })) as { result: { isError?: boolean; content: Array<{ text: string }> } };
+
+  feedbackEntries.length = 0;
+  const sent = await send(1, {
+    kind: "confusing",
+    tool: "kreta_homework",
+    message: "A hibaüzenetből nem derült ki, hogy vissza kell kérdeznem.",
+  });
+  assert.notEqual(sent.result.isError, true);
+  // What is stored is the note itself: no uid, no session, no child.
+  assert.deepEqual(feedbackEntries, [
+    {
+      kind: "confusing",
+      tool: "kreta_homework",
+      message: "A hibaüzenetből nem derült ki, hogy vissza kell kérdeznem.",
+    },
+  ]);
+
+  const named = await send(2, { kind: "bug", message: "Lillának nem jött vissza a matek házi." });
+  assert.equal(named.result.isError, true);
+  assert.match(named.result.content[0]!.text, /nem szerepelhet a gyerek neve/);
+  assert.equal(feedbackEntries.length, 1);
+
+  for (let id = 3; id < 7; id += 1) {
+    assert.notEqual((await send(id, { kind: "other", message: `Ismétlődő visszajelzés, ${id}. darab.` })).result.isError, true);
+  }
+  const overLimit = await send(7, { kind: "other", message: "Ez már a hatodik egy órán belül." });
+  assert.equal(overLimit.result.isError, true);
+  assert.equal(feedbackEntries.length, 5);
+});
+
+test("the feedback name filter sees through Hungarian suffixes", () => {
+  const labels = ["Lilla", "Bence", "Kovács Áron"];
+  for (const text of ["Lillának nem jött válasz", "a Bencével kapcsolatos hívás", "áron jegyei", "KOVÁCS órarendje"]) {
+    assert.equal(mentionsChild(text, labels), true, text);
+  }
+  assert.equal(mentionsChild("A tool leírásából nem derült ki, mit kell megadni.", labels), false);
 });

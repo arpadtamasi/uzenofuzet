@@ -310,6 +310,8 @@ redirect URI-t; alapból csak Claude két connector-callbackje szerepel benne.
 | `src/relay.ts` | magyar lakossági hálózaton futó helyi relay folyamat |
 | `src/classroom/` | gyermekenkénti Google OAuth, titkosított grant és rögzített Classroom API-kliens |
 | `src/mcp/server.ts` | a 20 KRÉTA- és 5 Classroom-tool, mind csak olvasásra |
+| `src/mcp/feedback.ts` | a `send_feedback` tool: az asszisztens visszajelzése a toolokról, névszűréssel és óránkénti korláttal |
+| `src/feedback/store.ts` | a visszajelzések névtelen Firestore-adattára (`feedback` gyűjtemény) |
 | `src/pledges/router.ts` | hitelesített nyilvános üzenetek API-ja |
 | `src/pledges/store.ts` | az üzenőfal Firestore-adattára |
 | `src/profiles/router.ts` | a Google-fiókhoz kötött gyerekprofilok API-ja |
@@ -324,6 +326,13 @@ redirect URI-t; alapból csak Claude két connector-callbackje szerepel benne.
 Nincs írás, nincs törlés, nincs tetszőleges API-útvonal, és nincs
 csatolmány-letöltés. Ezt a rögzített toollista tartja, nem egy jogosultsági
 beállítás — a KRÉTA-scope ennél többet engedne.
+
+Az egyetlen tool, amely nem olvasás, a `send_feedback`. Ez sem a KRÉTA, sem a
+Classroom felé nem ír: az asszisztens saját megjegyzését menti a `feedback`
+gyűjteménybe, a szülő azonosítója nélkül. A tool leírása arra utasítja az
+asszisztenst, hogy küldés előtt kérdezze meg a szülőt. A gyerek nevét tartalmazó üzenetet
+a szerver mentés előtt elutasítja, egy szülő óránként legfeljebb öt
+visszajelzést küldhet.
 
 ## Nyitott kérdések, mielőtt bárki másnak odaadod
 

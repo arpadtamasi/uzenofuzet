@@ -28,6 +28,11 @@ Mindkét vonalra igaz:
 
 A hosztolt szolgáltatásra:
 
+- Az egyetlen nem olvasó tool a `send_feedback`: ezen az asszisztens a toolok
+  működéséről üzenhet a fejlesztőknek, a szülő beleegyezésével. Iskolai adathoz nem nyúl, a szöveg a
+  szülő azonosítója nélkül tárolódik, és a gyerek nevét tartalmazó üzenetet a
+  szerver elutasítja.
+
 - A KRÉTA-jelszó csak a belépés idejére kerül a Cloud Run folyamat memóriájába,
   majd azonnal eldobásra kerül.
 - A lejáró KRÉTA-tokenek és Classroom refresh tokenek AES-256-GCM-mel lezárva

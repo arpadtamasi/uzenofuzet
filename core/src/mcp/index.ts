@@ -10,7 +10,7 @@ export {
   type PackedList,
 } from "./shape.js";
 export {
-  childArg,
+  childArgFor,
   KRETA_TOOL_INSTRUCTIONS,
   limitArg,
   READ_ONLY,

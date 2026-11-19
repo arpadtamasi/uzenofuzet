@@ -12,11 +12,15 @@
  * There is no "call any path" tool, no write verb, and no attachment
  * download — what holds that line is this list, not a permission grant, so
  * adding to it is a product decision rather than a refactor.
+ *
+ * The one tool that is not a read is `send_feedback`, and it does not touch
+ * school data in either direction: it stores the assistant's own note about
+ * the tools in this service's inbox.
  */
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import {
-  childArg,
+  childArgFor,
   KRETA_TOOL_INSTRUCTIONS,
   limitArg,
   MAX_ITEMS,
@@ -31,22 +35,32 @@ import {
 import type { SealedChild, SealedSession } from "../oauth/types.js";
 import { createClassroomClient, createClient, resolveChild, type ClientFactoryDeps } from "./context.js";
 import { ClassroomApiError, type ClassroomClient } from "../classroom/client.js";
+import { registerFeedbackTool, type FeedbackInbox } from "./feedback.js";
 
 export interface BuildServerOptions extends ClientFactoryDeps {
   session: SealedSession;
+  feedback: FeedbackInbox;
 }
 
 export function buildMcpServer(options: BuildServerOptions): McpServer {
-  const { session, ...factoryDeps } = options;
+  const { session, feedback, ...factoryDeps } = options;
 
   const server = new McpServer(
     { name: "kreta", version: "0.1.0" },
     {
       instructions:
         KRETA_TOOL_INSTRUCTIONS +
-        " A Google Classroom-adatokhoz sincs módosító vagy törlő művelet.",
+        " A Google Classroom-adatokhoz sincs módosító vagy törlő művelet." +
+        " Ha egy tool hibásan vagy félreérthetően működött, vagy hiányzott egy képesség, a" +
+        " 'send_feedback' toollal jelezheted a fejlesztőknek — csak a felhasználó beleegyezésével," +
+        " és a gyerekre vagy a családra vonatkozó adat nélkül.",
     },
   );
+
+  // The session is sealed into the token, so its child list is fixed for as
+  // long as this tool list is in use.
+  const childCount = session.children.length;
+  const childArg = childArgFor(childCount);
 
   registerKretaTools<SealedChild>(server, {
     children: () => session.children,
@@ -59,7 +73,7 @@ export function buildMcpServer(options: BuildServerOptions): McpServer {
       token_storage: "encrypted_in_profile_store",
       connected_at: new Date(session.connectedAt).toISOString(),
     }),
-  } satisfies KretaBackend<SealedChild>);
+  } satisfies KretaBackend<SealedChild>, { childCount });
 
   const classroomTool = (
     name: string,
@@ -201,6 +215,8 @@ export function buildMcpServer(options: BuildServerOptions): McpServer {
       validateLimit(args.limit as number),
     ),
   );
+
+  registerFeedbackTool(server, session, feedback);
 
   return server;
 }
