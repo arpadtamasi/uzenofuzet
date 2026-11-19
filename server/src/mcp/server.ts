@@ -23,6 +23,7 @@ import {
   childArgFor,
   KRETA_TOOL_INSTRUCTIONS,
   limitArg,
+  LIST_CHILDREN_TOOL,
   MAX_ITEMS,
   pack,
   READ_ONLY,
@@ -74,6 +75,33 @@ export function buildMcpServer(options: BuildServerOptions): McpServer {
       connected_at: new Date(session.connectedAt).toISOString(),
     }),
   } satisfies KretaBackend<SealedChild>, { childCount });
+
+  // The names stay out of the tool list and travel only when asked for: a
+  // question that names no child starts here, then goes child by child.
+  const listTitle = "A csatlakoztatott gyerekek listája: kiről lehet kérdezni.";
+  server.registerTool(
+    LIST_CHILDREN_TOOL,
+    {
+      description:
+        `${listTitle} Ha a felhasználó nem nevez meg gyereket, innen vedd a neveket, és a kért ` +
+        "adatot gyerekenként külön kérdezd le.",
+      inputSchema: {},
+      annotations: { ...READ_ONLY, title: listTitle },
+    },
+    async () => ({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            children: session.children.map((child) => ({
+              name: child.label,
+              institute_code: child.instituteCode,
+            })),
+          }),
+        },
+      ],
+    }),
+  );
 
   const classroomTool = (
     name: string,

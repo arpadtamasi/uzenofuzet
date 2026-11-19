@@ -158,7 +158,7 @@ test("study task uids are de-duplicated and stripped of trailing parts", () => {
   assert.deepEqual(studyTaskUids(null), []);
 });
 
-test("an unnamed child is resolved when there is one, and asked about when there are several", () => {
+test("an unnamed child is resolved when there is one, and means every child when there are several", () => {
   const child = (label: string) => ({ label, instituteCode: "klik123456" });
 
   assert.equal(resolveChild([child("Benedek")]).label, "Benedek");
@@ -171,8 +171,8 @@ test("an unnamed child is resolved when there is one, and asked about when there
     (error) =>
       error instanceof ToolError &&
       error.message ===
-        "Nem derül ki, melyik gyerekről van szó: Benedek vagy Marci? Ha a felhasználó nem mondta meg, kérdezd meg tőle, " +
-          "majd hívd újra a toolt a választott névvel (child). Ha mindegyikre kíváncsi, hívd a toolt mindegyik névvel külön.",
+        "Több gyerek van csatlakoztatva: Benedek és Marci. A toolt gyerekenként kell hívni (child). " +
+          "Ha a felhasználó nem nevezett meg gyereket, hívd meg mindegyik névvel külön, és gyerekenként válaszolj.",
   );
   assert.throws(
     () => resolveChild([child("Anna"), child("Benedek"), child("Marci")], "Marcsi"),
@@ -183,8 +183,8 @@ test("an unnamed child is resolved when there is one, and asked about when there
 
 test("the child argument says which case applies when the count is known", () => {
   assert.match(childArgFor(1).description ?? "", /Egy gyerek van csatlakoztatva, ezért elhagyható/);
-  assert.match(childArgFor(2).description ?? "", /Több gyerek van csatlakoztatva.*kérdezd meg a felhasználót/);
-  assert.match(childArgFor().description ?? "", /Egy gyereknél elhagyható.*kérdezd meg a felhasználót/);
-  // A parent asking about "the kids" must not be sent round in circles.
-  assert.match(childArgFor(2).description ?? "", /hívd a toolt gyerekenként külön/);
+  // A parent asking about "the kids" is answered for each of them, with the
+  // names taken from the list tool rather than from the tool list.
+  assert.match(childArgFor(2).description ?? "", /Több gyerek van csatlakoztatva.*kreta_list_children.*gyerekenként külön/);
+  assert.match(childArgFor().description ?? "", /Egy gyereknél elhagyható.*kreta_list_children.*gyerekenként külön/);
 });

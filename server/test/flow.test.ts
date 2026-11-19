@@ -500,7 +500,8 @@ test("the connected session reaches the MCP tools and answers KRÉTA data", asyn
   );
   assert.ok(names.includes("kreta_homework"));
   assert.ok(names.includes("kreta_login"));
-  assert.equal(names.length, 26);
+  assert.ok(names.includes("kreta_list_children"));
+  assert.equal(names.length, 27);
   assert.deepEqual(
     listed.result.tools.filter((entry) => entry.annotations?.readOnlyHint !== true).map((entry) => entry.name),
     ["send_feedback"],
@@ -508,14 +509,16 @@ test("the connected session reaches the MCP tools and answers KRÉTA data", asyn
   );
 
   // A client that never shows the model the server instructions still has to
-  // learn, from the argument itself, to ask which child is meant.
-  const schoolTools = listed.result.tools.filter((entry) => entry.name !== "send_feedback");
-  for (const entry of schoolTools) {
+  // learn, from the argument itself, what to do when no child is named.
+  const perChildTools = listed.result.tools.filter(
+    (entry) => !["send_feedback", "kreta_list_children"].includes(entry.name),
+  );
+  for (const entry of perChildTools) {
     const description = entry.inputSchema.properties?.child?.description ?? "";
     assert.match(description, /Több gyerek van csatlakoztatva/, entry.name);
-    assert.match(description, /kérdezd meg a felhasználót/, entry.name);
-    assert.doesNotMatch(description, /Lilla|Kata/, "the tool list must not carry the children's names");
+    assert.match(description, /kreta_list_children.*gyerekenként külön/, entry.name);
   }
+  assert.doesNotMatch(JSON.stringify(listed.result.tools), /Lilla|Kata/, "the tool list must not carry the children's names");
 
   const called = (await callMcp(accessToken, {
     jsonrpc: "2.0",
@@ -621,9 +624,22 @@ test("several connected children are addressed by name", async () => {
     params: { name: "kreta_evaluations", arguments: {} },
   })) as { result: { isError?: boolean; content: Array<{ text: string }> } };
   assert.equal(ambiguous.result.isError, true);
-  assert.match(ambiguous.result.content[0]!.text, /melyik gyerekről van szó: Lilla vagy Kata\?/);
-  assert.match(ambiguous.result.content[0]!.text, /kérdezd meg tőle, majd hívd újra/);
-  assert.match(ambiguous.result.content[0]!.text, /mindegyik névvel külön/);
+  assert.match(ambiguous.result.content[0]!.text, /Több gyerek van csatlakoztatva: Lilla és Kata\./);
+  assert.match(ambiguous.result.content[0]!.text, /hívd meg mindegyik névvel külön/);
+
+  const children = (await callMcp(accessToken, {
+    jsonrpc: "2.0",
+    id: 30,
+    method: "tools/call",
+    params: { name: "kreta_list_children", arguments: {} },
+  })) as { result: { isError?: boolean; content: Array<{ text: string }> } };
+  assert.notEqual(children.result.isError, true);
+  assert.deepEqual(JSON.parse(children.result.content[0]!.text), {
+    children: [
+      { name: "Lilla", institute_code: "klik123456" },
+      { name: "Kata", institute_code: "klik999999" },
+    ],
+  });
 
   const named = (await callMcp(accessToken, {
     jsonrpc: "2.0",

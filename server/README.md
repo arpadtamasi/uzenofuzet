@@ -309,7 +309,7 @@ redirect URI-t; alapból csak Claude két connector-callbackje szerepel benne.
 | `src/kreta/relay.ts` | eKRÉTA-hostokra korlátozott, titkosított relay transzport |
 | `src/relay.ts` | magyar lakossági hálózaton futó helyi relay folyamat |
 | `src/classroom/` | gyermekenkénti Google OAuth, titkosított grant és rögzített Classroom API-kliens |
-| `src/mcp/server.ts` | a 20 KRÉTA- és 5 Classroom-tool, mind csak olvasásra |
+| `src/mcp/server.ts` | a 20 KRÉTA- és 5 Classroom-tool, valamint a gyerekek listája (`kreta_list_children`), mind csak olvasásra |
 | `src/mcp/feedback.ts` | a `send_feedback` tool: az asszisztens visszajelzése a toolokról, névszűréssel és óránkénti korláttal |
 | `src/feedback/store.ts` | a visszajelzések névtelen Firestore-adattára (`feedback` gyűjtemény) |
 | `src/pledges/router.ts` | hitelesített nyilvános üzenetek API-ja |

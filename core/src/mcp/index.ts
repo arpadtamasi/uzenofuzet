@@ -13,6 +13,7 @@ export {
   childArgFor,
   KRETA_TOOL_INSTRUCTIONS,
   limitArg,
+  LIST_CHILDREN_TOOL,
   READ_ONLY,
   registerKretaTools,
   resolveChild,
